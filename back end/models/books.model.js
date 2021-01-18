@@ -24,6 +24,18 @@ const bookSchema = new mongoose.Schema({
   buysNum: {
     type: Number,
     default: 0
+  },
+  miniPath: {
+    type: String,
+    required: true
+  },
+  fullPath: {
+    type: String,
+    required: true
+  },
+  isFeatured: {
+    type: Boolean,
+    required: true
   }
 });
 const Books = mongoose.model('book', bookSchema);
