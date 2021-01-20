@@ -38,6 +38,15 @@ const bookSchema = new mongoose.Schema({
     required: true
   }
 });
+
+bookSchema.virtual('id').get(function () {
+  return this._id.toHexString();
+});
+
+bookSchema.set('toJSON', {
+  virtuals: true,
+});
+
 const Books = mongoose.model('book', bookSchema);
 
 module.exports = Books;

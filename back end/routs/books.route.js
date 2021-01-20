@@ -1,7 +1,8 @@
 const router = require('express').Router();
 const Book = require('../models/books.model');
 const multer = require('multer');
-const path = require('path')
+const path = require('path');
+const Books = require('../models/books.model');
 
 
 const storage = multer.diskStorage({
@@ -52,6 +53,33 @@ router.post('/addbook', cpUpload, (req, res) => {
   });
 });
 
+router.get('/getallbooks', async (req, res) => {
+  try {
+    const books = await Book.find().populate('department');
+    res.status(200).json(books);
+  } catch (err) {
+    res.status(400).json(err.message)
+  }
+});
+
+router.get('/getbooks/:id', async (req, res) => {
+  try {
+    const books = await Book.find({department: req.params.id});
+    res.status(200).json(books);
+  } catch (err) {
+    res.status(400).json(err.message)
+  }
+});
+
+router.get('/getonebook/:id', async (req, res) => {
+  try {
+    const book = await Book.findById(req.params.id).populate('department');
+    res.status(200).json(book);
+  } catch (err) {
+    res.status(400).json(err.message)
+  }
+});
+
 router.get('/getbookscount', async (req, res) => {
   try {
     const books = await Book.find().countDocuments(count => count);
@@ -78,6 +106,15 @@ router.put('/updatebook', async (req, res) => {
   } catch (err) {
     res.status(400).json(err.message);
   }
-})
+});
+
+router.delete('/deletebook', async (req, res) => {
+  try {
+    await Book.deleteMany({_id: {$in: req.query.ids }});
+    res.status(200).json('removed successfully');
+  } catch (err) {
+    res.status(400).json(err.message);
+  }
+});
 
 module.exports = router;

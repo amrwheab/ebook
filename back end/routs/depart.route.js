@@ -7,13 +7,33 @@ router.post('/newdepart', (req, res) => {
   });
 
   newDepart.save().then(depart => {
-    res.json(depart);
+    res.status(200).json(depart);
+  }).catch(err => {
+    res.status(400).json(err.message);
   });
 });
 
 router.get('/getdeparts', async (req, res) => {
-  const departs = await Department.find();
-  res.json(departs);
+  try {
+    const departs = await Department.find();
+    res.status(200).json(departs);
+  } catch (err) {
+    res.status(400).json(err.message)
+  }
+});
+
+router.delete('/deletedepart/:id', (req, res) => {
+  try {
+    Department.remove({_id: req.params.id}, (err) => {
+      if (err) {
+        res.status(400).json(err.message)
+      } else {
+        res.status(200).json('removed successfully')
+      }
+    })
+  } catch (err) {
+    res.status(400).json(err.message)
+  }
 });
 
 module.exports = router;

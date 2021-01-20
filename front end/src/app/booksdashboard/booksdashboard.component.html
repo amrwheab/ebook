@@ -1,0 +1,37 @@
+<nz-table #rowSelectionTable nzShowSizeChanger [nzData]="listOfData"
+  (nzCurrentPageDataChange)="onCurrentPageDataChange($event)">
+  <thead>
+    <tr>
+      <th [nzSelections]="listOfSelection" [(nzChecked)]="checked" [nzIndeterminate]="indeterminate"
+        (nzCheckedChange)="onAllChecked($event)"></th>
+      <th>Name</th>
+      <th [nzSortFn]="sortPrice">price</th>
+      <th>department</th>
+      <th [nzSortFn]="sortBuysTime">buysNum</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let book of rowSelectionTable.data">
+      <td [nzChecked]="setOfCheckedId.has(book.id)" (nzCheckedChange)="onItemChecked(book.id, $event)"></td>
+      <td>{{ book.name }}</td>
+      <td>{{ book.price }}</td>
+      <td>{{ book.department.name }}</td>
+      <td>{{ book.buysNum }}</td>
+    </tr>
+  </tbody>
+  <div class="tabel-operations">
+    <nz-space nzSize="small">
+      <nz-space-item>
+        <button nz-button nzType="primary" [nzLoading]="loadUpdateButton">Update Selected</button>
+      </nz-space-item>
+      <nz-space-item>
+        <button nz-button nzType="default" nzDanger [nzLoading]="loadDeleteButton" (click)="deleteFromTable()">Delete Selected</button>
+      </nz-space-item>
+    </nz-space>
+  </div>
+</nz-table>
+<nz-divider></nz-divider>
+<div nz-col [nzSpan]="12">
+  <h2>Add New Book</h2>
+  <app-modifybook></app-modifybook>
+</div>

@@ -1,0 +1,45 @@
+<nz-layout class="app-layout">
+  <nz-sider class="menu-sidebar" nzCollapsible nzWidth="256px" nzBreakpoint="lg" [nzCollapsedWidth]="0">
+    <div class="sidebar-logo">
+      <a routerLink="/">
+        <img src="assets/logo22.png" alt="logo">
+        <h1>EBook Store</h1>
+      </a>
+    </div>
+    <ul nz-menu nzTheme="dark" nzMode="inline">
+      <li nz-submenu nzOpen nzTitle="Dashboard" nzIcon="dashboard">
+        <ul>
+          <li nz-menu-item nzMatchRouter>
+            <a routerLink="/dashboard/books">Books</a>
+          </li>
+        </ul>
+      </li>
+      <li nz-submenu nzOpen nzTitle="Form" nzIcon="form">
+        <ul>
+          <li nz-menu-item nzMatchRouter>
+            <a>Basic Form</a>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </nz-sider>
+  <nz-layout>
+    <nz-header>
+      <ul nz-menu nzTheme="light" nzMode="horizontal" class="header-menu">
+        <li nz-menu-item routerLink="/" routerLinkActive="ant-menu-item-selected" [routerLinkActiveOptions]="{exact: true}">Home</li>
+        <li nz-menu-item routerLink="/login" routerLinkActive="ant-menu-item-selected">Login</li>
+        <li nz-menu-item routerLink="/signup" routerLinkActive="ant-menu-item-selected">Signup</li>
+      </ul>
+    </nz-header>
+    <nz-content>
+      <div class="outer-content">
+        <nz-breadcrumb *ngIf="breadItems.length > 1">
+          <nz-breadcrumb-item *ngFor="let item of breadItems">{{item}}</nz-breadcrumb-item>
+        </nz-breadcrumb>
+      </div>
+      <div class="inner-content" style="height: auto;">
+        <router-outlet></router-outlet>
+      </div>
+    </nz-content>
+  </nz-layout>
+</nz-layout>

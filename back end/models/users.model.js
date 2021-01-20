@@ -19,7 +19,11 @@ const userSchema = mongoose.Schema({
   buyedBooks: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: 'book'
-  }]
+  }],
+  isAdmin: {
+    type: Boolean,
+    default: false
+  }
 });
 
 const Users = mongoose.model('user', userSchema);

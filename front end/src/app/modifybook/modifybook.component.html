@@ -1,0 +1,36 @@
+<form nz-form>
+  <nz-form-item>
+    <nz-form-label nzFor="name">Name</nz-form-label>
+    <nz-form-control>
+      <input nz-input name="name" type="text" id="name">
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-label nzFor="depart">Department</nz-form-label>
+    <nz-form-control>
+      <nz-select name="depart" id="depart">
+        <nz-option *ngFor="let depart of departments" [nzValue]="depart.name" [nzLabel]="depart.name"></nz-option>
+      </nz-select>
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-label nzFor="info">Info</nz-form-label>
+    <nz-form-control>
+      <input nz-input name="info" type="text" id="info">
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-label nzFor="price">Price</nz-form-label>
+    <nz-form-control>
+      <input nz-input name="price" type="number" id="price">
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-label nzFor="price">Image</nz-form-label>
+    <nz-form-control>
+      <nz-upload nzAction="https://www.mocky.io/v2/5cc8019d300000980a055e76" [nzTransformFile]="transformFile">
+        <button nz-button><i nz-icon nzType="upload"></i> Upload</button>
+      </nz-upload>
+    </nz-form-control>
+  </nz-form-item>
+</form>
