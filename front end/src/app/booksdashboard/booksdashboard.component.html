@@ -22,7 +22,7 @@
   <div class="tabel-operations">
     <nz-space nzSize="small">
       <nz-space-item>
-        <button nz-button nzType="primary" [nzLoading]="loadUpdateButton">Update Selected</button>
+        <button nz-button nzType="primary" [nzLoading]="loadUpdateButton" (click)="openEditOptions()">Update Selected</button>
       </nz-space-item>
       <nz-space-item>
         <button nz-button nzType="default" nzDanger [nzLoading]="loadDeleteButton" (click)="deleteFromTable()">Delete Selected</button>
@@ -31,7 +31,14 @@
   </div>
 </nz-table>
 <nz-divider></nz-divider>
-<div nz-col [nzSpan]="12">
+<div nz-col [nzLg]="{ span: 12, offset: 6 }">
   <h2>Add New Book</h2>
-  <app-modifybook></app-modifybook>
+  <app-modifybook (bookAdded)="addingBook($event)"></app-modifybook>
 </div>
+
+<nz-modal [(nzVisible)]="editShow" nzTitle="Edit Book" (nzOnCancel)="editShow=false">
+  <ng-container *nzModalContent>
+    <app-modifybook [bookToEdit]="{books: listOfData, id: setOfCheckedId}"></app-modifybook>
+  </ng-container>
+  <div *nzModalFooter></div>
+</nz-modal>

@@ -25,9 +25,14 @@ import { NzGridModule } from 'ng-zorro-antd/grid';
 import { NzDividerModule } from 'ng-zorro-antd/divider';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { NzUploadModule } from 'ng-zorro-antd/upload';
+import { NzSwitchModule } from 'ng-zorro-antd/switch';
+import { NzMessageModule } from 'ng-zorro-antd/message';
+import { NzModalModule } from 'ng-zorro-antd/modal';
+import { NzListModule } from 'ng-zorro-antd/list';
 import { BooksdashboardComponent } from './booksdashboard/booksdashboard.component';
 import { LoginComponent } from './login/login.component';
 import { ModifybookComponent } from './modifybook/modifybook.component';
+import { DepartmentsdashboardComponent } from './departmentsdashboard/departmentsdashboard.component';
 
 registerLocaleData(en);
 
@@ -37,7 +42,8 @@ registerLocaleData(en);
     DashboardComponent,
     BooksdashboardComponent,
     LoginComponent,
-    ModifybookComponent
+    ModifybookComponent,
+    DepartmentsdashboardComponent
   ],
   imports: [
     BrowserModule,
@@ -58,7 +64,11 @@ registerLocaleData(en);
     NzGridModule,
     NzDividerModule,
     NzSelectModule,
-    NzUploadModule
+    NzUploadModule,
+    NzSwitchModule,
+    NzMessageModule,
+    NzModalModule,
+    NzListModule
   ],
   providers: [{ provide: NZ_I18N, useValue: en_US }],
   bootstrap: [AppComponent]

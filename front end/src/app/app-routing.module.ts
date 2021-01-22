@@ -1,3 +1,4 @@
+import { DepartmentsdashboardComponent } from './departmentsdashboard/departmentsdashboard.component';
 import { LoginComponent } from './login/login.component';
 import { BooksdashboardComponent } from './booksdashboard/booksdashboard.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
@@ -6,7 +7,8 @@ import { Routes, RouterModule } from '@angular/router';
 
 const routes: Routes = [
   {path: 'dashboard', component: DashboardComponent, children: [
-    { path: 'books', component: BooksdashboardComponent }
+    { path: 'books', component: BooksdashboardComponent },
+    { path: 'departments', component: DepartmentsdashboardComponent },
   ]},
   {path: 'login', component: LoginComponent}
 ];

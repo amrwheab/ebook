@@ -1,36 +1,62 @@
-<form nz-form>
+<form nz-form #bookMod="ngForm">
   <nz-form-item>
     <nz-form-label nzFor="name">Name</nz-form-label>
     <nz-form-control>
-      <input nz-input name="name" type="text" id="name">
+      <input nz-input #name="ngModel" name="name" type="text" id="name" ngModel required [(ngModel)]="elemsOfBook.name">
+      <p *ngIf="name.touched && !name.valid" style="color: red;">Name is required</p>
     </nz-form-control>
   </nz-form-item>
   <nz-form-item>
     <nz-form-label nzFor="depart">Department</nz-form-label>
     <nz-form-control>
-      <nz-select name="depart" id="depart">
-        <nz-option *ngFor="let depart of departments" [nzValue]="depart.name" [nzLabel]="depart.name"></nz-option>
+      <nz-select name="depart" id="depart" #depart="ngModel" ngModel required [(ngModel)]="elemsOfBook.department.id">
+        <nz-option *ngFor="let depart of departments" [nzValue]="depart.id" [nzLabel]="depart.name"></nz-option>
       </nz-select>
+      <p *ngIf="depart.touched && !depart.valid" style="color: red;">Department is required</p>
     </nz-form-control>
   </nz-form-item>
   <nz-form-item>
     <nz-form-label nzFor="info">Info</nz-form-label>
     <nz-form-control>
-      <input nz-input name="info" type="text" id="info">
+      <input nz-input name="info" type="text" id="info" #info="ngModel" ngModel required [(ngModel)]="elemsOfBook.info">
+      <p *ngIf="info.touched && !info.valid" style="color: red;">Info is required</p>
     </nz-form-control>
   </nz-form-item>
   <nz-form-item>
     <nz-form-label nzFor="price">Price</nz-form-label>
     <nz-form-control>
-      <input nz-input name="price" type="number" id="price">
+      <input nz-input name="price" type="number" id="price" #price="ngModel" ngModel required [(ngModel)]="elemsOfBook.price">
+      <p *ngIf="price.touched && !price.valid" style="color: red;">Price is required and must be older than 0</p>
     </nz-form-control>
   </nz-form-item>
   <nz-form-item>
-    <nz-form-label nzFor="price">Image</nz-form-label>
+    <nz-form-label nzFor="isFeatured">Is Featured</nz-form-label>
     <nz-form-control>
-      <nz-upload nzAction="https://www.mocky.io/v2/5cc8019d300000980a055e76" [nzTransformFile]="transformFile">
-        <button nz-button><i nz-icon nzType="upload"></i> Upload</button>
-      </nz-upload>
+      <nz-switch id="isFeatured" name="isFeatured" ngModel [(ngModel)]="elemsOfBook.isFeatured"></nz-switch>
     </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-label nzFor="img">Image</nz-form-label>
+    <nz-form-control>
+      <button nz-button (click)="img.click()"><i nz-icon nzType="upload"></i>{{imgFile === null? 'Click to Upload': imgFile.name}}</button>
+      <input type="file" id="img" name="img" #img hidden (change)="handleImg($event.target.files)">
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-label nzFor="pdfmini">Mini Pdf</nz-form-label>
+    <nz-form-control>
+      <button nz-button (click)="pdfmini.click()"><i nz-icon nzType="upload"></i>{{miniPdf === null? 'Click to Upload': miniPdf.name}}</button>
+      <input id="pdfmini" name="pdfmini" type="file" #pdfmini hidden (change)="handleMiniPdf($event.target.files)">
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-label nzFor="pdffull">Full Pdf</nz-form-label>
+    <nz-form-control>
+      <button nz-button (click)="pdffull.click()"><i nz-icon nzType="upload"></i>{{fullPdf === null? 'Click to Upload': fullPdf.name}}</button>
+      <input id="pdffull" name="pdffull" type="file" #pdffull hidden (change)="handleFullPdf($event.target.files)">
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <button nz-button nzType="primary" type="submit" [disabled]="bookMod.invalid || !(imgFile || elemsOfBook.id) || !(fullPdf || elemsOfBook.id) || !(miniPdf || elemsOfBook.id)" (click)="onSubmit(bookMod)">{{elemsOfBook.id ? 'Edit Book':'Add Book'}}</button>
   </nz-form-item>
 </form>

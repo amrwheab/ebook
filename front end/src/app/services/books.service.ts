@@ -10,6 +10,10 @@ export class BooksService {
 
   constructor(private http: HttpClient) {}
 
+  addBook(data: FormData): Observable<any> {
+    return this.http.post(environment.server + '/book/addbook', data);
+  }
+
   getBooks(): Observable<any> {
     return this.http.get(environment.server + '/book/getallbooks');
   }
@@ -18,5 +22,9 @@ export class BooksService {
     return this.http.delete(environment.server + '/book/deletebook', {
       params: {ids: data}
     });
+  }
+
+  updateBooks(data: FormData): Observable<any> {
+    return this.http.put(environment.server + '/book/updatebook', data);
   }
 }

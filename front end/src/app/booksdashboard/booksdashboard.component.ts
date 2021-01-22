@@ -1,3 +1,4 @@
+import { Book } from './../shard/book';
 import { BooksService } from './../services/books.service';
 import { Component, OnInit } from '@angular/core';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
@@ -9,9 +10,10 @@ import { NzNotificationService } from 'ng-zorro-antd/notification';
 })
 export class BooksdashboardComponent implements OnInit {
 
-  books = [];
+  books: Book[] = [];
   loadDeleteButton = false;
   loadUpdateButton = false;
+  editShow = false;
 
   listOfSelection = [
     {
@@ -87,6 +89,10 @@ export class BooksdashboardComponent implements OnInit {
     });
   }
 
+  addingBook(book: Book): void {
+    this.listOfData = [...this.listOfData, book];
+  }
+
   deleteFromTable(): void {
     if (this.setOfCheckedId.size > 0) {
       this.loadDeleteButton = true;
@@ -105,6 +111,14 @@ export class BooksdashboardComponent implements OnInit {
       });
     } else {
       this.createNotification('error', '', 'You didn\'t choose books to delete');
+    }
+  }
+
+  openEditOptions(): void {
+    if (this.setOfCheckedId.size !== 1) {
+      this.createNotification('error', '', 'You must choose one book to update');
+    } else {
+      this.editShow = true;
     }
   }
 

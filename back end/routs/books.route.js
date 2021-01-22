@@ -89,15 +89,42 @@ router.get('/getbookscount', async (req, res) => {
   }
 });
 
-router.put('/updatebook', async (req, res) => {
+router.put('/updatebook', cpUpload, async (req, res) => {
+
+  let imgPath = '';
+  if (req.files['img']) {
+    const imgName = req.files['img'][0].filename;
+    imgPath = `${req.protocol}://${req.get('host')}/assets/img/${imgName}`;
+  }
+  let pdffullPath = '';
+  if (req.files['pdffull']) {
+    const pdffullName = req.files['pdffull'][0].filename;
+    pdffullPath = `${req.protocol}://${req.get('host')}/assets/pdffull/${pdffullName}`;
+  }
+  let pdfminiPath = '';
+  if (req.files['pdfmini']) {
+    const pdfminiName = req.files['pdfmini'][0].filename;
+    pdfminiPath = `${req.protocol}://${req.get('host')}/assets/pdfmini/${pdfminiName}`;
+  }
+
   try {
     const book = await Book.findById(req.body.id);
-    const availableupdates = ['name', 'imgUrl', 'info', 'price', 'department', 'miniPath', 'fullPath', 'isFeatured']
+    const availableupdates = ['name', 'info', 'price', 'department', 'isFeatured']
 
     for (let i = 0; i < availableupdates.length; i++) {
       if (req.body[availableupdates[i]]) {
         book[availableupdates[i]] = req.body[availableupdates[i]]
       }
+    }
+
+    if (imgPath) {
+      book.imgUrl = imgPath;
+    }
+    if (pdffullPath) {
+      book.fullPath = pdffullPath;
+    }
+    if (pdfminiPath) {
+      book.miniPath = pdfminiPath;
     }
 
     book.save().then(book => {
