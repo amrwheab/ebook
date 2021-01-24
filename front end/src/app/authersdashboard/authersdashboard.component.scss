@@ -1,0 +1,16 @@
+.addSpaceToCard {
+  margin-right: 10px;
+  margin-bottom: 10px;
+}
+.edit-button {
+  width: 100%;
+  height: 100%;
+  border: none;
+  display: inline-block;
+  background-color: white;
+  cursor: pointer;
+
+  &:focus {
+    outline: none;
+  }
+}

@@ -23,6 +23,15 @@
     </nz-form-control>
   </nz-form-item>
   <nz-form-item>
+    <nz-form-label nzFor="info">Auther</nz-form-label>
+    <nz-form-control>
+      <nz-select nz-input name="auther" type="text" id="auther" #auther="ngModel" ngModel required [(ngModel)]="elemsOfBook.auther.id">
+        <nz-option *ngFor="let auther of authers" [nzValue]="auther.id" [nzLabel]="auther.name"></nz-option>
+      </nz-select>
+      <p *ngIf="auther.touched && !auther.valid" style="color: red;">Auther is required</p>
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
     <nz-form-label nzFor="price">Price</nz-form-label>
     <nz-form-control>
       <input nz-input name="price" type="number" id="price" #price="ngModel" ngModel required [(ngModel)]="elemsOfBook.price">

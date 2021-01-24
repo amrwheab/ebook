@@ -1,12 +1,60 @@
-<ul nz-list [nzDataSource]="data" nzBordered nzSize="large">
-  <nz-list-header>Header</nz-list-header>
-  <li nz-list-item *ngFor="let item of data" nzNoFlex>
-    <ul nz-list-item-actions>
-      <nz-list-item-action>
-        <a>edit</a>
-      </nz-list-item-action>
+<h2>Departments</h2>
+
+<div style="text-align: center;height: 300px;line-height: 300px;" *ngIf="!departload">
+  <nz-spin nzSimple nzSize="large"></nz-spin>
+</div>
+<nz-space nzDirection="vertical" style="width: 100%;">
+  <nz-space-item>
+
+    <ul nz-list [nzDataSource]="departments" nzBordered nzSize="large" *ngIf="departload">
+      <nz-list-header style="font-weight: 600;">Department Name</nz-list-header>
+      <li nz-list-item *ngFor="let depart of departments" nzNoFlex>
+        <ul nz-list-item-actions>
+          <nz-list-item-action>
+            <a (click)="openUpdateDialog(depart.name, depart.id)">Update</a>
+          </nz-list-item-action>
+        </ul>
+        {{ depart.name }}
+      </li>
     </ul>
-    {{ item }}
-  </li>
-  <nz-list-footer>Footer</nz-list-footer>
-</ul>
+  </nz-space-item>
+  <nz-space-item>
+    <div style="text-align: right;">
+      <button nz-button nzType="primary" (click)="addDialog=true">Add Department</button>
+    </div>
+  </nz-space-item>
+</nz-space>
+
+<!-- Update department -->
+<nz-modal [(nzVisible)]="updateDialog" nzTitle="Update department date" (nzOnCancel)="updateDialog=false">
+  <ng-container *nzModalContent>
+    <form #updateForm="ngForm">
+      <nz-space style="justify-content: space-between;width: 100%;">
+        <nz-space-item>
+          <input nz-input type="text" name="departname" [(ngModel)]="departNameToUpdate">
+        </nz-space-item>
+        <nz-space-item>
+          <button nz-button nzType="primary" type="submit" [disabled]="departNameToUpdate.length === 0" (click)="updateDepartName()">Update</button>
+        </nz-space-item>
+      </nz-space>
+    </form>
+  </ng-container>
+  <div *nzModalFooter></div>
+</nz-modal>
+
+<!-- Add Department -->
+<nz-modal [(nzVisible)]="addDialog" nzTitle="Update department date" (nzOnCancel)="addDialog=false">
+  <ng-container *nzModalContent>
+    <form #updateForm="ngForm">
+      <nz-space style="justify-content: space-between;width: 100%;">
+        <nz-space-item>
+          <input nz-input type="text" name="departname" [(ngModel)]="departNameToAdd">
+        </nz-space-item>
+        <nz-space-item>
+          <button nz-button nzType="primary" type="submit" [disabled]="departNameToAdd.length === 0" (click)="addDepartment()">Add</button>
+        </nz-space-item>
+      </nz-space>
+    </form>
+  </ng-container>
+  <div *nzModalFooter></div>
+</nz-modal>

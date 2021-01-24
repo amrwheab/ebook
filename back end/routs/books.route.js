@@ -2,7 +2,6 @@ const router = require('express').Router();
 const Book = require('../models/books.model');
 const multer = require('multer');
 const path = require('path');
-const Books = require('../models/books.model');
 
 
 const storage = multer.diskStorage({
@@ -43,7 +42,8 @@ router.post('/addbook', cpUpload, (req, res) => {
     department: req.body.department,
     miniPath: pdfminiPath,
     fullPath: pdffullPath,
-    isFeatured: req.body.isFeatured
+    isFeatured: req.body.isFeatured,
+    auther: req.body.auther
   });
 
   newBook.save().then(book => {
@@ -55,7 +55,7 @@ router.post('/addbook', cpUpload, (req, res) => {
 
 router.get('/getallbooks', async (req, res) => {
   try {
-    const books = await Book.find().populate('department');
+    const books = await Book.find().populate('department').populate('auther');
     res.status(200).json(books);
   } catch (err) {
     res.status(400).json(err.message)
@@ -109,7 +109,7 @@ router.put('/updatebook', cpUpload, async (req, res) => {
 
   try {
     const book = await Book.findById(req.body.id);
-    const availableupdates = ['name', 'info', 'price', 'department', 'isFeatured']
+    const availableupdates = ['name', 'info', 'price', 'department', 'isFeatured', 'auther']
 
     for (let i = 0; i < availableupdates.length; i++) {
       if (req.body[availableupdates[i]]) {

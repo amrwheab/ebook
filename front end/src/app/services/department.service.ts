@@ -13,4 +13,12 @@ export class DepartmentService {
   getDeparts(): Observable<any> {
     return this.http.get(environment.server + '/departs/getdeparts');
   }
+
+  updateDepart(data: object): Observable<any> {
+    return this.http.put(environment.server + '/departs/editdepartname', data);
+  }
+
+  addDepart(departName: string): Observable<any> {
+    return this.http.post(environment.server + '/departs/newdepart', {departName});
+  }
 }

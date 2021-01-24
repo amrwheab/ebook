@@ -1,36 +1,47 @@
-import { Book } from './../shard/book';
+import { AutherService } from './../services/auther.service';
+import { Auther } from '../shard/auther';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { BooksService } from './../services/books.service';
 import { DepartmentService } from './../services/department.service';
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NgForm } from '@angular/forms';
 import { Department } from '../shard/depart';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-modifybook',
   templateUrl: './modifybook.component.html',
   styleUrls: ['./modifybook.component.scss']
 })
-export class ModifybookComponent implements OnInit {
+export class ModifybookComponent implements OnInit, OnDestroy {
   // tslint:disable-next-line: no-input-rename
   @Input('bookToEdit') bookToEdit: any;
   @Output() bookAdded = new EventEmitter();
+  @Output() updatingBook = new EventEmitter();
 
   departments: Department[] = [];
-  elemsOfBook = { id: '', name: '', department: {id: '', name: ''}, info: '', price: '', isFeatured: false };
+  authers: Auther[] = [];
+  elemsOfBook = { id: '', name: '', department: {id: '', name: ''}, info: '', price: '', isFeatured: false, auther: {id: '', name: ''} };
   imgFile: File = null;
   miniPdf: File = null;
   fullPdf: File = null;
+  departObs: Subscription;
+  autherObs: Subscription;
 
   constructor(private departSer: DepartmentService,
               private bookSer: BooksService,
               private notification: NzNotificationService,
-              private message: NzMessageService) { }
+              private message: NzMessageService,
+              private autherSer: AutherService) { }
 
   ngOnInit(): void {
-    this.departSer.getDeparts().subscribe((departs: Department[]) => {
+    this.departObs = this.departSer.getDeparts().subscribe((departs: Department[]) => {
       this.departments = departs;
+    });
+
+    this.autherObs = this.autherSer.getAuthersNames().subscribe((authers) => {
+      this.authers = authers;
     });
 
     if (this.bookToEdit) {
@@ -38,6 +49,15 @@ export class ModifybookComponent implements OnInit {
       this.elemsOfBook = this.bookToEdit.books.find(ele => ele.id === id);
     }
 
+  }
+
+  ngOnDestroy(): void {
+    if (this.departObs) {
+      this.departObs.unsubscribe();
+    }
+    if (this.autherObs) {
+      this.autherObs.unsubscribe();
+    }
   }
 
   createNotification(type: string, data: string): void {
@@ -76,7 +96,7 @@ export class ModifybookComponent implements OnInit {
     if (!form.value.isFeatured) {
       form.value.isFeatured = false;
     }
-    const formContent = ['name', 'info', 'price', 'isFeatured'];
+    const formContent = ['name', 'info', 'price', 'isFeatured', 'auther'];
     const formData = new FormData();
     if (!this.elemsOfBook.id) {
       formData.append('img', this.imgFile, this.imgFile.name);
@@ -94,13 +114,17 @@ export class ModifybookComponent implements OnInit {
       this.bookSer.addBook(formData).subscribe((book) => {
         const depart = this.departments.find(ele => ele.id === book.department);
         book.department = {id: depart.id, name: depart.name};
+        const auther = this.authers.find(ele => ele.id === book.auther);
+        book.auther = {id: auther.id, name: auther.name};
         this.bookAdded.emit(book);
         this.message.remove(id);
+        this.message.success('added successfully');
         this.imgFile = null;
         this.fullPdf = null;
         this.miniPdf = null;
         form.reset();
       }, err => {
+        this.message.remove(id);
         this.createNotification('error', err.error);
       });
     } else {
@@ -123,8 +147,14 @@ export class ModifybookComponent implements OnInit {
 
       const id = this.message.loading('Action in progress..', { nzDuration: 0 }).messageId;
 
-      this.bookSer.updateBooks(formData).subscribe(() => {
+      this.bookSer.updateBooks(formData).subscribe((book) => {
+        const depart = this.departments.find(ele => ele.id === book.department);
+        book.department = {id: depart.id, name: depart.name};
+        const auther = this.authers.find(ele => ele.id === book.auther);
+        book.auther = {id: auther.id, name: auther.name};
+        this.updatingBook.emit(book);
         this.message.remove(id);
+        this.message.success('updated successfully');
       }, err => {
         this.message.remove(id);
         this.createNotification('error', err.error);

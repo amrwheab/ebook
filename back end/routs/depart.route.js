@@ -22,17 +22,12 @@ router.get('/getdeparts', async (req, res) => {
   }
 });
 
-router.delete('/deletedepart/:id', (req, res) => {
+router.put('/editdepartname', async (req, res) => {
   try {
-    Department.remove({_id: req.params.id}, (err) => {
-      if (err) {
-        res.status(400).json(err.message)
-      } else {
-        res.status(200).json('removed successfully')
-      }
-    })
+    await Department.updateOne({_id: req.body.id}, {$set: {name: req.body.name}});
+    res.status(200).json('updated successfully');
   } catch (err) {
-    res.status(400).json(err.message)
+    res.status(400).json(err.message);
   }
 });
 

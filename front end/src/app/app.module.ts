@@ -29,10 +29,14 @@ import { NzSwitchModule } from 'ng-zorro-antd/switch';
 import { NzMessageModule } from 'ng-zorro-antd/message';
 import { NzModalModule } from 'ng-zorro-antd/modal';
 import { NzListModule } from 'ng-zorro-antd/list';
+import { NzSpinModule } from 'ng-zorro-antd/spin';
+import { NzCardModule } from 'ng-zorro-antd/card';
+import { NzPopoverModule } from 'ng-zorro-antd/popover';
 import { BooksdashboardComponent } from './booksdashboard/booksdashboard.component';
 import { LoginComponent } from './login/login.component';
 import { ModifybookComponent } from './modifybook/modifybook.component';
 import { DepartmentsdashboardComponent } from './departmentsdashboard/departmentsdashboard.component';
+import { AuthersdashboardComponent } from './authersdashboard/authersdashboard.component';
 
 registerLocaleData(en);
 
@@ -43,7 +47,8 @@ registerLocaleData(en);
     BooksdashboardComponent,
     LoginComponent,
     ModifybookComponent,
-    DepartmentsdashboardComponent
+    DepartmentsdashboardComponent,
+    AuthersdashboardComponent
   ],
   imports: [
     BrowserModule,
@@ -68,7 +73,10 @@ registerLocaleData(en);
     NzSwitchModule,
     NzMessageModule,
     NzModalModule,
-    NzListModule
+    NzListModule,
+    NzSpinModule,
+    NzCardModule,
+    NzPopoverModule
   ],
   providers: [{ provide: NZ_I18N, useValue: en_US }],
   bootstrap: [AppComponent]

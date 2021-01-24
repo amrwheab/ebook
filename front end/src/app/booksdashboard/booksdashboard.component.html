@@ -1,4 +1,7 @@
-<nz-table #rowSelectionTable nzShowSizeChanger [nzData]="listOfData"
+<div *ngIf="!booksLoad" style="height: 300px;line-height: 300px;text-align: center;">
+  <nz-spin nzSimple [nzSize]="'large'"></nz-spin>
+</div>
+<nz-table #rowSelectionTable nzShowSizeChanger [nzData]="listOfData" *ngIf="booksLoad"
   (nzCurrentPageDataChange)="onCurrentPageDataChange($event)">
   <thead>
     <tr>
@@ -6,8 +9,9 @@
         (nzCheckedChange)="onAllChecked($event)"></th>
       <th>Name</th>
       <th [nzSortFn]="sortPrice">price</th>
-      <th>department</th>
-      <th [nzSortFn]="sortBuysTime">buysNum</th>
+      <th>Auther</th>
+      <th>Department</th>
+      <th [nzSortFn]="sortBuysTime">Buys Num</th>
     </tr>
   </thead>
   <tbody>
@@ -15,17 +19,18 @@
       <td [nzChecked]="setOfCheckedId.has(book.id)" (nzCheckedChange)="onItemChecked(book.id, $event)"></td>
       <td>{{ book.name }}</td>
       <td>{{ book.price }}</td>
+      <td>{{ book.auther.name }}</td>
       <td>{{ book.department.name }}</td>
       <td>{{ book.buysNum }}</td>
     </tr>
   </tbody>
-  <div class="tabel-operations">
+  <div class="tabel-operations" *ngIf="listOfData.length > 0">
     <nz-space nzSize="small">
       <nz-space-item>
         <button nz-button nzType="primary" [nzLoading]="loadUpdateButton" (click)="openEditOptions()">Update Selected</button>
       </nz-space-item>
       <nz-space-item>
-        <button nz-button nzType="default" nzDanger [nzLoading]="loadDeleteButton" (click)="deleteFromTable()">Delete Selected</button>
+        <button nz-button nzType="default" nzDanger [nzLoading]="loadDeleteButton" (click)="showDeleteConfirm()">Delete Selected</button>
       </nz-space-item>
     </nz-space>
   </div>
@@ -38,7 +43,7 @@
 
 <nz-modal [(nzVisible)]="editShow" nzTitle="Edit Book" (nzOnCancel)="editShow=false">
   <ng-container *nzModalContent>
-    <app-modifybook [bookToEdit]="{books: listOfData, id: setOfCheckedId}"></app-modifybook>
+    <app-modifybook [bookToEdit]="{books: listOfData, id: setOfCheckedId}"  (updatingBook)="updateBook($event)"></app-modifybook>
   </ng-container>
   <div *nzModalFooter></div>
 </nz-modal>

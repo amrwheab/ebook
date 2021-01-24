@@ -5,6 +5,7 @@ export class Book {
   name: string;
   imgUrl: string;
   info: string;
+  auther: string;
   price: number;
   department: Department;
   buysNum: number;

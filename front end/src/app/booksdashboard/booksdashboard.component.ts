@@ -1,19 +1,24 @@
 import { Book } from './../shard/book';
 import { BooksService } from './../services/books.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
+import { NzModalService } from 'ng-zorro-antd/modal';
+import { Subscription } from 'rxjs';
+import { NzMessageService } from 'ng-zorro-antd/message';
 
 @Component({
   selector: 'app-booksdashboard',
   templateUrl: './booksdashboard.component.html',
   styleUrls: ['./booksdashboard.component.scss']
 })
-export class BooksdashboardComponent implements OnInit {
+export class BooksdashboardComponent implements OnInit, OnDestroy {
 
   books: Book[] = [];
   loadDeleteButton = false;
   loadUpdateButton = false;
   editShow = false;
+  booksLoad = false;
+  booksObs: Subscription;
 
   listOfSelection = [
     {
@@ -40,7 +45,7 @@ export class BooksdashboardComponent implements OnInit {
   checked = false;
   indeterminate = false;
   listOfCurrentPageData = [];
-  listOfData = [];
+  listOfData: Book[] = [];
   setOfCheckedId = new Set<string>();
   sortBuysTime = (a, b) => a.buysNum - b.buysNum;
   sortPrice = (a, b) => a.price - b.price;
@@ -81,16 +86,46 @@ export class BooksdashboardComponent implements OnInit {
     );
   }
 
-  constructor(private bookSer: BooksService, private notification: NzNotificationService) { }
+  constructor(private bookSer: BooksService,
+              private notification: NzNotificationService,
+              private modal: NzModalService,
+              private message: NzMessageService) { }
 
   ngOnInit(): void {
-    this.bookSer.getBooks().subscribe(books => {
+    this.booksObs = this.bookSer.getBooks().subscribe(books => {
+      this.booksLoad = true;
       this.listOfData = books;
+    }, err => {
+      this.booksLoad = false;
+      this.message.error(err);
     });
+  }
+
+  ngOnDestroy(): void {
+    if (this.booksObs) {
+      this.booksObs.unsubscribe();
+    }
   }
 
   addingBook(book: Book): void {
     this.listOfData = [...this.listOfData, book];
+  }
+
+  updateBook(book: Book): void {
+    const index = this.listOfData.findIndex(ele => ele.id === book.id);
+    this.listOfData[index] = book;
+  }
+
+  showDeleteConfirm(): void {
+    this.modal.confirm({
+      nzTitle: 'Are you sure delete selected books?',
+      nzContent: '<b style="color: red;">It wouldn\'t be returned</b>',
+      nzOkText: 'Yes',
+      nzOkType: 'danger',
+      nzOkDanger: true,
+      nzOnOk: () => this.deleteFromTable(),
+      nzCancelText: 'No'
+    });
   }
 
   deleteFromTable(): void {
@@ -104,6 +139,7 @@ export class BooksdashboardComponent implements OnInit {
         }
         this.createNotification('success', `Deleting ${data.length > 1 ? 'books' : 'book'}`, ele);
         this.refreshCheckedStatus();
+        this.setOfCheckedId.clear();
         this.loadDeleteButton = false;
       }, err => {
         this.createNotification('error', `Failed to Delete ${data.length > 1 ? 'books' : 'book'}`, err);

@@ -13,6 +13,9 @@ export class DashboardComponent implements OnInit {
   constructor(private router: Router) { }
 
   ngOnInit(): void {
+
+    this.url = this.router.url;
+
     this.router.events.subscribe((e) => {
       if (e instanceof NavigationEnd) {
         this.url = e.url;

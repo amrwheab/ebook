@@ -1,0 +1,51 @@
+<div nz-row>
+  <h2 nz-col nzSpan="12">Authers</h2>
+  <div nz-col nzSpan="12" style="text-align: right;">
+    <button nz-button nzType="primary" (click)="addModal=true">Add auther</button>
+  </div>
+</div>
+<div nz-row style="justify-content: center;">
+  <div nz-col  nzXl="7" *ngFor="let auther of authers; let i = index">
+    <nz-card style="width:267px;" class="addSpaceToCard" [nzCover]="coverTemplate" [nzActions]="[actionSetting]">
+      <nz-card-meta [nzTitle]="toTitleCase(auther.name)" [nzDescription]="auther.info"></nz-card-meta>
+    </nz-card>
+    <ng-template #coverTemplate>
+      <img [alt]="auther.name" [src]="auther.imgUrl" />
+    </ng-template>
+    <ng-template #actionSetting>
+      <button (click)="arrangeUpdate(auther.id)" class="edit-button" nz-popover nzPopoverTitle="Settings" nzPopoverContent="Edit auther" nzPopoverPlacement="bottom">
+        <i nz-icon nzType="setting"></i>
+      </button>
+    </ng-template>
+  </div>
+</div>
+
+<nz-modal [(nzVisible)]="updateModal || addModal" [nzTitle]="addModal? 'Add new auther':'Update auther'" (nzOnCancel)="updateModal=false;addModal=false">
+  <ng-container *nzModalContent>
+    <form nz-form #autherForm="ngForm">
+      <nz-form-item>
+        <nz-form-label>Name</nz-form-label>
+        <nz-form-control>
+          <input nz-input type="text" name="name" required ngModel [(ngModel)]="updateModalName">
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label>Info</nz-form-label>
+        <nz-form-control>
+          <input nz-input name="info" type="text" ngModel [(ngModel)]="updateModalInfo">
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label>Image</nz-form-label>
+        <nz-form-control>
+          <button nz-button (click)="autherImg.click()"><i nz-icon nzType="upload"></i>{{uploadButtonText}}</button>
+        </nz-form-control>
+        <input #autherImg nz-input type="file" hidden (change)="onFileLoad($event.target.files[0])">
+      </nz-form-item>
+      <nz-form-item style="text-align: right;display: block;">
+        <button nz-button nzType="primary" (click)="modifyAuther(autherForm)">{{addModal? 'Add auther': 'Update auther'}}</button>
+      </nz-form-item>
+    </form>
+  </ng-container>
+  <div *nzModalFooter></div>
+</nz-modal>
