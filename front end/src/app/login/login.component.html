@@ -1,1 +1,22 @@
-<p>login works!</p>
+<div class="login">
+  <div nz-col [nzLg]="{ span: 12, offset: 6 }">
+    <h2>Log in</h2>
+    <form [formGroup]="loginForm">
+      <nz-form-item>
+        <nz-form-label>Email</nz-form-label>
+        <nz-form-control nzErrorTip="Your Email is required && should have pattern *@*!">
+          <input nz-input type="email" formControlName="email">
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label>Password</nz-form-label>
+        <nz-form-control nzErrorTip="Your password is required && must be 6 litters at least!">
+          <input nz-input type="password" formControlName="password">
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item style="text-align: right;display: block;">
+        <button (click)="onSubmit()" nz-button type="submit" nzType="primary">Submit</button>
+      </nz-form-item>
+    </form>
+  </div>
+</div>

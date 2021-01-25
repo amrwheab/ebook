@@ -1,0 +1,41 @@
+<div class="signup">
+  <div nz-col [nzLg]="{ span: 12, offset: 6 }">
+    <h2>Sign Up</h2>
+    <form [formGroup]="signupForm">
+      <nz-form-item>
+        <nz-form-label>Name</nz-form-label>
+        <nz-form-control nzErrorTip="Your name is required!">
+          <input nz-input type="text" formControlName="name">
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label>Email</nz-form-label>
+        <nz-form-control nzErrorTip="Your Email is required && should have pattern *@*!">
+          <input nz-input type="email" formControlName="email">
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label>Password</nz-form-label>
+        <nz-form-control nzErrorTip="Your password is required && must be 6 litters at least!">
+          <input nz-input type="password" formControlName="password">
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label>Confirm Password</nz-form-label>
+        <nz-form-control>
+          <input nz-input type="password" formControlName="confirmPassword">
+          <p style="margin-bottom: -16px; color: red;" *ngIf="signupForm.controls.confirmPassword.dirty && signupForm.controls.confirmPassword.value!==signupForm.controls.password.value">passwords doesn't match!</p>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label>Address</nz-form-label>
+        <nz-form-control nzErrorTip="Your Address is required">
+          <input nz-input type="text" formControlName="address">
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item style="text-align: right;display: block;">
+        <button (click)="onSubmit()" nz-button type="submit" nzType="primary">Submit</button>
+      </nz-form-item>
+    </form>
+  </div>
+</div>

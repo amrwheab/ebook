@@ -44,6 +44,20 @@ router.post('/login', async (req, res) => {
   }
 });
 
+router.get('/getuserfromtoken/:token', async (req, res) => {
+  const token = jwt.decode(req.params.token);
+  if (token) {
+    try {
+      const user = await User.findById(token.id).select('-password');
+      res.status(200).json(user);
+    } catch (err) {
+      res.status(400).json('token doen\'t exit')
+    }
+  } else {
+    res.json('token doen\'t exit')
+  }
+})
+
 router.put('/addnewbook/:token', (req, res) => {
   const id = jwt.decode(req.params.token).id;
   if (id) {

@@ -7,7 +7,7 @@
       </a>
     </div>
     <ul nz-menu nzTheme="dark" nzMode="inline">
-      <li nz-submenu nzOpen nzTitle="Dashboard" nzIcon="dashboard">
+      <li nz-submenu nzOpen nzTitle="Dashboard" nzIcon="dashboard" *ngIf="user.isAdmin">
         <ul>
           <li nz-menu-item nzMatchRouter>
             <a routerLink="/dashboard/books">Books</a>
@@ -16,26 +16,40 @@
             <a routerLink="/dashboard/departments">Departments</a>
           </li>
           <li nz-menu-item nzMatchRouter>
-            <a routerLink="/dashboard/authers">Authers</a>
+            <a routerLink="/dashboard/authers">Authors</a>
           </li>
         </ul>
       </li>
-      <li nz-submenu nzOpen nzTitle="Form" nzIcon="form">
+      <li nz-submenu nzOpen nzTitle="Departments" nzIcon="apartment">
         <ul>
-          <li nz-menu-item nzMatchRouter>
-            <a>Basic Form</a>
+          <li nz-menu-item nzMatchRouter *ngFor="let depart of departs">
+            <a>{{depart.name}}</a>
+          </li>
+        </ul>
+      </li>
+      <li nz-submenu nzOpen nzTitle="Authors" nzIcon="user">
+        <ul>
+          <li nz-menu-item nzMatchRouter *ngFor="let author of authors">
+            <a>{{author.name}}</a>
           </li>
         </ul>
       </li>
     </ul>
   </nz-sider>
   <nz-layout>
-    <nz-header>
-      <ul nz-menu nzTheme="light" nzMode="horizontal" class="header-menu">
-        <li nz-menu-item routerLink="/" routerLinkActive="ant-menu-item-selected" [routerLinkActiveOptions]="{exact: true}">Home</li>
-        <li nz-menu-item routerLink="/login" routerLinkActive="ant-menu-item-selected">Login</li>
-        <li nz-menu-item routerLink="/signup" routerLinkActive="ant-menu-item-selected">Signup</li>
-      </ul>
+    <nz-header style="background-color: white;">
+      <div style="display: flex;justify-content: space-between;align-items: center;
+      background-color: white;
+      height: 100%;">
+        <ul nz-menu nzTheme="light" nzMode="horizontal" class="header-menu">
+          <li nz-menu-item routerLink="/" routerLinkActive="ant-menu-item-selected" [routerLinkActiveOptions]="{exact: true}">Home</li>
+          <li nz-menu-item routerLink="/auth/login" *ngIf="!user.id" routerLinkActive="ant-menu-item-selected">Login</li>
+          <li nz-menu-item routerLink="/auth/signup" *ngIf="!user.id" routerLinkActive="ant-menu-item-selected">Signup</li>
+          <li nz-menu-item routerLink="/cart" *ngIf="user.id" routerLinkActive="ant-menu-item-selected">Cart</li>
+          <li nz-menu-item routerLink="/user" *ngIf="user.id" routerLinkActive="ant-menu-item-selected">Profile</li>
+        </ul>
+        <button nz-button nzDanger style="position: relative;right: 42px;" *ngIf="user.id" (click)="logOut()">Log out</button>
+      </div>
     </nz-header>
     <nz-content>
       <div class="outer-content">

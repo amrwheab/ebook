@@ -92,7 +92,11 @@ export class AuthersdashboardComponent implements OnInit, OnDestroy {
           this.message.success('Updated successfully');
           const autherModIndex = this.authers.findIndex(ele => ele.id === this.updateModalId);
           this.authers[autherModIndex].name = form.value.name;
-          this.authers[autherModIndex].info = form.value.info;
+          if (form.value.info) {
+            this.authers[autherModIndex].info = form.value.info;
+          } else {
+            this.authers[autherModIndex].info = 'There is no information about this auther';
+          }
           if (imgPath !== 'updated successfully') {
             this.authers[autherModIndex].imgUrl = imgPath;
           }

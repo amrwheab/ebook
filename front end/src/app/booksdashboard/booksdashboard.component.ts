@@ -19,6 +19,7 @@ export class BooksdashboardComponent implements OnInit, OnDestroy {
   editShow = false;
   booksLoad = false;
   booksObs: Subscription;
+  mobScreen = false;
 
   listOfSelection = [
     {
@@ -98,6 +99,23 @@ export class BooksdashboardComponent implements OnInit, OnDestroy {
     }, err => {
       this.booksLoad = false;
       this.message.error(err);
+    });
+
+    if (window.innerWidth <= 566) {
+      this.mobScreen = true;
+    }
+    window.addEventListener('resize', () => {
+      if (this.mobScreen) {
+        if (window.innerWidth > 566) {
+          this.mobScreen = false;
+        }
+      } else {
+        if (!this.mobScreen) {
+          if (window.innerWidth <= 566) {
+            this.mobScreen = true;
+          }
+        }
+      }
     });
   }
 

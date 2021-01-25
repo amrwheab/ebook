@@ -1,84 +1,51 @@
+import { environment } from './../environments/environment';
+import { AuthModule } from './auth/auth.module';
+import { DashboardModule } from './dashboardmod/dashboard.module';
+import { ZoroModule } from './zoro/zoro.module';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-
+import en from '@angular/common/locales/en';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { NZ_I18N } from 'ng-zorro-antd/i18n';
-import { en_US } from 'ng-zorro-antd/i18n';
-import { NzButtonModule } from 'ng-zorro-antd/button';
 import { IconsProviderModule } from './icons-provider.module';
-import { NzLayoutModule } from 'ng-zorro-antd/layout';
-import { NzMenuModule } from 'ng-zorro-antd/menu';
-import { NzBreadCrumbModule } from 'ng-zorro-antd/breadcrumb';
-import { NzTableModule } from 'ng-zorro-antd/table';
 import { registerLocaleData } from '@angular/common';
-import en from '@angular/common/locales/en';
-import { DashboardComponent } from './dashboard/dashboard.component';
-import { NzSpaceModule } from 'ng-zorro-antd/space';
-import { NzNotificationModule } from 'ng-zorro-antd/notification';
-import { NzFormModule } from 'ng-zorro-antd/form';
-import { NzInputModule } from 'ng-zorro-antd/input';
-import { NzGridModule } from 'ng-zorro-antd/grid';
-import { NzDividerModule } from 'ng-zorro-antd/divider';
-import { NzSelectModule } from 'ng-zorro-antd/select';
-import { NzUploadModule } from 'ng-zorro-antd/upload';
-import { NzSwitchModule } from 'ng-zorro-antd/switch';
-import { NzMessageModule } from 'ng-zorro-antd/message';
-import { NzModalModule } from 'ng-zorro-antd/modal';
-import { NzListModule } from 'ng-zorro-antd/list';
-import { NzSpinModule } from 'ng-zorro-antd/spin';
-import { NzCardModule } from 'ng-zorro-antd/card';
-import { NzPopoverModule } from 'ng-zorro-antd/popover';
-import { BooksdashboardComponent } from './booksdashboard/booksdashboard.component';
-import { LoginComponent } from './login/login.component';
-import { ModifybookComponent } from './modifybook/modifybook.component';
-import { DepartmentsdashboardComponent } from './departmentsdashboard/departmentsdashboard.component';
-import { AuthersdashboardComponent } from './authersdashboard/authersdashboard.component';
+import { JwtModule } from '@auth0/angular-jwt';
+
+export function tokenGetter(): string {
+  return localStorage.getItem('token');
+}
 
 registerLocaleData(en);
 
 @NgModule({
   declarations: [
-    AppComponent,
-    DashboardComponent,
-    BooksdashboardComponent,
-    LoginComponent,
-    ModifybookComponent,
-    DepartmentsdashboardComponent,
-    AuthersdashboardComponent
+    AppComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    FormsModule,
     HttpClientModule,
     BrowserAnimationsModule,
-    NzButtonModule,
     IconsProviderModule,
-    NzLayoutModule,
-    NzMenuModule,
-    NzBreadCrumbModule,
-    NzTableModule,
-    NzSpaceModule,
-    NzNotificationModule,
-    NzFormModule,
-    NzInputModule,
-    NzGridModule,
-    NzDividerModule,
-    NzSelectModule,
-    NzUploadModule,
-    NzSwitchModule,
-    NzMessageModule,
-    NzModalModule,
-    NzListModule,
-    NzSpinModule,
-    NzCardModule,
-    NzPopoverModule
+    DashboardModule,
+    ZoroModule,
+    AuthModule,
+    JwtModule.forRoot({
+      config: {
+        tokenGetter,
+        allowedDomains: [environment.server],
+        disallowedRoutes: [ environment.server + '/user/login',
+                            environment.server + '/user/register',
+                            environment.server + '/user/getuserfromtoken',
+                            environment.server + '/departs/getdeparts',
+                            environment.server + '/auther/getauthers'
+                          ]
+      }
+    })
   ],
-  providers: [{ provide: NZ_I18N, useValue: en_US }],
+  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

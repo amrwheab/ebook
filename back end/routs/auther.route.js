@@ -60,7 +60,7 @@ router.post('/addAuther', upload.single('autherImg'), async (req, res) => {
 
   try {
     if (!req.body.info) {
-      req.body.info = undefined;
+      req.body.info = 'There is no information about this auther';
     }
     const newAuther = new Auther({
       name: req.body.name,
@@ -80,6 +80,12 @@ router.put('/updateauther', upload.single('autherImg'),async (req, res) => {
     let imgPath = undefined;
     if (req.file) {
       imgPath = `${req.protocol}://${req.get('host')}/assets/autherImg/${req.file.filename}`
+    } else {
+      imgPath = 'assets/auther.png'
+    }
+
+    if (!req.body.info) {
+      req.body.info = 'There is no information about this auther';
     }
   
     if (imgPath) {

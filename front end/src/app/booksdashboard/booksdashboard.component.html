@@ -9,8 +9,8 @@
         (nzCheckedChange)="onAllChecked($event)"></th>
       <th>Name</th>
       <th [nzSortFn]="sortPrice">price</th>
-      <th>Auther</th>
-      <th>Department</th>
+      <th *ngIf="!mobScreen">Author</th>
+      <th *ngIf="!mobScreen">Department</th>
       <th [nzSortFn]="sortBuysTime">Buys Num</th>
     </tr>
   </thead>
@@ -19,8 +19,8 @@
       <td [nzChecked]="setOfCheckedId.has(book.id)" (nzCheckedChange)="onItemChecked(book.id, $event)"></td>
       <td>{{ book.name }}</td>
       <td>{{ book.price }}</td>
-      <td>{{ book.auther.name }}</td>
-      <td>{{ book.department.name }}</td>
+      <td *ngIf="!mobScreen">{{ book.auther.name }}</td>
+      <td *ngIf="!mobScreen">{{ book.department.name }}</td>
       <td>{{ book.buysNum }}</td>
     </tr>
   </tbody>

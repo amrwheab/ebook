@@ -8,6 +8,9 @@ function expressJwtMid () {
     path: [
       '/user/login',
       '/user/register',
+      '/user/getuserfromtoken/',
+      '/departs/getdeparts',
+      '/auther/getauthers'
     ]
   })
 }

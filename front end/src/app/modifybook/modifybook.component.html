@@ -23,7 +23,7 @@
     </nz-form-control>
   </nz-form-item>
   <nz-form-item>
-    <nz-form-label nzFor="info">Auther</nz-form-label>
+    <nz-form-label nzFor="info">Author</nz-form-label>
     <nz-form-control>
       <nz-select nz-input name="auther" type="text" id="auther" #auther="ngModel" ngModel required [(ngModel)]="elemsOfBook.auther.id">
         <nz-option *ngFor="let auther of authers" [nzValue]="auther.id" [nzLabel]="auther.name"></nz-option>
