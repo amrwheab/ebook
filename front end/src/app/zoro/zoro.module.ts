@@ -27,7 +27,8 @@ import { NzSkeletonModule } from 'ng-zorro-antd/skeleton';
 import { NzEmptyModule } from 'ng-zorro-antd/empty';
 import { NzPaginationModule } from 'ng-zorro-antd/pagination';
 import { NzCarouselModule } from 'ng-zorro-antd/carousel';
-
+import { NzCollapseModule } from 'ng-zorro-antd/collapse';
+import { IconsProviderModule } from '../icons-provider.module';
 
 
 @NgModule({
@@ -58,7 +59,9 @@ import { NzCarouselModule } from 'ng-zorro-antd/carousel';
     NzSkeletonModule,
     NzEmptyModule,
     NzPaginationModule,
-    NzCarouselModule
+    NzCarouselModule,
+    NzCollapseModule,
+    IconsProviderModule
   ],
   exports: [
     NzButtonModule,
@@ -85,7 +88,9 @@ import { NzCarouselModule } from 'ng-zorro-antd/carousel';
     NzSkeletonModule,
     NzEmptyModule,
     NzPaginationModule,
-    NzCarouselModule
+    NzCarouselModule,
+    NzCollapseModule,
+    IconsProviderModule
   ],
   providers: [{ provide: NZ_I18N, useValue: en_US }]
 })

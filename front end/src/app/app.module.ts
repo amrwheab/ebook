@@ -9,7 +9,6 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { IconsProviderModule } from './icons-provider.module';
 import { registerLocaleData } from '@angular/common';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { HomeComponent } from './home/home.component';
@@ -28,7 +27,6 @@ registerLocaleData(en);
     AppRoutingModule,
     HttpClientModule,
     BrowserAnimationsModule,
-    IconsProviderModule,
     DashboardModule,
     ZoroModule,
     AuthModule

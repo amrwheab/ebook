@@ -1,3 +1,4 @@
+import { CarouseldashboardComponent } from './../carouseldashboard/carouseldashboard.component';
 import { AuthersdashboardComponent } from '../authersdashboard/authersdashboard.component';
 import { DepartmentsdashboardComponent } from '../departmentsdashboard/departmentsdashboard.component';
 import { BooksdashboardComponent } from '../booksdashboard/booksdashboard.component';
@@ -8,6 +9,7 @@ const routes: Routes = [
   { path: 'books', component: BooksdashboardComponent },
   { path: 'departments', component: DepartmentsdashboardComponent },
   { path: 'authers', component: AuthersdashboardComponent },
+  { path: 'carousel', component: CarouseldashboardComponent },
 ];
 
 @NgModule({

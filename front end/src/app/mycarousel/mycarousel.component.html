@@ -1,3 +1,7 @@
+<div style="text-align: center;height: 50vh;line-height: 50vh;" *ngIf="!carouselLoad">
+  <nz-spin nzSimple [nzSize]="'large'"></nz-spin>
+</div>
+
 <div class="mycarousel" #mycarousel *ngIf="gallery.length >0 && !mobileScreen">
   <i nz-icon nzType="left" nzTheme="outline" style="left: 20px;" (click)="carLeft(pageSize)"></i>
   <i nz-icon nzType="right" nzTheme="outline" style="right: 20px;" (click)="carRight(pageSize)"></i>

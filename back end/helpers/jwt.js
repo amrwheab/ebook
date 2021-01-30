@@ -12,7 +12,7 @@ function expressJwtMid () {
       '/departs/getdeparts',
       '/auther/getauthersnames',
       '/book/getallbooks',
-
+      '/carousel/getcarousel'
     ]
   })
 }

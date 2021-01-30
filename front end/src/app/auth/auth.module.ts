@@ -18,10 +18,6 @@ import { ReactiveFormsModule } from '@angular/forms';
     AuthRoutingModule,
     ZoroModule,
     ReactiveFormsModule
-  ],
-  exports: [
-    SignupComponent,
-    LoginComponent
   ]
 })
 export class AuthModule { }

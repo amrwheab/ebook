@@ -1,39 +1,37 @@
-import { Component, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs';
+import { NzMessageService } from 'ng-zorro-antd/message';
+import { CarouselService } from './../services/carousel.service';
+import { Carousel } from './../shard/carousel';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 
 @Component({
   selector: 'app-mycarousel',
   templateUrl: './mycarousel.component.html',
   styleUrls: ['./mycarousel.component.scss']
 })
-export class MycarouselComponent implements OnInit {
+export class MycarouselComponent implements OnInit, OnDestroy {
 
   pageSize: number;
   carPosition: number;
   carTran = '.5s ease-out;';
   mobileScreen: boolean;
   sliderIterv: number;
+  carouselLoad = false;
+  carouselObs: Subscription;
 
-  gallery = [
-    {
-      title: 'title 1',
-      content: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Eum fuga id eaque deleniti consequuntur. Consectetur, necessitatibus quo excepturi possimus',
-      img: 'assets/lib1.jpg'
-    },
-    {
-      title: 'title 2',
-      content: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Eum fuga id eaque deleniti consequuntur. Consectetur, necessitatibus quo excepturi possimus',
-      img: 'assets/lib2.jpg'
-    },
-    {
-      title: 'title 3',
-      content: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Eum fuga id eaque deleniti consequuntur. Consectetur, necessitatibus quo excepturi possimus',
-      img: 'assets/lib3.jpg'
-    },
-  ];
+  gallery: Carousel[] = [];
 
-  constructor() { }
+  constructor(private carouselSer: CarouselService, private message: NzMessageService) { }
 
   ngOnInit(): void {
+
+    this.carouselObs = this.carouselSer.getCarousel().subscribe((gallery: Carousel[]) => {
+      this.carouselLoad = true;
+      this.gallery = gallery;
+    }, err => {
+      this.carouselLoad = true;
+      this.message.error(err.error);
+    });
 
     if (window.innerWidth <= 576) {
       this.mobileScreen = true;
@@ -43,6 +41,12 @@ export class MycarouselComponent implements OnInit {
     this.carPosition = - this.pageSize;
 
     this.sliderIterv = window.setInterval(() => this.carRight(this.pageSize), 10000);
+  }
+
+  ngOnDestroy(): void {
+    if (this.carouselObs) {
+      this.carouselObs.unsubscribe();
+    }
   }
 
 

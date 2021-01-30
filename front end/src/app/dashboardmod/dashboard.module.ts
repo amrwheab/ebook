@@ -8,6 +8,7 @@ import { DepartmentsdashboardComponent } from '../departmentsdashboard/departmen
 import { AuthersdashboardComponent } from '../authersdashboard/authersdashboard.component';
 import { DashboardRoutingModule } from './dashboard-routing.module';
 import { FormsModule } from '@angular/forms';
+import { CarouseldashboardComponent } from '../carouseldashboard/carouseldashboard.component';
 
 @NgModule({
   declarations: [
@@ -15,20 +16,14 @@ import { FormsModule } from '@angular/forms';
     BooksdashboardComponent,
     ModifybookComponent,
     DepartmentsdashboardComponent,
-    AuthersdashboardComponent
+    AuthersdashboardComponent,
+    CarouseldashboardComponent
   ],
   imports: [
     CommonModule,
     DashboardRoutingModule,
     FormsModule,
     ZoroModule
-  ],
-  exports: [
-    DashboardComponent,
-    BooksdashboardComponent,
-    ModifybookComponent,
-    DepartmentsdashboardComponent,
-    AuthersdashboardComponent
   ]
 })
 export class DashboardModule { }

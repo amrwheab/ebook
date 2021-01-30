@@ -1,0 +1,14 @@
+<nz-collapse>
+  <nz-collapse-panel
+    *ngFor="let car of carousel; let i = index"
+    [nzHeader]="car.title"
+    [nzActive]="i === 0"
+    [nzExtra]="amr"
+  >
+    <p style="margin:0;">{{ car.content }}</p>
+  </nz-collapse-panel>
+</nz-collapse>
+<ng-template #amr>
+  <!-- You can use stopPropagation if you don't want the panel to toggle -->
+  <i nz-icon nzType="setting" nzTheme="outline" (click)="message.success('good')"></i>
+</ng-template>
