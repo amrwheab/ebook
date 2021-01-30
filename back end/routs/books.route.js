@@ -94,17 +94,17 @@ router.put('/updatebook', cpUpload, async (req, res) => {
   let imgPath = '';
   if (req.files['img']) {
     const imgName = req.files['img'][0].filename;
-    imgPath = `${req.protocol}://${req.get('host')}/assets/img/${imgName}`;
+    imgPath = `https://ebookforyou.herokuapp.com/assets/img/${imgName}`;
   }
   let pdffullPath = '';
   if (req.files['pdffull']) {
     const pdffullName = req.files['pdffull'][0].filename;
-    pdffullPath = `${req.protocol}://${req.get('host')}/assets/pdffull/${pdffullName}`;
+    pdffullPath = `https://ebookforyou.herokuapp.com/assets/pdffull/${pdffullName}`;
   }
   let pdfminiPath = '';
   if (req.files['pdfmini']) {
     const pdfminiName = req.files['pdfmini'][0].filename;
-    pdfminiPath = `${req.protocol}://${req.get('host')}/assets/pdfmini/${pdfminiName}`;
+    pdfminiPath = `https://ebookforyou.herokuapp.com/assets/pdfmini/${pdfminiName}`;
   }
 
   try {

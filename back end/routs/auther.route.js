@@ -26,8 +26,9 @@ const upload = multer({ storage: storage })
 
 router.get('/getauthers', async (req, res) => {
   try {
-    const authers = await Auther.find();
-    res.status(200).json(authers);
+    const authers = await Auther.find().limit(8).skip((parseInt(req.query.page)-1) * 8);
+    const authersCount = await Auther.countDocuments(count => count);
+    res.status(200).json({authers, authersCount});
   } catch (err) {
     res.status(400).json(err.message)
   }
@@ -80,6 +81,7 @@ router.put('/updateauther', upload.single('autherImg'),async (req, res) => {
     let imgPath = undefined;
     if (req.file) {
       imgPath = `${req.protocol}://${req.get('host')}/assets/autherImg/${req.file.filename}`
+      /*`${req.protocol}://${req.get('host')}/assets/autherImg/${req.file.filename}`*/
     } else {
       imgPath = 'assets/auther.png'
     }

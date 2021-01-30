@@ -4,6 +4,7 @@ import { Auther } from '../shard/auther';
 import { Subscription } from 'rxjs';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NgForm } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-authersdashboard',
@@ -22,17 +23,33 @@ export class AuthersdashboardComponent implements OnInit, OnDestroy {
   updateModalId = '';
   updateModalName = '';
   updateModalInfo = '';
+  page = 1;
+  totalAuthors = 10;
 
   constructor(private autherSer: AutherService,
-              private message: NzMessageService) { }
+              private message: NzMessageService,
+              private actRoute: ActivatedRoute,
+              public router: Router) { }
 
   ngOnInit(): void {
-    this.authersObs = this.autherSer.getAuthers().subscribe((authers: Auther[]) => {
-      this.autherload = true;
-      this.authers = authers;
-    }, err => {
-      this.autherload = true;
-      this.message.error(err);
+    this.authersObs = this.actRoute.queryParams.subscribe(param => {
+      this.autherSer.getAuthers(param.page).subscribe((data) => {
+        this.page = param.page;
+        this.autherload = true;
+        this.authers = data.authers;
+        this.totalAuthors = Math.floor(data.authersCount * 10 / 8);
+      }, err => {
+        this.autherload = true;
+        this.message.error(err.error);
+      });
+    });
+  }
+
+  changeIndex(page: number): void {
+    this.router.navigate(['/dashboard/authers'], {
+      queryParams: {
+        page
+      }
     });
   }
 

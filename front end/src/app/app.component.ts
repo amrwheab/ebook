@@ -13,7 +13,6 @@ import { Auther } from './shard/auther';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
-
   breadItems = [];
   user: User = {
     id: '',
@@ -34,9 +33,18 @@ export class AppComponent implements OnInit {
               private authorSer: AutherService) {}
 
   ngOnInit(): void {
+
+
     this.router.events.subscribe((e) => {
       if (e instanceof NavigationEnd) {
         this.breadItems = e.url.slice(1).split('/');
+        // tslint:disable-next-line: prefer-for-of
+        for (let i = 0; i < this.breadItems.length; i++) {
+          if (this.breadItems[i].includes('?')) {
+            const index = this.breadItems[i].indexOf('?');
+            this.breadItems[i] = this.breadItems[i].slice(0, index);
+          }
+        }
       }
     });
 
@@ -48,7 +56,7 @@ export class AppComponent implements OnInit {
       this.departs = departs;
     });
 
-    this.authorSer.getAuthers().subscribe(authors => {
+    this.authorSer.getAuthersNames().subscribe(authors => {
       this.authors = authors;
     });
   }

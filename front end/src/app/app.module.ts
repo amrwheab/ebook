@@ -1,4 +1,4 @@
-import { environment } from './../environments/environment';
+import { JwtInterceptor } from './interceptors/jwt.interceptor';
 import { AuthModule } from './auth/auth.module';
 import { DashboardModule } from './dashboardmod/dashboard.module';
 import { ZoroModule } from './zoro/zoro.module';
@@ -11,17 +11,17 @@ import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { IconsProviderModule } from './icons-provider.module';
 import { registerLocaleData } from '@angular/common';
-import { JwtModule } from '@auth0/angular-jwt';
-
-export function tokenGetter(): string {
-  return localStorage.getItem('token');
-}
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HomeComponent } from './home/home.component';
+import { MycarouselComponent } from './mycarousel/mycarousel.component';
 
 registerLocaleData(en);
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    HomeComponent,
+    MycarouselComponent
   ],
   imports: [
     BrowserModule,
@@ -31,21 +31,13 @@ registerLocaleData(en);
     IconsProviderModule,
     DashboardModule,
     ZoroModule,
-    AuthModule,
-    JwtModule.forRoot({
-      config: {
-        tokenGetter,
-        allowedDomains: [environment.server],
-        disallowedRoutes: [ environment.server + '/user/login',
-                            environment.server + '/user/register',
-                            environment.server + '/user/getuserfromtoken',
-                            environment.server + '/departs/getdeparts',
-                            environment.server + '/auther/getauthers'
-                          ]
-      }
-    })
+    AuthModule
   ],
-  providers: [],
+  providers: [{
+    provide: HTTP_INTERCEPTORS,
+    useClass: JwtInterceptor,
+    multi: true
+  }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -50,11 +50,13 @@
       </ng-template>
       <ng-template #actionSetting>
         <button (click)="arrangeUpdate(auther.id)" class="edit-button">
-          <i nz-icon nzType="setting"></i>
+          Edit
         </button>
       </ng-template>
     </div>
   </div>
+
+  <nz-empty nzNotFoundContent="There is no Authors yet" *ngIf="autherload && authers.length===0"></nz-empty>
 
   <nz-modal [(nzVisible)]="updateModal || addModal" [nzTitle]="addModal? 'Add new auther':'Update auther'" (nzOnCancel)="updateModal=false;addModal=false">
     <ng-container *nzModalContent>
@@ -85,4 +87,7 @@
     </ng-container>
     <div *nzModalFooter></div>
   </nz-modal>
+  <div style="text-align: center;">
+    <nz-pagination [nzPageIndex]="page" [nzTotal]="totalAuthors" (nzPageIndexChange)="changeIndex($event)" ></nz-pagination>
+  </div>
 </div>

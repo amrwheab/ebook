@@ -24,6 +24,9 @@ import { NzCardModule } from 'ng-zorro-antd/card';
 import { NzPopoverModule } from 'ng-zorro-antd/popover';
 import { NzAvatarModule } from 'ng-zorro-antd/avatar';
 import { NzSkeletonModule } from 'ng-zorro-antd/skeleton';
+import { NzEmptyModule } from 'ng-zorro-antd/empty';
+import { NzPaginationModule } from 'ng-zorro-antd/pagination';
+import { NzCarouselModule } from 'ng-zorro-antd/carousel';
 
 
 
@@ -52,7 +55,10 @@ import { NzSkeletonModule } from 'ng-zorro-antd/skeleton';
     NzCardModule,
     NzPopoverModule,
     NzAvatarModule,
-    NzSkeletonModule
+    NzSkeletonModule,
+    NzEmptyModule,
+    NzPaginationModule,
+    NzCarouselModule
   ],
   exports: [
     NzButtonModule,
@@ -76,7 +82,10 @@ import { NzSkeletonModule } from 'ng-zorro-antd/skeleton';
     NzCardModule,
     NzPopoverModule,
     NzAvatarModule,
-    NzSkeletonModule
+    NzSkeletonModule,
+    NzEmptyModule,
+    NzPaginationModule,
+    NzCarouselModule
   ],
   providers: [{ provide: NZ_I18N, useValue: en_US }]
 })

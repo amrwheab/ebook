@@ -1,4 +1,4 @@
-<nz-layout class="app-layout">
+<nz-layout class="app-layout" style="width: 100vh;">
   <nz-sider class="menu-sidebar" nzCollapsible nzWidth="256px" nzBreakpoint="lg" [nzCollapsedWidth]="0">
     <div class="sidebar-logo">
       <a routerLink="/">
@@ -13,21 +13,21 @@
             <a routerLink="/dashboard/books">Books</a>
           </li>
           <li nz-menu-item nzMatchRouter>
-            <a routerLink="/dashboard/departments">Departments</a>
+            <a routerLink="/dashboard/departments" [queryParams]="{page: 1}">Departments</a>
           </li>
           <li nz-menu-item nzMatchRouter>
-            <a routerLink="/dashboard/authers">Authors</a>
+            <a routerLink="/dashboard/authers" [queryParams]="{page: 1}">Authors</a>
           </li>
         </ul>
       </li>
-      <li nz-submenu nzOpen nzTitle="Departments" nzIcon="apartment">
+      <li nz-submenu [nzOpen]="false" nzTitle="Departments" nzIcon="apartment">
         <ul>
           <li nz-menu-item nzMatchRouter *ngFor="let depart of departs">
             <a>{{depart.name}}</a>
           </li>
         </ul>
       </li>
-      <li nz-submenu nzOpen nzTitle="Authors" nzIcon="user">
+      <li nz-submenu [nzOpen]="false" nzTitle="Authors" nzIcon="user">
         <ul>
           <li nz-menu-item nzMatchRouter *ngFor="let author of authors">
             <a>{{author.name}}</a>
@@ -57,7 +57,7 @@
           <nz-breadcrumb-item *ngFor="let item of breadItems">{{item}}</nz-breadcrumb-item>
         </nz-breadcrumb>
       </div>
-      <div class="inner-content" style="height: auto;">
+      <div class="inner-content" [style]="'height: auto;'">
         <router-outlet></router-outlet>
       </div>
     </nz-content>
