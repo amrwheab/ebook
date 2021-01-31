@@ -15,4 +15,16 @@ export class CarouselService {
   getCarousel(): Observable<any> {
     return this.http.get(this.url + '/getcarousel');
   }
+
+  addCarousel(data: FormData): Observable<any> {
+    return this.http.post(this.url + '/addcarousel', data);
+  }
+
+  updateCarousel(data: FormData): Observable<any> {
+    return this.http.put(this.url + '/updatecarousel', data);
+  }
+
+  deleteCarousel(id: string): Observable<any> {
+    return this.http.delete(this.url + '/deletecarousel/' + id);
+  }
 }

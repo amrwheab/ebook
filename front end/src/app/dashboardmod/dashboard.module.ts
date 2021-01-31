@@ -7,7 +7,7 @@ import { ModifybookComponent } from '../modifybook/modifybook.component';
 import { DepartmentsdashboardComponent } from '../departmentsdashboard/departmentsdashboard.component';
 import { AuthersdashboardComponent } from '../authersdashboard/authersdashboard.component';
 import { DashboardRoutingModule } from './dashboard-routing.module';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CarouseldashboardComponent } from '../carouseldashboard/carouseldashboard.component';
 
 @NgModule({
@@ -23,7 +23,8 @@ import { CarouseldashboardComponent } from '../carouseldashboard/carouseldashboa
     CommonModule,
     DashboardRoutingModule,
     FormsModule,
-    ZoroModule
+    ZoroModule,
+    ReactiveFormsModule
   ]
 })
 export class DashboardModule { }

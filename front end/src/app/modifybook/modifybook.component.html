@@ -9,7 +9,7 @@
   <nz-form-item>
     <nz-form-label nzFor="depart">Department</nz-form-label>
     <nz-form-control>
-      <nz-select name="depart" id="depart" #depart="ngModel" ngModel required [(ngModel)]="elemsOfBook.department.id">
+      <nz-select nzShowSearch nzAllowClear name="depart" id="depart" #depart="ngModel" ngModel required [(ngModel)]="elemsOfBook.department.id">
         <nz-option *ngFor="let depart of departments" [nzValue]="depart.id" [nzLabel]="depart.name"></nz-option>
       </nz-select>
       <p *ngIf="depart.touched && !depart.valid" style="color: red;">Department is required</p>
@@ -25,7 +25,7 @@
   <nz-form-item>
     <nz-form-label nzFor="info">Author</nz-form-label>
     <nz-form-control>
-      <nz-select nz-input name="auther" type="text" id="auther" #auther="ngModel" ngModel required [(ngModel)]="elemsOfBook.auther.id">
+      <nz-select nzShowSearch nzAllowClear nz-input name="auther" type="text" id="auther" #auther="ngModel" ngModel required [(ngModel)]="elemsOfBook.auther.id">
         <nz-option *ngFor="let auther of authers" [nzValue]="auther.id" [nzLabel]="auther.name"></nz-option>
       </nz-select>
       <p *ngIf="auther.touched && !auther.valid" style="color: red;">Auther is required</p>

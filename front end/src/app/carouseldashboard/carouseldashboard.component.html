@@ -1,14 +1,84 @@
-<nz-collapse>
-  <nz-collapse-panel
-    *ngFor="let car of carousel; let i = index"
-    [nzHeader]="car.title"
-    [nzActive]="i === 0"
-    [nzExtra]="amr"
-  >
-    <p style="margin:0;">{{ car.content }}</p>
-  </nz-collapse-panel>
-</nz-collapse>
-<ng-template #amr>
-  <!-- You can use stopPropagation if you don't want the panel to toggle -->
-  <i nz-icon nzType="setting" nzTheme="outline" (click)="message.success('good')"></i>
-</ng-template>
+<div class="carouseldash">
+
+  <div style="display: flex;justify-content: space-between;">
+    <h2>Carousel</h2>
+    <div *ngIf="loadedCar">
+      <nz-space>
+        <nz-space-item>
+          <button nz-button nzType="primary" (click)="modifyVisable=true;updateMode=false">Add carousel</button>
+        </nz-space-item>
+        <nz-space-item>
+          <button nz-button nzType="default" (click)="modifyVisable=true;updateMode=true">Update carousel</button>
+        </nz-space-item>
+        <nz-space-item>
+          <button nz-button nzType="text" nzDanger (click)="deleteVisable=true">Delete Carousel</button>
+        </nz-space-item>
+      </nz-space>
+    </div>
+  </div>
+
+  <div *ngIf="!loadedCar" style="height: 300px;line-height: 300px;text-align: center;">
+    <nz-spin nzSimple [nzSize]="'large'"></nz-spin>
+  </div>
+
+  <nz-collapse *ngIf="loadedCar">
+    <nz-collapse-panel *ngFor="let car of carousel; let i = index" [nzHeader]="car.title" [nzActive]="i === 0">
+      <p style="margin:0;">{{ car.content }}</p>
+    </nz-collapse-panel>
+  </nz-collapse>
+
+</div>
+
+<nz-modal [(nzVisible)]="modifyVisable" nzTitle="Modify Carousel" (nzOnCancel)="modifyVisable=false; carouselForm.reset();updateModeHelper=false;selectedCarouselValue=''">
+  <ng-container *nzModalContent>
+
+    <div *ngIf="updateMode" style="margin-bottom: 20px;">
+      <div style="display: flex;justify-content: space-between;">
+        <nz-select nzPlaceHolder="Select a carousel" [(ngModel)]="selectedCarouselValue">
+          <nz-option *ngFor="let car of carousel" [nzValue]="car.id" [nzLabel]="car.title"></nz-option>
+        </nz-select>
+        <button nz-button nzType="primary" type="submit" [disabled]="!selectedCarouselValue" (click)="generatingValues()">Update Now</button>
+      </div>
+    </div>
+
+    <div *ngIf="!updateMode || updateModeHelper">
+      <form [formGroup]="carouselForm" (submit)="onSubmit()">
+        <nz-form-item>
+          <nz-form-label>Title</nz-form-label>
+          <nz-form-control>
+            <input nz-input type="text" formControlName="title">
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+          <nz-form-label>Content</nz-form-label>
+          <nz-form-control>
+            <input nz-input type="text" formControlName="content">
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+          <nz-form-label>Image</nz-form-label>
+          <nz-form-control>
+            <input nz-input nz-button nzType="primary" type="file" (change)="onFileChange($event)">
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+          <button [disabled]="carouselForm.invalid" nz-button nzType="primary" type="submit">{{updateMode? 'Update Carousel': 'Add Carousel'}}</button>
+        </nz-form-item>
+      </form>
+    </div>
+
+  </ng-container>
+  <div *nzModalFooter></div>
+</nz-modal>
+
+<nz-modal [(nzVisible)]="deleteVisable" nzTitle="The first Modal" (nzOnCancel)="deleteVisable=false;selectedDeletingCarousel=''">
+  <ng-container *nzModalContent>
+    <div style="display: flex;justify-content: space-between;">
+      <nz-select nzPlaceHolder="Select a carousel" [(ngModel)]="selectedDeletingCarousel">
+        <nz-option *ngFor="let car of carousel" [nzValue]="car.id" [nzLabel]="car.title"></nz-option>
+      </nz-select>
+      <button nz-button nzType="danger" type="submit" [disabled]="!selectedDeletingCarousel" (click)="deleteCarousel()">Delete Carousel</button>
+    </div>
+  </ng-container>
+  <div *nzModalFooter></div>
+</nz-modal>

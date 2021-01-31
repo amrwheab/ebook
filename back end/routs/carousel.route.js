@@ -35,7 +35,7 @@ router.post('/addcarousel', upload.single('carouselImg'), async (req, res) => {
     await newCarousel.save();
     res.status(200).json(newCarousel);
   } catch (err) {
-    res.status(400).json(err);
+    res.status(400).json(err.message);
   }
 });
 
@@ -44,7 +44,29 @@ router.get('/getcarousel', async (req, res) => {
     const gallery = await Carousel.find();
     res.status(200).json(gallery);
   } catch (err) {
-    res.status(400).json(err);
+    res.status(400).json(err.message);
+  }
+});
+
+router.put('/updatecarousel', upload.single('carouselImg'), async (req, res) => {
+  try {
+    if (req.file) {
+      const imgPath = `${req.protocol}://${req.get('host')}/assets/carouselImg/${req.file.filename}`;
+
+      await Carousel.updateOne({_id: req.body.id}, {$set: {
+        title: req.body.title,
+        content: req.body.content,
+        img: imgPath
+      }})
+    } else {
+      await Carousel.updateOne({_id: req.body.id}, {$set: {
+        title: req.body.title,
+        content: req.body.content
+      }})
+    }
+    res.status(200).json('updated successfully')
+  } catch (err) {
+    res.status(400).json(err.message)
   }
 });
 
@@ -53,8 +75,8 @@ router.delete('/deletecarousel/:id', async (req, res) => {
     await Carousel.deleteOne({_id: req.params.id})
     res.status(200).json('deleted successfully')
   } catch (err) {
-    res.status(400).json(err)
+    res.status(400).json(err.message)
   }
-})
+});
 
 module.exports = router;
