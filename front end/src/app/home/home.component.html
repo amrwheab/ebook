@@ -1,5 +1,50 @@
 <div class="home">
   <app-mycarousel></app-mycarousel>
+  <nz-divider></nz-divider>
+  <h2>For You</h2>
+  <div class="slides-contain" [style]="'width:'+ ((187 * slidesToShow) + (10 * (slidesToShow-1))) + 'px'">
+    <i nz-icon nzType="left" class="arrows" [class.not-allowed]="featslide>=0" nzTheme="outline" (click)="featSlideAction(false)" style="left: 20px;"></i>
+    <i nz-icon nzType="right" class="arrows" [class.not-allowed]="featslide <= -featSlideWidth+10" nzTheme="outline" (click)="featSlideAction(true)" style="right: 20px;"></i>
+    <div class="screen-slider" [style]="'transform: translate('+featslide+'px);'">
+      <div class="slide-cell" *ngFor="let feat of featured">
+        <div class="card">
+          <div class="card-img">
+            <img [src]="feat.imgUrl" alt="">
+          </div>
+          <h4 class="card-title">{{feat.name | titlecase}}</h4>
+          <span class="card-text">{{feat.info.slice(0, 50)}}</span>
+          <span class="price">{{feat.price | currency}}</span>
+          <div>
+            <button nz-button nzType="primary">Add To Cart<i nz-icon nzType="shopping-cart" nzTheme="outline"></i></button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <nz-divider></nz-divider>
+  <div *ngFor="let depart of departedBooks; let i = index">
+    <h2>{{departments[i].name}}</h2>
+    <div class="slides-contain" [style]="'width:'+ ((187 * slidesToShow) + (10 * (slidesToShow-1))) + 'px'">
+      <i nz-icon nzType="left" class="arrows" [class.not-allowed]="departsSlide[i]>=0" nzTheme="outline" (click)="departSlideAction(false, i)" style="left: 20px;"></i>
+      <i nz-icon nzType="right" class="arrows" [class.not-allowed]="departsSlide[i] <= -departsSlideWidth[i]+10" nzTheme="outline" (click)="departSlideAction(true, i)" style="right: 20px;"></i>
+      <div class="screen-slider" [style]="'transform: translate('+departsSlide[i]+'px);'">
+        <div class="slide-cell" *ngFor="let book of depart">
+          <div class="card">
+            <div class="card-img">
+              <img [src]="book.imgUrl" alt="">
+            </div>
+            <h4 class="card-title">{{book.name | titlecase}}</h4>
+            <span class="card-text">{{book.info.slice(0, 50)}}</span>
+            <span class="price">{{book.price | currency}}</span>
+            <div>
+              <button nz-button nzType="primary">Add To Cart<i nz-icon nzType="shopping-cart" nzTheme="outline"></i></button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <nz-divider *ngIf="i !== departedBooks.length-1"></nz-divider>
+  </div>
 </div>
 
 

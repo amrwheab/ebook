@@ -2,3 +2,8 @@
   position: absolute;
   bottom: -50px;
 }
+@media (max-width: 768px) {
+  .tabel-operations {
+    bottom: -84px;
+  }
+}

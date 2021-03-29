@@ -1,19 +1,19 @@
 <div class="carouseldash">
 
-  <div style="display: flex;justify-content: space-between;">
+  <div class="btns-contain">
     <h2>Carousel</h2>
-    <div *ngIf="loadedCar">
-      <nz-space>
-        <nz-space-item>
+    <div class="btns-area" *ngIf="loadedCar">
+      <!-- <nz-space> -->
+        <!-- <nz-space-item> -->
           <button nz-button nzType="primary" (click)="modifyVisable=true;updateMode=false">Add carousel</button>
-        </nz-space-item>
-        <nz-space-item>
+        <!-- </nz-space-item> -->
+        <!-- <nz-space-item> -->
           <button nz-button nzType="default" (click)="modifyVisable=true;updateMode=true">Update carousel</button>
-        </nz-space-item>
-        <nz-space-item>
+        <!-- </nz-space-item> -->
+        <!-- <nz-space-item> -->
           <button nz-button nzType="text" nzDanger (click)="deleteVisable=true">Delete Carousel</button>
-        </nz-space-item>
-      </nz-space>
+        <!-- </nz-space-item> -->
+      <!-- </nz-space> -->
     </div>
   </div>
 

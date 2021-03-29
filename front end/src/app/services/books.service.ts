@@ -18,6 +18,14 @@ export class BooksService {
     return this.http.get(environment.server + '/book/getallbooks');
   }
 
+  getDepartedBooks(id: string): Observable<any> {
+    return this.http.get(environment.server + '/book/getdepartbooks/' + id);
+  }
+
+  getFeaturedBooks(): Observable<any> {
+    return this.http.get(environment.server + '/book/getfeatbooks');
+  }
+
   deleteBooks(data: string[]): Observable<any> {
     return this.http.delete(environment.server + '/book/deletebook', {
       params: {ids: data}

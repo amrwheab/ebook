@@ -1,0 +1,13 @@
+.btns-contain {
+  display: flex;
+  justify-content: space-between;
+
+  .btns-area button {
+    margin: auto 10px 10px auto;
+  }
+}
+@media (max-width: 768px) {
+  .btns-contain {
+    display: block;
+  }
+}
