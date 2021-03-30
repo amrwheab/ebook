@@ -13,7 +13,6 @@ import { registerLocaleData } from '@angular/common';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { HomeComponent } from './home/home.component';
 import { MycarouselComponent } from './mycarousel/mycarousel.component';
-import {IvyCarouselModule} from 'angular-responsive-carousel';
 
 
 registerLocaleData(en);
@@ -31,8 +30,7 @@ registerLocaleData(en);
     BrowserAnimationsModule,
     DashboardModule,
     ZoroModule,
-    AuthModule,
-    IvyCarouselModule
+    AuthModule
   ],
   providers: [{
     provide: HTTP_INTERCEPTORS,
