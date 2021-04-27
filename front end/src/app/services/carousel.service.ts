@@ -13,18 +13,18 @@ export class CarouselService {
   constructor(private http: HttpClient) { }
 
   getCarousel(): Observable<any> {
-    return this.http.get(this.url + '/getcarousel');
+    return this.http.get(this.url + '/getcarousel.php');
   }
 
   addCarousel(data: FormData): Observable<any> {
-    return this.http.post(this.url + '/addcarousel', data);
+    return this.http.post(this.url + '/addcarousel.php', data);
   }
 
   updateCarousel(data: FormData): Observable<any> {
-    return this.http.put(this.url + '/updatecarousel', data);
+    return this.http.post(this.url + '/updatecarousel.php', data);
   }
 
   deleteCarousel(id: string): Observable<any> {
-    return this.http.delete(this.url + '/deletecarousel/' + id);
+    return this.http.delete(this.url + '/deletecarousel.php/' + id);
   }
 }

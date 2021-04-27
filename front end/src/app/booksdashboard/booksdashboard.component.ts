@@ -20,6 +20,7 @@ export class BooksdashboardComponent implements OnInit, OnDestroy {
   booksLoad = false;
   booksObs: Subscription;
   mobScreen = false;
+  page = 1;
 
   listOfSelection = [
     {
@@ -69,9 +70,27 @@ export class BooksdashboardComponent implements OnInit, OnDestroy {
     this.refreshCheckedStatus();
   }
 
-  onCurrentPageDataChange($event): void {
-    this.listOfCurrentPageData = $event;
-    this.refreshCheckedStatus();
+  onCurrentPageDataChange($event: any): void {
+      this.listOfCurrentPageData = $event;
+      this.refreshCheckedStatus();
+  }
+
+  onQueryParamsChange(param: any): void {
+    // filter: []
+    // pageIndex: 3
+    // pageSize: 10
+    // sort: (2) [{…}, {…}]
+    const last = this.listOfData.length - (param.pageIndex * param.pageSize);
+    if (last < param.pageSize) {
+      this.page += 1;
+      this.booksObs = this.bookSer.getBooks(this.page).subscribe(books => {
+        this.booksLoad = true;
+        this.listOfData = [...this.listOfData, ...books];
+      }, err => {
+        this.booksLoad = false;
+        this.message.error(err);
+      });
+    }
   }
 
   refreshCheckedStatus(): void {
@@ -93,7 +112,7 @@ export class BooksdashboardComponent implements OnInit, OnDestroy {
               private message: NzMessageService) { }
 
   ngOnInit(): void {
-    this.booksObs = this.bookSer.getBooks().subscribe(books => {
+    this.booksObs = this.bookSer.getBooks(1).subscribe(books => {
       this.booksLoad = true;
       this.listOfData = books;
     }, err => {
@@ -160,6 +179,7 @@ export class BooksdashboardComponent implements OnInit, OnDestroy {
         this.setOfCheckedId.clear();
         this.loadDeleteButton = false;
       }, err => {
+        console.log(err);
         this.createNotification('error', `Failed to Delete ${data.length > 1 ? 'books' : 'book'}`, err);
         this.loadDeleteButton = false;
       });

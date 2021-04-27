@@ -99,9 +99,9 @@ export class ModifybookComponent implements OnInit, OnDestroy {
     const formContent = ['name', 'info', 'price', 'isFeatured', 'auther'];
     const formData = new FormData();
     if (!this.elemsOfBook.id) {
-      formData.append('img', this.imgFile, this.imgFile.name);
-      formData.append('pdfmini', this.miniPdf, this.miniPdf.name);
-      formData.append('pdffull', this.fullPdf, this.fullPdf.name);
+      formData.append('imgUrl', this.imgFile, this.imgFile.name);
+      formData.append('miniPath', this.miniPdf, this.miniPdf.name);
+      formData.append('fullPath', this.fullPdf, this.fullPdf.name);
       formData.append('department', form.value.depart);
 
       // tslint:disable-next-line: prefer-for-of
@@ -129,13 +129,13 @@ export class ModifybookComponent implements OnInit, OnDestroy {
       });
     } else {
       if (this.imgFile) {
-        formData.append('img', this.imgFile, this.imgFile.name);
+        formData.append('imgUrl', this.imgFile, this.imgFile.name);
       }
       if (this.miniPdf) {
-        formData.append('pdfmini', this.miniPdf, this.miniPdf.name);
+        formData.append('miniPath', this.miniPdf, this.miniPdf.name);
       }
       if (this.fullPdf) {
-        formData.append('pdffull', this.fullPdf, this.fullPdf.name);
+        formData.append('fullPath', this.fullPdf, this.fullPdf.name);
       }
       formData.append('department', form.value.depart);
       formData.append('id', this.elemsOfBook.id);
@@ -157,6 +157,7 @@ export class ModifybookComponent implements OnInit, OnDestroy {
         this.message.success('updated successfully');
       }, err => {
         this.message.remove(id);
+        console.log(err.error);
         this.createNotification('error', err.error);
       });
     }

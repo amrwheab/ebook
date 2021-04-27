@@ -59,6 +59,7 @@ export class DepartmentsdashboardComponent implements OnInit, OnDestroy {
       this.message.remove(id);
       this.message.success('updated successfully');
     }, (err) => {
+      console.log(err);
       this.message.remove(id);
       this.message.error('some thing went wrong');
     });

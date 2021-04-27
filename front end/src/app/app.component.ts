@@ -35,6 +35,7 @@ export class AppComponent implements OnInit {
   ngOnInit(): void {
 
 
+    // tslint:disable-next-line: deprecation
     this.router.events.subscribe((e) => {
       if (e instanceof NavigationEnd) {
         this.breadItems = e.url.slice(1).split('/');
@@ -48,6 +49,7 @@ export class AppComponent implements OnInit {
       }
     });
 
+    // tslint:disable-next-line: deprecation
     this.authSer.getUserFromToken(localStorage.getItem('token')).subscribe((user: User) => {
       this.user = user;
     });

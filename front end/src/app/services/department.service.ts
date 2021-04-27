@@ -11,14 +11,14 @@ export class DepartmentService {
   constructor(private http: HttpClient) { }
 
   getDeparts(): Observable<any> {
-    return this.http.get(environment.server + '/departs/getdeparts');
+    return this.http.get(environment.server + '/departs/getdeparts.php');
   }
 
   updateDepart(data: object): Observable<any> {
-    return this.http.put(environment.server + '/departs/editdepartname', data);
+    return this.http.put(environment.server + '/departs/editdepartname.php', data);
   }
 
   addDepart(departName: string): Observable<any> {
-    return this.http.post(environment.server + '/departs/newdepart', {departName});
+    return this.http.post(environment.server + '/departs/newdepart.php', {departName});
   }
 }

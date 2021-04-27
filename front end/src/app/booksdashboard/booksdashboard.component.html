@@ -2,7 +2,7 @@
   <nz-spin nzSimple [nzSize]="'large'"></nz-spin>
 </div>
 <nz-table #rowSelectionTable nzShowSizeChanger [nzData]="listOfData" *ngIf="booksLoad"
-  (nzCurrentPageDataChange)="onCurrentPageDataChange($event)">
+  (nzCurrentPageDataChange)="onCurrentPageDataChange($event)" (nzQueryParams)="onQueryParamsChange($event)">
   <thead>
     <tr>
       <th [nzSelections]="listOfSelection" [(nzChecked)]="checked" [nzIndeterminate]="indeterminate"

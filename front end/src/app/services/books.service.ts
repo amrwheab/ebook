@@ -11,28 +11,39 @@ export class BooksService {
   constructor(private http: HttpClient) {}
 
   addBook(data: FormData): Observable<any> {
-    return this.http.post(environment.server + '/book/addbook', data);
+    return this.http.post(environment.server + '/book/addbook.php', data);
   }
 
-  getBooks(): Observable<any> {
-    return this.http.get(environment.server + '/book/getallbooks');
-  }
-
-  getDepartedBooks(id: string): Observable<any> {
-    return this.http.get(environment.server + '/book/getdepartbooks/' + id);
-  }
-
-  getFeaturedBooks(): Observable<any> {
-    return this.http.get(environment.server + '/book/getfeatbooks');
-  }
-
-  deleteBooks(data: string[]): Observable<any> {
-    return this.http.delete(environment.server + '/book/deletebook', {
-      params: {ids: data}
+  getBooks(page: number): Observable<any> {
+    return this.http.get(environment.server + '/book/getallbooks.php', {
+      params: {
+        page : page.toString()
+      }
     });
   }
 
+  getDepartedBooks(id: string): Observable<any> {
+    return this.http.get(environment.server + '/book/getdepartbooks.php/' + id);
+  }
+
+  getFeaturedBooks(): Observable<any> {
+    return this.http.get(environment.server + '/book/getfeatbooks.php');
+  }
+
+  deleteBooks(data: string[]): Observable<any> {
+    let query = '/book/deletebook.php';
+    // tslint:disable-next-line: prefer-for-of
+    for (let i = 0; i < data.length; i++) {
+      if (i === 0) {
+        query += `?ids[0]=${data[0]}`;
+      } else {
+        query += `&ids[${i}]=${data[i]}`;
+      }
+    }
+    return this.http.delete(environment.server + query);
+  }
+
   updateBooks(data: FormData): Observable<any> {
-    return this.http.put(environment.server + '/book/updatebook', data);
+    return this.http.post(environment.server + '/book/updatebook.php', data);
   }
 }

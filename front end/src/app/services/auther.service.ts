@@ -1,6 +1,6 @@
 import { environment } from './../../environments/environment';
 import { Observable } from 'rxjs';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 @Injectable({
@@ -11,11 +11,11 @@ export class AutherService {
   constructor(private http: HttpClient) { }
 
   getAuthersNames(): Observable<any> {
-    return this.http.get(environment.server + '/auther/getauthersnames');
+    return this.http.get(environment.server + '/auther/getauthersnames.php');
   }
 
   getAuthers(page: string): Observable<any> {
-    return this.http.get(environment.server + '/auther/getauthers', {
+    return this.http.get(environment.server + '/auther/getauthers.php', {
       params: {
         page
       }
@@ -23,10 +23,10 @@ export class AutherService {
   }
 
   addAuther(data: FormData): Observable<any> {
-    return this.http.post(environment.server + '/auther/addAuther', data);
+    return this.http.post(environment.server + '/auther/addauther.php', data);
   }
 
   updateAuther(data: FormData): Observable<any> {
-    return this.http.put(environment.server + '/auther/updateauther', data);
+    return this.http.post(environment.server + '/auther/updateauther.php', data);
   }
 }
