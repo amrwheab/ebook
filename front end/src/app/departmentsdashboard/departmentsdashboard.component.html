@@ -1,3 +1,4 @@
+
 <h2>Departments</h2>
 
 <div style="text-align: center;height: 300px;line-height: 300px;" *ngIf="!departload">
@@ -12,6 +13,9 @@
         <ul nz-list-item-actions>
           <nz-list-item-action>
             <a (click)="openUpdateDialog(depart.name, depart.id)">Update</a>
+          </nz-list-item-action>
+          <nz-list-item-action>
+            <a style="color: rgb(252, 49, 49);" (click)="showDeleteConfirm(depart.id)">Delete</a>
           </nz-list-item-action>
         </ul>
         {{ depart.name }}

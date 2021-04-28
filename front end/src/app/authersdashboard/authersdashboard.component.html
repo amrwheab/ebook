@@ -1,7 +1,11 @@
 <div class="authers-dashboard">
-  <div nz-row>
-    <h2 nz-col nzSpan="12">Authors</h2>
-    <div nz-col nzSpan="12" style="text-align: right;">
+  <div nz-row style="margin-bottom: 10px;">
+    <h2 nz-col nzMd="8" nzXs="24">Authors</h2>
+    <form nz-col nzMd="8" nzXs="24" style="display: flex;">
+      <input nz-input placeholder="Search" class="search-input" #search (input)="searchInput(search.value)" />
+      <button nz-button nzType="primary" (click)="ngOnInit()">Search</button>
+    </form>
+    <div nz-col nzMd="8" nzXs="24" style="text-align: right;">
       <button nz-button nzType="primary" (click)="addModal=true">Add author</button>
     </div>
   </div>
@@ -53,6 +57,9 @@
           Edit
         </button>
       </ng-template>
+      <button class="delete-btn" (click)="showDeleteConfirm(auther.id)">
+        Delete
+      </button>
     </div>
   </div>
 

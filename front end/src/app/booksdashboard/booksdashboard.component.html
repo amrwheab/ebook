@@ -1,3 +1,8 @@
+<form>
+  <input nz-input placeholder="Search" class="search-input" #search (input)="onInputSearch(search.value)" />
+  <button nz-button nzType="primary" class="search-btn" (click)="searchCommand()">Search</button>
+</form>
+<div style="clear: both;"></div>
 <div *ngIf="!booksLoad" style="height: 300px;line-height: 300px;text-align: center;">
   <nz-spin nzSimple [nzSize]="'large'"></nz-spin>
 </div>

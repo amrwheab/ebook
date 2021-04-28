@@ -11,13 +11,13 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 })
 export class MycarouselComponent implements OnInit, OnDestroy {
 
-  pageSize: number;
-  carPosition: number;
+  pageSize: number | undefined;
+  carPosition: number | undefined;
   carTran = '.5s ease-out;';
-  mobileScreen: boolean;
-  sliderIterv: number;
+  mobileScreen: boolean | undefined;
+  sliderIterv: number | undefined;
   carouselLoad = false;
-  carouselObs: Subscription;
+  carouselObs: Subscription | undefined;
 
   gallery: Carousel[] = [];
 
@@ -40,7 +40,7 @@ export class MycarouselComponent implements OnInit, OnDestroy {
     this.pageSize = window.innerWidth;
     this.carPosition = - this.pageSize;
 
-    this.sliderIterv = window.setInterval(() => this.carRight(this.pageSize), 10000);
+    this.sliderIterv = window.setInterval(() => this.carRight(this.pageSize!), 10000);
   }
 
   ngOnDestroy(): void {
@@ -62,16 +62,16 @@ export class MycarouselComponent implements OnInit, OnDestroy {
         this.carPosition = -w;
         this.carTran = 'none';
         setTimeout(() => {
-          this.carPosition -= w;
+          this.carPosition! -= w;
           this.carTran = '.5s ease-out;';
         }, 0);
       } else {
-        this.carPosition -= w;
+        this.carPosition! -= w;
         this.carTran = '.5s ease-out;';
       }
     }
 
-    this.sliderIterv = window.setInterval(() => this.carRight(this.pageSize), 10000);
+    this.sliderIterv = window.setInterval(() => this.carRight(this.pageSize!), 10000);
   }
 
   carLeft(w: number): void {
@@ -83,16 +83,16 @@ export class MycarouselComponent implements OnInit, OnDestroy {
       this.carTran = 'none';
       this.carPosition = -(this.gallery.length) * w;
       setTimeout(() => {
-        this.carPosition += w;
+        this.carPosition! += w;
         this.carTran = '.5s ease-out;';
       }, 0);
     }else if (this.carPosition === -w) {
       this.carPosition = 0;
     }else {
-      this.carPosition += w;
+      this.carPosition! += w;
     }
 
-    this.sliderIterv = window.setInterval(() => this.carRight(this.pageSize), 10000);
+    this.sliderIterv = window.setInterval(() => this.carRight(this.pageSize!), 10000);
   }
 
   bulletClick(i: number): void {
@@ -103,8 +103,8 @@ export class MycarouselComponent implements OnInit, OnDestroy {
 
     }
 
-    this.carPosition = -this.pageSize * (i + 1);
-    this.sliderIterv = window.setInterval(() => this.carRight(this.pageSize), 10000);
+    this.carPosition = -this.pageSize! * (i + 1);
+    this.sliderIterv = window.setInterval(() => this.carRight(this.pageSize!), 10000);
   }
 
 

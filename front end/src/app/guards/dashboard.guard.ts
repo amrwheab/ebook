@@ -14,8 +14,8 @@ export class DashboardGuard implements CanActivate {
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Promise<boolean> {
 
-    const user: User = await this.authSer.getUserFromToken(localStorage.getItem('token')).toPromise();
-    return user.isAdmin;
+    const user: User = await this.authSer.getUserFromToken(localStorage.getItem('token')!).toPromise();
+    return user.isAdmin!;
   }
 
 }

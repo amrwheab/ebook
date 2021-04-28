@@ -1,6 +1,6 @@
 export class Auther {
-  id: string;
-  name: string;
-  imgUrl: string;
-  info: string;
+  id: string | undefined;
+  name: string | undefined;
+  imgUrl: string | undefined;
+  info: string | undefined;
 }

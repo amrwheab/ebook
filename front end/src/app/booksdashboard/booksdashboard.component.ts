@@ -1,3 +1,4 @@
+import { Router, ActivatedRoute } from '@angular/router';
 import { Book } from './../shard/book';
 import { BooksService } from './../services/books.service';
 import { Component, OnDestroy, OnInit } from '@angular/core';
@@ -18,9 +19,10 @@ export class BooksdashboardComponent implements OnInit, OnDestroy {
   loadUpdateButton = false;
   editShow = false;
   booksLoad = false;
-  booksObs: Subscription;
+  booksObs: Subscription | undefined;
   mobScreen = false;
   page = 1;
+  search = '';
 
   listOfSelection = [
     {
@@ -32,14 +34,14 @@ export class BooksdashboardComponent implements OnInit, OnDestroy {
     {
       text: 'Select Odd Row',
       onSelect: () => {
-        this.listOfCurrentPageData.forEach((data, index) => this.updateCheckedSet(data.id, index % 2 !== 0));
+        this.listOfCurrentPageData.forEach((data: any, index) => this.updateCheckedSet(data.id, index % 2 !== 0));
         this.refreshCheckedStatus();
       }
     },
     {
       text: 'Select Even Row',
       onSelect: () => {
-        this.listOfCurrentPageData.forEach((data, index) => this.updateCheckedSet(data.id, index % 2 === 0));
+        this.listOfCurrentPageData.forEach((data: any, index) => this.updateCheckedSet(data.id, index % 2 === 0));
         this.refreshCheckedStatus();
       }
     }
@@ -49,8 +51,8 @@ export class BooksdashboardComponent implements OnInit, OnDestroy {
   listOfCurrentPageData = [];
   listOfData: Book[] = [];
   setOfCheckedId = new Set<string>();
-  sortBuysTime = (a, b) => a.buysNum - b.buysNum;
-  sortPrice = (a, b) => a.price - b.price;
+  sortBuysTime = (a: { buysNum: number; }, b: { buysNum: number; }) => a.buysNum - b.buysNum;
+  sortPrice = (a: { price: number; }, b: { price: number; }) => a.price - b.price;
 
   updateCheckedSet(id: string, checked: boolean): void {
     if (checked) {
@@ -66,7 +68,7 @@ export class BooksdashboardComponent implements OnInit, OnDestroy {
   }
 
   onAllChecked(value: boolean): void {
-    this.listOfCurrentPageData.forEach(item => this.updateCheckedSet(item.id, value));
+    this.listOfCurrentPageData.forEach((item: any) => this.updateCheckedSet(item.id, value));
     this.refreshCheckedStatus();
   }
 
@@ -76,14 +78,12 @@ export class BooksdashboardComponent implements OnInit, OnDestroy {
   }
 
   onQueryParamsChange(param: any): void {
-    // filter: []
-    // pageIndex: 3
-    // pageSize: 10
-    // sort: (2) [{…}, {…}]
     const last = this.listOfData.length - (param.pageIndex * param.pageSize);
     if (last < param.pageSize) {
       this.page += 1;
-      this.booksObs = this.bookSer.getBooks(this.page).subscribe(books => {
+      const search = this.actRoute.snapshot.queryParams.search || '';
+      // tslint:disable-next-line: deprecation
+      this.booksObs = this.bookSer.getBooks(this.page, search).subscribe(books => {
         this.booksLoad = true;
         this.listOfData = [...this.listOfData, ...books];
       }, err => {
@@ -94,8 +94,8 @@ export class BooksdashboardComponent implements OnInit, OnDestroy {
   }
 
   refreshCheckedStatus(): void {
-    this.checked = this.listOfCurrentPageData.every(item => this.setOfCheckedId.has(item.id));
-    this.indeterminate = this.listOfCurrentPageData.some(item => this.setOfCheckedId.has(item.id)) && !this.checked;
+    this.checked = this.listOfCurrentPageData.every((item: any) => this.setOfCheckedId.has(item.id));
+    this.indeterminate = this.listOfCurrentPageData.some((item: any) => this.setOfCheckedId.has(item.id)) && !this.checked;
   }
 
   createNotification(type: string, title: string, body: string): void {
@@ -109,15 +109,20 @@ export class BooksdashboardComponent implements OnInit, OnDestroy {
   constructor(private bookSer: BooksService,
               private notification: NzNotificationService,
               private modal: NzModalService,
-              private message: NzMessageService) { }
+              private message: NzMessageService,
+              private router: Router,
+              private actRoute: ActivatedRoute) { }
 
   ngOnInit(): void {
-    this.booksObs = this.bookSer.getBooks(1).subscribe(books => {
+    const search = this.actRoute.snapshot.queryParams.search || '';
+    // tslint:disable-next-line: deprecation
+    this.booksObs = this.bookSer.getBooks(1, search).subscribe(books => {
       this.booksLoad = true;
       this.listOfData = books;
     }, err => {
       this.booksLoad = false;
       this.message.error(err);
+      console.log(err);
     });
 
     if (window.innerWidth <= 566) {
@@ -142,6 +147,23 @@ export class BooksdashboardComponent implements OnInit, OnDestroy {
     if (this.booksObs) {
       this.booksObs.unsubscribe();
     }
+  }
+
+  onInputSearch(inputtext: string): void {
+    this.router.navigate([], {queryParams: {search: inputtext}});
+  }
+
+  searchCommand(): void {
+    const search = this.actRoute.snapshot.queryParams.search;
+    // tslint:disable-next-line: deprecation
+    this.booksObs = this.bookSer.getBooks(1, search).subscribe(books => {
+      this.booksLoad = true;
+      this.listOfData = books;
+    }, err => {
+      this.booksLoad = false;
+      this.message.error(err);
+      console.log(err);
+    });
   }
 
   addingBook(book: Book): void {
@@ -169,6 +191,7 @@ export class BooksdashboardComponent implements OnInit, OnDestroy {
     if (this.setOfCheckedId.size > 0) {
       this.loadDeleteButton = true;
       const data = Array.from(this.setOfCheckedId);
+      // tslint:disable-next-line: deprecation
       this.bookSer.deleteBooks(data).subscribe((ele: string) => {
         // tslint:disable-next-line: prefer-for-of
         for (let i = 0; i < data.length; i++) {

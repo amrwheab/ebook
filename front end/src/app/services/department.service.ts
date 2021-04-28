@@ -21,4 +21,8 @@ export class DepartmentService {
   addDepart(departName: string): Observable<any> {
     return this.http.post(environment.server + '/departs/newdepart.php', {departName});
   }
+
+  deleteDepart(id: string): Observable<any> {
+    return this.http.delete(environment.server + '/departs/deletedepart.php', {params: {id}});
+  }
 }

@@ -16,7 +16,7 @@ export class JwtInterceptor implements HttpInterceptor {
   constructor(private router: Router) {}
 
   getToken(): string {
-    return localStorage.getItem('token');
+    return localStorage.getItem('token')!;
   }
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
     request = request.clone({

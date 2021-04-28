@@ -12,7 +12,7 @@ export class AuthGuard implements CanActivate {
   canActivate(
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): boolean {
-    return !this.jwt.decodeToken(localStorage.getItem('token'));
+    return !this.jwt.decodeToken(localStorage.getItem('token')!);
   }
 
 }

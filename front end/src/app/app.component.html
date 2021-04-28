@@ -13,7 +13,7 @@
             <a routerLink="/dashboard/books">Books</a>
           </li>
           <li nz-menu-item nzMatchRouter>
-            <a routerLink="/dashboard/departments" [queryParams]="{page: 1}">Departments</a>
+            <a routerLink="/dashboard/departments">Departments</a>
           </li>
           <li nz-menu-item nzMatchRouter>
             <a routerLink="/dashboard/authers" [queryParams]="{page: 1}">Authors</a>
@@ -28,12 +28,18 @@
           <li nz-menu-item nzMatchRouter *ngFor="let depart of departs">
             <a>{{depart.name}}</a>
           </li>
+          <li nz-menu-item nzMatchRouter>
+            <a style="color: white;font-weight:bold">See All....</a>
+          </li>
         </ul>
       </li>
       <li nz-submenu [nzOpen]="false" nzTitle="Authors" nzIcon="user">
         <ul>
           <li nz-menu-item nzMatchRouter *ngFor="let author of authors">
             <a>{{author.name}}</a>
+          </li>
+          <li nz-menu-item nzMatchRouter>
+            <a style="color: white;font-weight:bold">See All....</a>
           </li>
         </ul>
       </li>

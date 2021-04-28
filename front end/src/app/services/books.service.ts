@@ -14,10 +14,11 @@ export class BooksService {
     return this.http.post(environment.server + '/book/addbook.php', data);
   }
 
-  getBooks(page: number): Observable<any> {
+  getBooks(page: number, search: string): Observable<any> {
     return this.http.get(environment.server + '/book/getallbooks.php', {
       params: {
-        page : page.toString()
+        page : page.toString(),
+        search
       }
     });
   }

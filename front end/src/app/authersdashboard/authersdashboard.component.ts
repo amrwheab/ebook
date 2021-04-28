@@ -1,3 +1,4 @@
+import { NzModalService } from 'ng-zorro-antd/modal';
 import { AutherService } from './../services/auther.service';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Auther } from '../shard/auther';
@@ -14,11 +15,11 @@ import { ActivatedRoute, Router } from '@angular/router';
 export class AuthersdashboardComponent implements OnInit, OnDestroy {
 
   authers: Auther[] = [];
-  authersObs: Subscription;
+  authersObs: Subscription | undefined;
   autherload = false;
   updateModal = false;
   addModal = false;
-  autherImg: File = null;
+  autherImg: File | null = null;
   uploadButtonText = 'Click to Upload';
   updateModalId = '';
   updateModalName = '';
@@ -29,21 +30,23 @@ export class AuthersdashboardComponent implements OnInit, OnDestroy {
   constructor(private autherSer: AutherService,
               private message: NzMessageService,
               private actRoute: ActivatedRoute,
-              public router: Router) { }
+              public router: Router,
+              private modal: NzModalService) { }
 
   ngOnInit(): void {
-    this.authersObs = this.actRoute.queryParams.subscribe(param => {
-      this.autherSer.getAuthers(param.page).subscribe((data) => {
-        this.page = param.page;
+    const page = this.actRoute.snapshot.queryParams.page || '1';
+      const search = this.actRoute.snapshot.queryParams.search || '';
+      this.authersObs = this.autherSer.getAuthers(page, search).subscribe((data) => {
+        this.page = page;
         this.autherload = true;
         this.authers = data.authers;
-        this.totalAuthors = Math.floor(data.authersCount * 10 / 8);
+        this.totalAuthors = Math.floor(parseInt(data.authersCount) * 10 / 8);
       }, err => {
+        console.log(err);
         this.autherload = true;
         this.message.error(err.error);
       });
-    });
-  }
+    }
 
   changeIndex(page: number): void {
     this.router.navigate(['/dashboard/authers'], {
@@ -59,14 +62,22 @@ export class AuthersdashboardComponent implements OnInit, OnDestroy {
     }
   }
 
+  searchInput(inputtext: string): void {
+    const page = this.actRoute.snapshot.queryParams.page;
+    this.router.navigate([], {queryParams: {
+      search: inputtext,
+      page
+    }});
+  }
+
   toTitleCase(str: string): string {
     return str.replace(/\w\S*/g, (txt): string => txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase());
   }
 
   arrangeUpdate(id: string): void {
     this.updateModalId = id;
-    this.updateModalName = this.authers.find(ele => ele.id === id).name;
-    this.updateModalInfo = this.authers.find(ele => ele.id === id).info;
+    this.updateModalName = this.authers.find(ele => ele?.id === id)?.name!;
+    this.updateModalInfo = this.authers.find(ele => ele?.id === id)?.info!;
     this.updateModal = true;
   }
 
@@ -83,7 +94,7 @@ export class AuthersdashboardComponent implements OnInit, OnDestroy {
         const formData = new FormData();
         formData.append('name', form.value.name);
         formData.append('info', form.value.info);
-        formData.append('autherImg', this.autherImg);
+        formData.append('autherImg', this.autherImg!);
 
         const id = this.message.loading('Action in progress..', { nzDuration: 0 }).messageId;
         this.autherSer.addAuther(formData).subscribe(auther => {
@@ -100,11 +111,11 @@ export class AuthersdashboardComponent implements OnInit, OnDestroy {
         const formData = new FormData();
         formData.append('name', form.value.name);
         formData.append('info', form.value.info);
-        formData.append('autherImg', this.autherImg);
+        formData.append('autherImg', this.autherImg!);
         formData.append('id', this.updateModalId);
 
         const id = this.message.loading('Action in progress..', { nzDuration: 0 }).messageId;
-        this.autherSer.updateAuther(formData).subscribe((imgPath) => {
+        this.autherSer.updateAuther(formData).subscribe((res) => {
           this.message.remove(id);
           this.message.success('Updated successfully');
           const autherModIndex = this.authers.findIndex(ele => ele.id === this.updateModalId);
@@ -114,8 +125,8 @@ export class AuthersdashboardComponent implements OnInit, OnDestroy {
           } else {
             this.authers[autherModIndex].info = 'There is no information about this auther';
           }
-          if (imgPath !== 'updated successfully') {
-            this.authers[autherModIndex].imgUrl = imgPath;
+          if (res.imgPath) {
+            this.authers[autherModIndex].imgUrl = res.imgPath;
           }
           form.reset();
           this.updateModal = false;
@@ -127,4 +138,28 @@ export class AuthersdashboardComponent implements OnInit, OnDestroy {
     }
   }
 
+  showDeleteConfirm(id: string): void {
+    this.modal.confirm({
+      nzTitle: 'Are you sure delete this author?',
+      nzContent: '<b style="color: red;">If he/she has books it won\'t be deleted</b>',
+      nzOkText: 'Yes',
+      nzOkType: 'primary',
+      nzOkDanger: true,
+      nzOnOk: () => this.deleteAuther(id),
+      nzCancelText: 'No',
+      nzOnCancel: () => console.log('Cancel')
+    });
+  }
+
+  deleteAuther(id: string): void {
+    const loading = this.message.loading('Action in progress..', { nzDuration: 0 }).messageId;
+    this.autherSer.deleteAuther(id).subscribe(res => {
+      this.message.remove(loading);
+      this.authers = this.authers.filter(ele => ele.id !== id);
+      this.message.success(res.message);
+    }, () => {
+      this.message.remove(loading);
+      this.message.error('This Author has books');
+    })
+  }
 }

@@ -14,10 +14,11 @@ export class AutherService {
     return this.http.get(environment.server + '/auther/getauthersnames.php');
   }
 
-  getAuthers(page: string): Observable<any> {
+  getAuthers(page: string, search: string): Observable<any> {
     return this.http.get(environment.server + '/auther/getauthers.php', {
       params: {
-        page
+        page,
+        search
       }
     });
   }
@@ -28,5 +29,9 @@ export class AutherService {
 
   updateAuther(data: FormData): Observable<any> {
     return this.http.post(environment.server + '/auther/updateauther.php', data);
+  }
+
+  deleteAuther(id: string): Observable<any> {
+    return this.http.delete(environment.server + '/auther/deleteauther.php', {params: {id}});
   }
 }

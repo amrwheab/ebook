@@ -1,12 +1,12 @@
 import { Book } from './book';
 
 export class User {
-  id: string;
-  name: string;
-  email: string;
-  address: string;
-  buyedBooks: Book[];
-  isAdmin: boolean;
-  cart: Book[];
-  slug: string;
+  id: string | undefined;
+  name: string | undefined;
+  email: string | undefined;
+  address: string | undefined;
+  buyedBooks: Book[] | undefined;
+  isAdmin: boolean | undefined;
+  cart: Book[] | undefined;
+  slug: string | undefined;
 }

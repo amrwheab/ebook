@@ -23,11 +23,11 @@ export class ModifybookComponent implements OnInit, OnDestroy {
   departments: Department[] = [];
   authers: Auther[] = [];
   elemsOfBook = { id: '', name: '', department: {id: '', name: ''}, info: '', price: '', isFeatured: false, auther: {id: '', name: ''} };
-  imgFile: File = null;
-  miniPdf: File = null;
-  fullPdf: File = null;
-  departObs: Subscription;
-  autherObs: Subscription;
+  imgFile: File | null = null;
+  miniPdf: File | null = null;
+  fullPdf: File | null = null;
+  departObs: Subscription | undefined;
+  autherObs: Subscription | undefined;
 
   constructor(private departSer: DepartmentService,
               private bookSer: BooksService,
@@ -36,17 +36,19 @@ export class ModifybookComponent implements OnInit, OnDestroy {
               private autherSer: AutherService) { }
 
   ngOnInit(): void {
+    // tslint:disable-next-line: deprecation
     this.departObs = this.departSer.getDeparts().subscribe((departs: Department[]) => {
       this.departments = departs;
     });
 
+    // tslint:disable-next-line: deprecation
     this.autherObs = this.autherSer.getAuthersNames().subscribe((authers) => {
       this.authers = authers;
     });
 
     if (this.bookToEdit) {
       const id = Array.from(this.bookToEdit.id)[0];
-      this.elemsOfBook = this.bookToEdit.books.find(ele => ele.id === id);
+      this.elemsOfBook = this.bookToEdit.books.find((ele: any) => ele.id === id);
     }
 
   }
@@ -69,7 +71,7 @@ export class ModifybookComponent implements OnInit, OnDestroy {
   }
 
   handleImg(files: FileList): void {
-    if (files.item(0).type.slice(0, 5) !== 'image') {
+    if (files.item(0)?.type.slice(0, 5) !== 'image') {
       this.createNotification('error', 'Its not image');
     } else {
       this.imgFile = files.item(0);
@@ -77,7 +79,7 @@ export class ModifybookComponent implements OnInit, OnDestroy {
   }
 
   handleMiniPdf(files: FileList): void {
-    if (files.item(0).type !== 'application/pdf') {
+    if (files.item(0)?.type !== 'application/pdf') {
       this.createNotification('error', 'Its not pdf file');
     } else {
       this.miniPdf = files.item(0);
@@ -85,7 +87,7 @@ export class ModifybookComponent implements OnInit, OnDestroy {
   }
 
   handleFullPdf(files: FileList): void {
-    if (files.item(0).type !== 'application/pdf') {
+    if (files.item(0)?.type !== 'application/pdf') {
       this.createNotification('error', 'Its not pdf file');
     } else {
       this.fullPdf = files.item(0);
@@ -99,9 +101,9 @@ export class ModifybookComponent implements OnInit, OnDestroy {
     const formContent = ['name', 'info', 'price', 'isFeatured', 'auther'];
     const formData = new FormData();
     if (!this.elemsOfBook.id) {
-      formData.append('imgUrl', this.imgFile, this.imgFile.name);
-      formData.append('miniPath', this.miniPdf, this.miniPdf.name);
-      formData.append('fullPath', this.fullPdf, this.fullPdf.name);
+      formData.append('imgUrl', this.imgFile!, this.imgFile?.name);
+      formData.append('miniPath', this.miniPdf!, this.miniPdf?.name);
+      formData.append('fullPath', this.fullPdf!, this.fullPdf?.name);
       formData.append('department', form.value.depart);
 
       // tslint:disable-next-line: prefer-for-of
@@ -111,11 +113,12 @@ export class ModifybookComponent implements OnInit, OnDestroy {
 
       const id = this.message.loading('Action in progress..', { nzDuration: 0 }).messageId;
 
+      // tslint:disable-next-line: deprecation
       this.bookSer.addBook(formData).subscribe((book) => {
         const depart = this.departments.find(ele => ele.id === book.department);
-        book.department = {id: depart.id, name: depart.name};
+        book.department = {id: depart?.id, name: depart?.name};
         const auther = this.authers.find(ele => ele.id === book.auther);
-        book.auther = {id: auther.id, name: auther.name};
+        book.auther = {id: auther?.id, name: auther?.name};
         this.bookAdded.emit(book);
         this.message.remove(id);
         this.message.success('added successfully');
@@ -147,11 +150,12 @@ export class ModifybookComponent implements OnInit, OnDestroy {
 
       const id = this.message.loading('Action in progress..', { nzDuration: 0 }).messageId;
 
+      // tslint:disable-next-line: deprecation
       this.bookSer.updateBooks(formData).subscribe((book) => {
         const depart = this.departments.find(ele => ele.id === book.department);
-        book.department = {id: depart.id, name: depart.name};
+        book.department = {id: depart?.id, name: depart?.name};
         const auther = this.authers.find(ele => ele.id === book.auther);
-        book.auther = {id: auther.id, name: auther.name};
+        book.auther = {id: auther?.id, name: auther?.name};
         this.updatingBook.emit(book);
         this.message.remove(id);
         this.message.success('updated successfully');

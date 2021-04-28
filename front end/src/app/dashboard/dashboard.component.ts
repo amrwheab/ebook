@@ -8,7 +8,7 @@ import { NavigationEnd, Router } from '@angular/router';
 })
 export class DashboardComponent implements OnInit {
 
-  url: string;
+  url: string | undefined;
 
   constructor(private router: Router) { }
 

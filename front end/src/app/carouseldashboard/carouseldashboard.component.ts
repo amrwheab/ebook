@@ -12,16 +12,16 @@ import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
 })
 export class CarouseldashboardComponent implements OnInit, OnDestroy {
 
-  carouselObs: Subscription;
+  carouselObs: Subscription | undefined;
   carousel: Carousel[] = [];
   loadedCar = false;
   modifyVisable = false;
   updateMode = false;
   updateModeHelper = false;
-  selectedCarouselValue: string;
+  selectedCarouselValue: string | undefined;
   imageUpload = null;
   deleteVisable = false;
-  selectedDeletingCarousel: string;
+  selectedDeletingCarousel: string | undefined;
   carouselForm = new FormGroup({
     title: new FormControl(null, [Validators.required]),
     content: new FormControl(null, [Validators.required]),
@@ -49,8 +49,8 @@ export class CarouseldashboardComponent implements OnInit, OnDestroy {
 
   generatingValues(): void {
     this.carouselForm.patchValue({
-      title: this.carousel.find(ele => ele.id === this.selectedCarouselValue).title,
-      content: this.carousel.find(ele => ele.id === this.selectedCarouselValue).content
+      title: this.carousel.find(ele => ele.id === this.selectedCarouselValue)?.title,
+      content: this.carousel.find(ele => ele.id === this.selectedCarouselValue)?.content
     });
 
     this.updateModeHelper = true;
@@ -66,7 +66,7 @@ export class CarouseldashboardComponent implements OnInit, OnDestroy {
 
   deleteCarousel(): void {
     const id  = this.message.loading('Action in progress').messageId;
-    this.carouselSer.deleteCarousel(this.selectedDeletingCarousel).subscribe(() => {
+    this.carouselSer.deleteCarousel(this.selectedDeletingCarousel!).subscribe(() => {
       this.message.remove(id);
       this.message.success('deleted successfully');
       this.carousel = this.carousel.filter(ele => ele.id !== this.selectedDeletingCarousel);
@@ -81,7 +81,7 @@ export class CarouseldashboardComponent implements OnInit, OnDestroy {
     if (this.updateMode) {
       const formData = new FormData();
 
-      formData.append('id', this.selectedCarouselValue);
+      formData.append('id', this.selectedCarouselValue!);
       formData.append('title', this.carouselForm.value.title);
       formData.append('content', this.carouselForm.value.content);
       if (this.carouselForm.value.carouselImg) {
@@ -92,7 +92,7 @@ export class CarouseldashboardComponent implements OnInit, OnDestroy {
       this.carouselSer.updateCarousel(formData).subscribe(() => {
         this.message.remove(id);
         this.message.success('Updated successfully');
-        const selectedCar = this.carousel.find(ele => ele.id === this.selectedCarouselValue);
+        const selectedCar = this.carousel.find(ele => ele.id === this.selectedCarouselValue)!;
         selectedCar.title = this.carouselForm.value.title;
         selectedCar.content = this.carouselForm.value.content;
         this.modifyVisable = false;

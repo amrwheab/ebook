@@ -13,7 +13,7 @@ import { Auther } from './shard/auther';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
-  breadItems = [];
+  breadItems: string[] = [];
   user: User = {
     id: '',
     name: '',
@@ -50,7 +50,7 @@ export class AppComponent implements OnInit {
     });
 
     // tslint:disable-next-line: deprecation
-    this.authSer.getUserFromToken(localStorage.getItem('token')).subscribe((user: User) => {
+    this.authSer.getUserFromToken(localStorage.getItem('token')!).subscribe((user: User) => {
       this.user = user;
     });
 

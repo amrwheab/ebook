@@ -1,4 +1,5 @@
 import { Department } from './../shard/depart';
+import { NzModalService } from 'ng-zorro-antd/modal';
 import { DepartmentService } from './../services/department.service';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
@@ -11,7 +12,6 @@ import { NzMessageService } from 'ng-zorro-antd/message';
 })
 export class DepartmentsdashboardComponent implements OnInit, OnDestroy {
 
-  departsObs: Subscription;
   departments: Department[] = [];
   departload = false;
   updateDialog = false;
@@ -19,10 +19,14 @@ export class DepartmentsdashboardComponent implements OnInit, OnDestroy {
   departIdToUpdate = '';
   addDialog = false;
   departNameToAdd = '';
+  departsObs: Subscription | undefined;
 
-  constructor(private departSer: DepartmentService, private message: NzMessageService) { }
+  constructor(private departSer: DepartmentService,
+              private message: NzMessageService,
+              private modal: NzModalService) { }
 
   ngOnInit(): void {
+    // tslint:disable-next-line: deprecation
     this.departsObs = this.departSer.getDeparts().subscribe((departs: Department[]) => {
       this.departload = true;
       this.departments = departs;
@@ -54,8 +58,10 @@ export class DepartmentsdashboardComponent implements OnInit, OnDestroy {
     };
     this.updateDialog = false;
     const id = this.message.loading('Action in progress..', { nzDuration: 0 }).messageId;
+    // tslint:disable-next-line: deprecation
     this.departSer.updateDepart(data).subscribe(() => {
-      this.departments.find(ele => ele.id === data.id).name = data.name;
+      // tslint:disable-next-line: no-non-null-assertion
+      this.departments.find(ele => ele.id === data.id)!.name = data.name;
       this.message.remove(id);
       this.message.success('updated successfully');
     }, (err) => {
@@ -68,6 +74,7 @@ export class DepartmentsdashboardComponent implements OnInit, OnDestroy {
   addDepartment(): void {
     this.addDialog = false;
     const id = this.message.loading('Action in progress..', { nzDuration: 0 }).messageId;
+    // tslint:disable-next-line: deprecation
     this.departSer.addDepart(this.departNameToAdd).subscribe((depart: Department) => {
       this.departments.push(depart);
       this.message.remove(id);
@@ -75,6 +82,32 @@ export class DepartmentsdashboardComponent implements OnInit, OnDestroy {
     }, () => {
       this.message.remove(id);
       this.message.error('some thing went wrong');
+    });
+  }
+
+  showDeleteConfirm(id: string): void {
+    this.modal.confirm({
+      nzTitle: 'Are you sure delete this department?',
+      nzContent: '<b style="color: red;">If it has books it won\'t be deleted</b>',
+      nzOkText: 'Yes',
+      nzOkType: 'primary',
+      nzOkDanger: true,
+      nzOnOk: () => this.deleteDepart(id),
+      nzCancelText: 'No',
+      nzOnCancel: () => console.log('Cancel')
+    });
+  }
+
+  deleteDepart(id: string): void {
+    const loading = this.message.loading('Action in progress..', { nzDuration: 0 }).messageId;
+    // tslint:disable-next-line: deprecation
+    this.departSer.deleteDepart(id).subscribe(res => {
+      this.message.remove(loading);
+      this.departments = this.departments.filter(ele => ele.id !== id);
+      this.message.success(res.message);
+    }, () => {
+      this.message.remove(loading);
+      this.message.error('This Department has books');
     });
   }
 }

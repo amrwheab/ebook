@@ -16,12 +16,12 @@ export class HomeComponent implements OnInit, OnDestroy {
   featslide = 0;
   featSlideWidth = 0;
   featured: Book[] = [];
-  featutedObs: Subscription;
+  featutedObs: Subscription | undefined;
   departments: Department[] = [];
-  departmentsObs: Subscription;
+  departmentsObs: Subscription | undefined;
   departedBooks: Book[][] = [];
-  departsSlide = [];
-  departsSlideWidth = [];
+  departsSlide: number[] = [];
+  departsSlideWidth: number[] = [];
   constructor(private bookSer: BooksService,
               private departSer: DepartmentService) { }
 
@@ -42,7 +42,7 @@ export class HomeComponent implements OnInit, OnDestroy {
       // tslint:disable-next-line: prefer-for-of
       for (let i = 0; i < this.departments.length; i++) {
         // tslint:disable-next-line: deprecation
-        this.bookSer.getDepartedBooks(this.departments[i].id).subscribe((books: Book[]) => {
+        this.bookSer.getDepartedBooks(this.departments[i].id!).subscribe((books: Book[]) => {
           this.departedBooks[i] = books;
           this.departsSlide[i] = 0;
           this.departsSlideWidth[i] = (197 * this.departedBooks[i].length) - ((187 * this.slidesToShow) + (10 * (this.slidesToShow - 1)));

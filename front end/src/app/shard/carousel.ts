@@ -1,6 +1,6 @@
 export class Carousel {
-  id: string;
-  title: string;
-  content: string;
-  img: string;
+  id: string | undefined;
+  title: string | undefined;
+  content: string | undefined;
+  img: string | undefined;
 }
