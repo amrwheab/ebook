@@ -1,0 +1,11 @@
+<ul nz-list [nzDataSource]="departments" nzBordered nzSize="large" *ngIf="departload">
+  <nz-list-header style="font-weight: 600;">Department Name</nz-list-header>
+  <li nz-list-item *ngFor="let depart of departments" nzNoFlex>
+    <ul nz-list-item-actions>
+      <nz-list-item-action>
+        <a [routerLink]="['/departments', depart.name]">Visit</a>
+      </nz-list-item-action>
+    </ul>
+    {{ depart.name }}
+  </li>
+</ul>

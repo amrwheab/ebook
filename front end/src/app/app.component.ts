@@ -27,7 +27,7 @@ export class AppComponent implements OnInit {
   departs: Department[] = [];
   authors: Auther[] = [];
 
-  constructor(private router: Router,
+  constructor(public router: Router,
               private authSer: AuthService,
               private departSer: DepartmentService,
               private authorSer: AutherService) {}
@@ -49,17 +49,21 @@ export class AppComponent implements OnInit {
       }
     });
 
+    // tslint:disable-next-line: no-non-null-assertion
+    const token = localStorage.getItem('token')!;
     // tslint:disable-next-line: deprecation
-    this.authSer.getUserFromToken(localStorage.getItem('token')!).subscribe((user: User) => {
+    this.authSer.getUserFromToken(token).subscribe((user: User) => {
       this.user = user;
     });
 
+    // tslint:disable-next-line: deprecation
     this.departSer.getDeparts().subscribe(departs => {
-      this.departs = departs;
+      this.departs = departs.slice(-3);
     });
 
+    // tslint:disable-next-line: deprecation
     this.authorSer.getAuthersNames().subscribe(authors => {
-      this.authors = authors;
+      this.authors = authors.slice(-3);
     });
   }
 

@@ -35,11 +35,13 @@ export class AuthersdashboardComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     const page = this.actRoute.snapshot.queryParams.page || '1';
-      const search = this.actRoute.snapshot.queryParams.search || '';
-      this.authersObs = this.autherSer.getAuthers(page, search).subscribe((data) => {
+    const search = this.actRoute.snapshot.queryParams.search || '';
+    // tslint:disable-next-line: deprecation
+    this.authersObs = this.autherSer.getAuthers(page, search).subscribe((data) => {
         this.page = page;
         this.autherload = true;
         this.authers = data.authers;
+        // tslint:disable-next-line: radix
         this.totalAuthors = Math.floor(parseInt(data.authersCount) * 10 / 8);
       }, err => {
         console.log(err);
@@ -49,11 +51,13 @@ export class AuthersdashboardComponent implements OnInit, OnDestroy {
     }
 
   changeIndex(page: number): void {
+    const search = this.actRoute.snapshot.queryParams.search || '';
     this.router.navigate(['/dashboard/authers'], {
       queryParams: {
-        page
+        page,
+        search
       }
-    });
+    }).then(() => { this.ngOnInit(); });
   }
 
   ngOnDestroy(): void {
@@ -76,7 +80,9 @@ export class AuthersdashboardComponent implements OnInit, OnDestroy {
 
   arrangeUpdate(id: string): void {
     this.updateModalId = id;
+    // tslint:disable-next-line: no-non-null-assertion
     this.updateModalName = this.authers.find(ele => ele?.id === id)?.name!;
+    // tslint:disable-next-line: no-non-null-assertion
     this.updateModalInfo = this.authers.find(ele => ele?.id === id)?.info!;
     this.updateModal = true;
   }
@@ -94,9 +100,11 @@ export class AuthersdashboardComponent implements OnInit, OnDestroy {
         const formData = new FormData();
         formData.append('name', form.value.name);
         formData.append('info', form.value.info);
+        // tslint:disable-next-line: no-non-null-assertion
         formData.append('autherImg', this.autherImg!);
 
         const id = this.message.loading('Action in progress..', { nzDuration: 0 }).messageId;
+        // tslint:disable-next-line: deprecation
         this.autherSer.addAuther(formData).subscribe(auther => {
           this.message.remove(id);
           this.message.success('Added successfully');
@@ -111,10 +119,12 @@ export class AuthersdashboardComponent implements OnInit, OnDestroy {
         const formData = new FormData();
         formData.append('name', form.value.name);
         formData.append('info', form.value.info);
+        // tslint:disable-next-line: no-non-null-assertion
         formData.append('autherImg', this.autherImg!);
         formData.append('id', this.updateModalId);
 
         const id = this.message.loading('Action in progress..', { nzDuration: 0 }).messageId;
+        // tslint:disable-next-line: deprecation
         this.autherSer.updateAuther(formData).subscribe((res) => {
           this.message.remove(id);
           this.message.success('Updated successfully');
@@ -153,6 +163,7 @@ export class AuthersdashboardComponent implements OnInit, OnDestroy {
 
   deleteAuther(id: string): void {
     const loading = this.message.loading('Action in progress..', { nzDuration: 0 }).messageId;
+    // tslint:disable-next-line: deprecation
     this.autherSer.deleteAuther(id).subscribe(res => {
       this.message.remove(loading);
       this.authers = this.authers.filter(ele => ele.id !== id);
@@ -160,6 +171,6 @@ export class AuthersdashboardComponent implements OnInit, OnDestroy {
     }, () => {
       this.message.remove(loading);
       this.message.error('This Author has books');
-    })
+    });
   }
 }

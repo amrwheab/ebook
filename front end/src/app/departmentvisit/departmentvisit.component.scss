@@ -1,0 +1,9 @@
+.visit {
+  display: flex;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+
+  .card {
+    margin: 1px;
+  }
+}

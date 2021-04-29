@@ -27,6 +27,10 @@ export class BooksService {
     return this.http.get(environment.server + '/book/getdepartbooks.php/' + id);
   }
 
+  getByDepartName(name: string, page: string): Observable<any> {
+    return this.http.get(environment.server + '/book/getbydepartname.php', {params: {name, page}});
+  }
+
   getFeaturedBooks(): Observable<any> {
     return this.http.get(environment.server + '/book/getfeatbooks.php');
   }

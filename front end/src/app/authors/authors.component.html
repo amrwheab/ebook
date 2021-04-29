@@ -1,0 +1,60 @@
+<div nz-row style="margin-bottom: 10px;">
+  <h2 nz-col nzMd="12" nzXs="24">Authors</h2>
+  <form nz-col nzMd="12" nzXs="24" style="display: flex;">
+    <input nz-input placeholder="Search" class="search-input" #search (input)="searchInput(search.value)" />
+    <button nz-button nzType="primary" (click)="ngOnInit(); $event.preventDefault()">Search</button>
+  </form>
+</div>
+
+<div nz-row style="justify-content: center;" *ngIf="!autherload">
+  <div nz-col  nzXl="6">
+    <nz-card style="width:  240px;" class="addSpaceToCard">
+      <nz-skeleton [nzActive]="true" [nzLoading]="true" [nzAvatar]="{ size: 'large' }">
+        <nz-card-meta nzTitle="Card title" nzDescription="This is the description"></nz-card-meta>
+      </nz-skeleton>
+    </nz-card>
+    <ng-template #actionSetting>
+      <i nz-icon nzType="setting"></i>
+    </ng-template>
+  </div>
+  <div nz-col  nzXl="6">
+    <nz-card style="width:  240px;" class="addSpaceToCard">
+      <nz-skeleton [nzActive]="true" [nzLoading]="true" [nzAvatar]="{ size: 'large' }">
+        <nz-card-meta nzTitle="Card title" nzDescription="This is the description"></nz-card-meta>
+      </nz-skeleton>
+    </nz-card>
+    <ng-template #actionSetting>
+      <i nz-icon nzType="setting"></i>
+    </ng-template>
+  </div>
+  <div nz-col  nzXl="6">
+    <nz-card style="width:  240px;" class="addSpaceToCard">
+      <nz-skeleton [nzActive]="true" [nzLoading]="true" [nzAvatar]="{ size: 'large' }">
+        <nz-card-meta nzTitle="Card title" nzDescription="This is the description"></nz-card-meta>
+      </nz-skeleton>
+    </nz-card>
+    <ng-template #actionSetting>
+      <i nz-icon nzType="setting"></i>
+    </ng-template>
+  </div>
+
+</div>
+
+<div nz-row style="justify-content: center;" *ngIf="autherload">
+  <div nz-col  nzXl="6" *ngFor="let auther of authers; let i = index">
+    <nz-card nzHoverable [routerLink]="['/authors', auther.slug]" style="width: 240px;height:  415px" class="addSpaceToCard" [nzCover]="coverTemplate">
+      <nz-card-meta [nzTitle]="toTitleCase(auther.name)" [nzDescription]="auther.info.slice(0, 60) + (auther.info.length > 60 ? '...':'')"></nz-card-meta>
+    </nz-card>
+    <ng-template #coverTemplate>
+      <div style="width:  240px;height:  240px;">
+        <img style="width: 100%;height: 100%;object-fit: cover;" [alt]="auther.name" [src]="auther.imgUrl" />
+      </div>
+    </ng-template>
+  </div>
+</div>
+
+<h3 style="text-align: center;" *ngIf="autherload && authers.length === 0">Theres No Authors</h3>
+
+<div style="text-align: center;" *ngIf="autherload">
+  <nz-pagination [nzPageIndex]="page" [nzTotal]="totalAuthors" (nzPageIndexChange)="changeIndex($event)" ></nz-pagination>
+</div>

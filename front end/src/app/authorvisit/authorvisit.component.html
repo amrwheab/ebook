@@ -1,0 +1,36 @@
+<div *ngIf="!loaded" style="height: 300px;line-height: 300px;text-align: center;">
+  <nz-spin nzSimple [nzSize]="'large'"></nz-spin>
+</div>
+
+<div class="auther" *ngIf="loaded">
+  <div class="author-info">
+    <div class="img-contain">
+      <img [src]="auther?.imgUrl" [alt]="auther?.name">
+    </div>
+    <div class="info-contain">
+      <h2>{{auther?.name}}</h2>
+      <p>{{auther?.info}}</p>
+    </div>
+  </div>
+
+  <nz-divider></nz-divider>
+
+  <div class="visit" *ngIf="loaded">
+    <div class="card" *ngFor="let book of books">
+      <div class="card-img">
+        <img [src]="book.imgUrl" alt="">
+      </div>
+      <h4 class="card-title">{{book.name | titlecase}}</h4>
+      <span class="card-text">{{book.info.slice(0, 50)}}</span>
+      <span class="price">{{book.price | currency}}</span>
+      <div>
+        <button nz-button nzType="primary">Add To Cart<i nz-icon nzType="shopping-cart" nzTheme="outline"></i></button>
+      </div>
+    </div>
+  </div>
+  <div style="margin-top: 10px; display: flex;justify-content: center;" *ngIf="loaded">
+    <nz-pagination [nzPageIndex]="1" [nzTotal]="totalBooks" (nzPageIndexChange)="pageChange($event)"></nz-pagination>
+  </div>
+
+
+</div>

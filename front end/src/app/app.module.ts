@@ -1,3 +1,5 @@
+import { AuthorsModule } from './authors/authors.module';
+import { DepartmentsmodModule } from './departmentsmod/departmentsmod.module';
 import { JwtInterceptor } from './interceptors/jwt.interceptor';
 import { AuthModule } from './auth/auth.module';
 import { DashboardModule } from './dashboardmod/dashboard.module';
@@ -30,7 +32,9 @@ registerLocaleData(en);
     BrowserAnimationsModule,
     DashboardModule,
     ZoroModule,
-    AuthModule
+    AuthModule,
+    DepartmentsmodModule,
+    AuthorsModule
   ],
   providers: [{
     provide: HTTP_INTERCEPTORS,

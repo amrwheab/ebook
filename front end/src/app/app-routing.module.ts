@@ -7,7 +7,9 @@ import { Routes, RouterModule } from '@angular/router';
 const routes: Routes = [
   {path: '', component: HomeComponent},
   {path: 'dashboard', loadChildren: './dashboardmod/dashboard.module#DashboardModule', canActivate: [DashboardGuard]},
-  {path: 'auth', loadChildren: './auth/auth.module#AuthModule', canActivate: [AuthGuard]}
+  {path: 'auth', loadChildren: './auth/auth.module#AuthModule', canActivate: [AuthGuard]},
+  {path: 'departments', loadChildren: './departmentsmod/departmentsmod.module#DepartmentsmodModule'},
+  {path: 'authors', loadChildren: './authors/authors.module#AuthorsModule'}
 ];
 
 @NgModule({

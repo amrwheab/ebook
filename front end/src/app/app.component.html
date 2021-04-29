@@ -7,7 +7,7 @@
       </a>
     </div>
     <ul nz-menu nzTheme="dark" nzMode="inline">
-      <li nz-submenu nzOpen nzTitle="Dashboard" nzIcon="dashboard" *ngIf="user.isAdmin">
+      <li nz-submenu [nzOpen]="router.url.split('/')[1].includes('dashboard')" nzTitle="Dashboard" nzIcon="dashboard" *ngIf="user.isAdmin">
         <ul>
           <li nz-menu-item nzMatchRouter>
             <a routerLink="/dashboard/books">Books</a>
@@ -23,23 +23,23 @@
           </li>
         </ul>
       </li>
-      <li nz-submenu [nzOpen]="false" nzTitle="Departments" nzIcon="apartment">
+      <li nz-submenu [nzOpen]="router.url.split('/')[1].includes('departments') || router.url.split('/')[1] === ''" nzTitle="Departments" nzIcon="apartment">
         <ul>
           <li nz-menu-item nzMatchRouter *ngFor="let depart of departs">
-            <a>{{depart.name}}</a>
+            <a [routerLink]="['/departments', depart.name.toLowerCase()]" routerLinkActive="router-link-active" >{{depart.name}}</a>
           </li>
-          <li nz-menu-item nzMatchRouter>
-            <a style="color: white;font-weight:bold">See All....</a>
+          <li nz-menu-item nzMatchRouter nzMatchRouterExact>
+            <a style="color: white;font-weight:bold" routerLink="/departments">See All....</a>
           </li>
         </ul>
       </li>
-      <li nz-submenu [nzOpen]="false" nzTitle="Authors" nzIcon="user">
+      <li nz-submenu [nzOpen]="router.url.split('/')[1].includes('authors') || router.url.split('/')[1] === ''" nzTitle="Authors" nzIcon="user">
         <ul>
           <li nz-menu-item nzMatchRouter *ngFor="let author of authors">
-            <a>{{author.name}}</a>
+            <a [routerLink]="['/authors', author.slug]">{{author.name}}</a>
           </li>
-          <li nz-menu-item nzMatchRouter>
-            <a style="color: white;font-weight:bold">See All....</a>
+          <li nz-menu-item nzMatchRouter nzMatchRouterExact>
+            <a routerLink="/authors" style="color: white;font-weight:bold">See All....</a>
           </li>
         </ul>
       </li>

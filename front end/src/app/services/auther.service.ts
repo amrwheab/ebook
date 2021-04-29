@@ -23,6 +23,15 @@ export class AutherService {
     });
   }
 
+  getOneAuther(page: string, slug: string): Observable<any> {
+    return this.http.get(environment.server + '/auther/getoneauther.php', {
+      params: {
+        page,
+        slug
+      }
+    });
+  }
+
   addAuther(data: FormData): Observable<any> {
     return this.http.post(environment.server + '/auther/addauther.php', data);
   }
