@@ -3,7 +3,7 @@
   <li nz-list-item *ngFor="let depart of departments" nzNoFlex>
     <ul nz-list-item-actions>
       <nz-list-item-action>
-        <a [routerLink]="['/departments', depart.name]">Visit</a>
+        <a [routerLink]="['/departments', depart.name.toLowerCase()]">Visit</a>
       </nz-list-item-action>
     </ul>
     {{ depart.name }}

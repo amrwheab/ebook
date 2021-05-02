@@ -18,9 +18,9 @@
   <div class="visit" *ngIf="loaded">
     <div class="card" *ngFor="let book of books">
       <div class="card-img">
-        <img [src]="book.imgUrl" alt="">
+        <img [src]="book.imgUrl" alt="" [routerLink]="['/books', book.slug]">
       </div>
-      <h4 class="card-title">{{book.name | titlecase}}</h4>
+      <h4 class="card-title" [routerLink]="['/books', book.slug]">{{book.name | titlecase}}</h4>
       <span class="card-text">{{book.info.slice(0, 50)}}</span>
       <span class="price">{{book.price | currency}}</span>
       <div>

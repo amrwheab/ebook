@@ -9,9 +9,9 @@
       <div class="slide-cell" *ngFor="let feat of featured">
         <div class="card">
           <div class="card-img">
-            <img [src]="feat.imgUrl" alt="">
+            <img [routerLink]="['/books', feat.slug]" [src]="feat.imgUrl" alt="">
           </div>
-          <h4 class="card-title">{{feat.name | titlecase}}</h4>
+          <h4 class="card-title" [routerLink]="['/books', feat.slug]">{{feat.name | titlecase}}</h4>
           <span class="card-text">{{feat.info.slice(0, 50)}}</span>
           <span class="price">{{feat.price | currency}}</span>
           <div>
@@ -31,9 +31,9 @@
         <div class="slide-cell" *ngFor="let book of depart">
           <div class="card">
             <div class="card-img">
-              <img [src]="book.imgUrl" alt="">
+              <img [src]="book.imgUrl" alt="" [routerLink]="['/books', book.slug]">
             </div>
-            <h4 class="card-title">{{book.name | titlecase}}</h4>
+            <h4 class="card-title" [routerLink]="['/books', book.slug]">{{book.name | titlecase}}</h4>
             <span class="card-text">{{book.info.slice(0, 50)}}</span>
             <span class="price">{{book.price | currency}}</span>
             <div>

@@ -119,6 +119,7 @@ export class BooksdashboardComponent implements OnInit, OnDestroy {
     this.booksObs = this.bookSer.getBooks(1, search).subscribe(books => {
       this.booksLoad = true;
       this.listOfData = books;
+      console.log(books[0]);
     }, err => {
       this.booksLoad = false;
       this.message.error(err);

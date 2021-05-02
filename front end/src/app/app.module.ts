@@ -15,6 +15,7 @@ import { registerLocaleData } from '@angular/common';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { HomeComponent } from './home/home.component';
 import { MycarouselComponent } from './mycarousel/mycarousel.component';
+import { BookComponent } from './book/book.component';
 
 
 registerLocaleData(en);
@@ -23,7 +24,8 @@ registerLocaleData(en);
   declarations: [
     AppComponent,
     HomeComponent,
-    MycarouselComponent
+    MycarouselComponent,
+    BookComponent
   ],
   imports: [
     BrowserModule,
