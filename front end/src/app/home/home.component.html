@@ -1,6 +1,6 @@
 <div class="home">
   <app-mycarousel></app-mycarousel>
-  <nz-divider></nz-divider>
+  <nz-divider *ngIf="!mobileScreen"></nz-divider>
   <h2>For You</h2>
   <div class="slides-contain" [style]="'width:'+ ((187 * slidesToShow) + (10 * (slidesToShow-1))) + 'px'">
     <i nz-icon nzType="left" class="arrows" [class.not-allowed]="featslide>=0" nzTheme="outline" (click)="featSlideAction(false)" style="left: 20px;"></i>
@@ -15,7 +15,8 @@
           <span class="card-text">{{feat.info.slice(0, 50)}}</span>
           <span class="price">{{feat.price | currency}}</span>
           <div>
-            <button nz-button nzType="primary">Add To Cart<i nz-icon nzType="shopping-cart" nzTheme="outline"></i></button>
+            <button *ngIf="!cartConfirm(feat.id)" nz-button nzType="primary" (click)="addToCart(feat.id)">Add To Cart<i nz-icon nzType="shopping-cart" nzTheme="outline"></i></button>
+            <button *ngIf="cartConfirm(feat.id)" nz-button nzType="primary" nzDanger (click)="removeFromCart(feat.id)">Remove From Cart<i nz-icon nzType="shopping-cart" nzTheme="outline"></i></button>
           </div>
         </div>
       </div>
@@ -37,7 +38,8 @@
             <span class="card-text">{{book.info.slice(0, 50)}}</span>
             <span class="price">{{book.price | currency}}</span>
             <div>
-              <button nz-button nzType="primary">Add To Cart<i nz-icon nzType="shopping-cart" nzTheme="outline"></i></button>
+              <button *ngIf="!cartConfirm(book.id)" nz-button nzType="primary" (click)="addToCart(book.id)">Add To Cart<i nz-icon nzType="shopping-cart" nzTheme="outline"></i></button>
+              <button *ngIf="cartConfirm(book.id)" nz-button nzType="primary" nzDanger (click)="removeFromCart(book.id)">Remove From Cart<i nz-icon nzType="shopping-cart" nzTheme="outline"></i></button>
             </div>
           </div>
         </div>

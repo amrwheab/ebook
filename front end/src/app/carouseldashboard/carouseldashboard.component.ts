@@ -32,6 +32,7 @@ export class CarouseldashboardComponent implements OnInit, OnDestroy {
               private message: NzMessageService) { }
 
   ngOnInit(): void {
+    // tslint:disable-next-line: deprecation
     this.carouselObs = this.carouselSer.getCarousel().subscribe((carousel: Carousel[]) => {
       this.carousel = carousel;
       this.loadedCar = true;
@@ -66,7 +67,10 @@ export class CarouseldashboardComponent implements OnInit, OnDestroy {
 
   deleteCarousel(): void {
     const id  = this.message.loading('Action in progress').messageId;
-    this.carouselSer.deleteCarousel(this.selectedDeletingCarousel!).subscribe(() => {
+    // tslint:disable-next-line: no-non-null-assertion
+    const selectedDeletingCarousel = this.selectedDeletingCarousel!;
+    // tslint:disable-next-line: deprecation
+    this.carouselSer.deleteCarousel(selectedDeletingCarousel).subscribe(() => {
       this.message.remove(id);
       this.message.success('deleted successfully');
       this.carousel = this.carousel.filter(ele => ele.id !== this.selectedDeletingCarousel);
@@ -81,6 +85,7 @@ export class CarouseldashboardComponent implements OnInit, OnDestroy {
     if (this.updateMode) {
       const formData = new FormData();
 
+      // tslint:disable-next-line: no-non-null-assertion
       formData.append('id', this.selectedCarouselValue!);
       formData.append('title', this.carouselForm.value.title);
       formData.append('content', this.carouselForm.value.content);
@@ -89,9 +94,11 @@ export class CarouseldashboardComponent implements OnInit, OnDestroy {
       }
 
       const id  = this.message.loading('Action in progress').messageId;
+      // tslint:disable-next-line: deprecation
       this.carouselSer.updateCarousel(formData).subscribe(() => {
         this.message.remove(id);
         this.message.success('Updated successfully');
+        // tslint:disable-next-line: no-non-null-assertion
         const selectedCar = this.carousel.find(ele => ele.id === this.selectedCarouselValue)!;
         selectedCar.title = this.carouselForm.value.title;
         selectedCar.content = this.carouselForm.value.content;
@@ -109,6 +116,7 @@ export class CarouseldashboardComponent implements OnInit, OnDestroy {
         formData.append('carouselImg', this.carouselForm.value.carouselImg);
 
         const id  = this.message.loading('Action in progress').messageId;
+        // tslint:disable-next-line: deprecation
         this.carouselSer.addCarousel(formData).subscribe((carousel: Carousel) => {
           this.message.remove(id);
           this.message.success('Added successfully');

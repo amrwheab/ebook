@@ -16,6 +16,7 @@ export class JwtInterceptor implements HttpInterceptor {
   constructor(private router: Router) {}
 
   getToken(): string {
+    // tslint:disable-next-line: no-non-null-assertion
     return localStorage.getItem('token')!;
   }
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {

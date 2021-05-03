@@ -37,6 +37,12 @@ export class MycarouselComponent implements OnInit, OnDestroy {
       this.mobileScreen = true;
     }
 
+    window.addEventListener('resize', () => {
+      if (window.innerWidth <= 576) {
+        this.mobileScreen = true;
+      }
+    })
+
     this.pageSize = window.innerWidth;
     this.carPosition = - this.pageSize;
 

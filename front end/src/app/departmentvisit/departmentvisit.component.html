@@ -10,7 +10,8 @@
     <span class="card-text">{{book.info.slice(0, 50)}}</span>
     <span class="price">{{book.price | currency}}</span>
     <div>
-      <button nz-button nzType="primary">Add To Cart<i nz-icon nzType="shopping-cart" nzTheme="outline"></i></button>
+      <button *ngIf="!cartConfirm(book.id)" nz-button nzType="primary" (click)="addToCart(book.id)">Add To Cart<i nz-icon nzType="shopping-cart" nzTheme="outline"></i></button>
+      <button *ngIf="cartConfirm(book.id)" nz-button nzType="primary" nzDanger (click)="removeFromCart(book.id)">Remove From Cart<i nz-icon nzType="shopping-cart" nzTheme="outline"></i></button>
     </div>
   </div>
 </div>

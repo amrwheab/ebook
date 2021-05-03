@@ -1,9 +1,13 @@
+import { NzMessageService } from 'ng-zorro-antd/message';
+import { Router } from '@angular/router';
+import { CartService } from './../services/cart.service';
 import { DepartmentService } from './../services/department.service';
 import { Department } from './../shard/depart';
 import { Subscription } from 'rxjs';
 import { BooksService } from './../services/books.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Book } from '../shard/book';
+import { Cart } from '../shard/cart';
 
 
 @Component({
@@ -16,14 +20,21 @@ export class HomeComponent implements OnInit, OnDestroy {
   featslide = 0;
   featSlideWidth = 0;
   featured: Book[] = [];
+  cart: Cart[] = [];
+  cartOps: Subscription | undefined;
   featutedObs: Subscription | undefined;
   departments: Department[] = [];
   departmentsObs: Subscription | undefined;
   departedBooks: Book[][] = [];
   departsSlide: number[] = [];
   departsSlideWidth: number[] = [];
+
+  mobileScreen: boolean | undefined;
   constructor(private bookSer: BooksService,
-              private departSer: DepartmentService) { }
+              private departSer: DepartmentService,
+              private cartSer: CartService,
+              private router: Router,
+              private message: NzMessageService) { }
 
   ngOnInit(): void {
     // tslint:disable-next-line: deprecation
@@ -41,8 +52,10 @@ export class HomeComponent implements OnInit, OnDestroy {
       this.departments = departs;
       // tslint:disable-next-line: prefer-for-of
       for (let i = 0; i < this.departments.length; i++) {
+        // tslint:disable-next-line: no-non-null-assertion
+        const departId = this.departments[i].id!;
         // tslint:disable-next-line: deprecation
-        this.bookSer.getDepartedBooks(this.departments[i].id!).subscribe((books: Book[]) => {
+        this.bookSer.getDepartedBooks(departId).subscribe((books: Book[]) => {
           this.departedBooks[i] = books;
           this.departsSlide[i] = 0;
           this.departsSlideWidth[i] = (197 * this.departedBooks[i].length) - ((187 * this.slidesToShow) + (10 * (this.slidesToShow - 1)));
@@ -53,6 +66,16 @@ export class HomeComponent implements OnInit, OnDestroy {
     }, err => {
       console.log(err);
     });
+
+    const token = localStorage.getItem('token');
+    if (token) {
+      // tslint:disable-next-line: deprecation
+      this.cartOps = this.cartSer.getMiniCart(token).subscribe(cart => {
+        this.cart = cart;
+      }, err => {
+        console.log(err);
+      });
+    }
 
     const size = window.innerWidth;
     if (size > 0 && size < 576) {
@@ -72,6 +95,10 @@ export class HomeComponent implements OnInit, OnDestroy {
         this.slidesToShow = 4;
       }
     });
+
+    if (window.innerWidth <= 576) {
+      this.mobileScreen = true;
+    }
   }
 
   ngOnDestroy(): void {
@@ -105,5 +132,42 @@ export class HomeComponent implements OnInit, OnDestroy {
         this.departsSlide[i] += 197;
       }
     }
+  }
+
+  cartConfirm(id: string): boolean {
+      return Boolean(this.cart.find(ele => ele.bookId === id));
+  }
+
+  addToCart(id: string): void {
+    const token = localStorage.getItem('token');
+    if (token) {
+      const messageId  = this.message.loading('Action in progress').messageId;
+      // tslint:disable-next-line: deprecation
+      this.cartSer.addToCart(id, token).subscribe(() => {
+        this.message.remove(messageId);
+        this.message.success('added successfully');
+        this.cart.push({bookId: id, userId: '', id: ''});
+      }, () => {
+        this.message.remove(messageId);
+        this.message.error('some thing went wrong');
+      });
+    } else {
+      this.router.navigate(['/login']);
+    }
+  }
+
+  removeFromCart(id: string): void {
+    // tslint:disable-next-line: no-non-null-assertion
+    const token = localStorage.getItem('token')!;
+    const messageId  = this.message.loading('Action in progress').messageId;
+    // tslint:disable-next-line: deprecation
+    this.cartSer.removeFromCart(id, token).subscribe(() => {
+      this.message.remove(messageId);
+      this.message.success('deleted successfully');
+      this.cart = this.cart.filter(ele => ele.bookId !== id);
+    }, () => {
+      this.message.remove(messageId);
+      this.message.error('some thing went wrong');
+    });
   }
 }
