@@ -20,8 +20,8 @@
       <div class="card-img">
         <img [src]="book.imgUrl" alt="" [routerLink]="['/books', book.slug]">
       </div>
-      <h4 class="card-title" [routerLink]="['/books', book.slug]">{{book.name | titlecase}}</h4>
-      <span class="card-text">{{book.info.slice(0, 50)}}</span>
+      <h4 class="card-title" nz-tooltip nzTooltipPlacement="bottom" [nzTooltipTitle]="book.name" [routerLink]="['/books', book.slug]">{{book.name.slice(0, 20) | titlecase}}<span *ngIf="book.name.length > 20">...</span></h4>
+      <span class="card-text">{{book.info.slice(0, 40)}}<span *ngIf="book.info.length > 40">...</span></span>
       <span class="price">{{book.price | currency}}</span>
       <div>
         <button *ngIf="!cartConfirm(book.id)" nz-button nzType="primary" (click)="addToCart(book.id)">Add To Cart<i nz-icon nzType="shopping-cart" nzTheme="outline"></i></button>

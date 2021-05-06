@@ -145,8 +145,8 @@ export class HomeComponent implements OnInit, OnDestroy {
       // tslint:disable-next-line: deprecation
       this.cartSer.addToCart(id, token).subscribe(() => {
         this.message.remove(messageId);
-        this.message.success('added successfully');
-        this.cart.push({bookId: id, userId: '', id: ''});
+        const buyed = this.cart.find(ele => ele.bookId === id)?.buyed;
+        this.cart.push({bookId: id, userId: '', id: '', buyed});
       }, () => {
         this.message.remove(messageId);
         this.message.error('some thing went wrong');
@@ -163,7 +163,6 @@ export class HomeComponent implements OnInit, OnDestroy {
     // tslint:disable-next-line: deprecation
     this.cartSer.removeFromCart(id, token).subscribe(() => {
       this.message.remove(messageId);
-      this.message.success('deleted successfully');
       this.cart = this.cart.filter(ele => ele.bookId !== id);
     }, () => {
       this.message.remove(messageId);

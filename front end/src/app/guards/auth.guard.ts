@@ -12,6 +12,7 @@ export class AuthGuard implements CanActivate {
   canActivate(
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): boolean {
+    // tslint:disable-next-line: no-non-null-assertion
     return !this.jwt.decodeToken(localStorage.getItem('token')!);
   }
 

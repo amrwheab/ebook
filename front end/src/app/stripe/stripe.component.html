@@ -1,0 +1,10 @@
+<div class="buy-form">
+  <h3>Do You Want to Buy With <span style="color: #1890ff;">{{buyPrice | currency}}</span></h3>
+  <form novalidate (ngSubmit)="buy()" [formGroup]="stripeForm">
+    <input nz-input type="text" formControlName="name" placeholder="Jane Doe">
+    <div id="card-element" class="field"></div>
+    <div style="text-align: right;">
+      <button type="submit" nz-button nzType="primary">BUY</button>
+    </div>
+  </form>
+</div>

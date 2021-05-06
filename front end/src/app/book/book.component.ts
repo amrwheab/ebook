@@ -1,3 +1,5 @@
+import { BuyService } from './../services/buy.service';
+import { JwtHelperService } from '@auth0/angular-jwt';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { CartService } from './../services/cart.service';
 import { Cart } from './../shard/cart';
@@ -24,13 +26,16 @@ export class BookComponent implements OnInit {
   readMode = 'none';
   bookOps: Subscription | undefined;
   cartOps: Subscription | undefined;
-  cart: Cart = {id: '', userId: '', bookId: ''};
+  cart: Cart = {id: '', userId: '', bookId: '', buyed: false};
+  buyedOps: Subscription | undefined;
+  buyed: any;
 
   constructor(private bookSer: BooksService,
               private actRoute: ActivatedRoute,
               private cartSer: CartService,
               private router: Router,
-              private message: NzMessageService
+              private message: NzMessageService,
+              private buySer: BuyService
               ) { }
 
   ngOnInit(): void {
@@ -42,12 +47,21 @@ export class BookComponent implements OnInit {
 
       // tslint:disable-next-line: no-non-null-assertion
       const token = localStorage.getItem('token')!;
-      // tslint:disable-next-line: deprecation
-      this.cartOps = this.cartSer.getOneCart(token, book.id).subscribe(cart => {
-        this.cart = cart;
-      }, err => {
-        console.log(err);
-      });
+      if (token) {
+        // tslint:disable-next-line: deprecation
+        this.cartOps = this.cartSer.getOneCart(token, book.id).subscribe(cart => {
+          this.cart = cart;
+        }, err => {
+          console.log(err);
+        });
+        const jwt = new JwtHelperService();
+        // tslint:disable-next-line: deprecation
+        this.buyedOps = this.buySer.getOneBuyed(jwt.decodeToken(token).id, book.id).subscribe(buy => {
+          this.buyed = buy;
+        }, err => {
+          console.log(err);
+        });
+      }
     }, err => {
       this.loaded = true;
       console.log(err);
@@ -58,7 +72,7 @@ export class BookComponent implements OnInit {
     this.readMode = 'block';
     WebViewer({
       path: environment.server + '/../assets/lib',
-      initialDoc: this.book?.miniPath
+      initialDoc: this.buyed ? this.book?.fullPath : this.book?.miniPath
     }, this.viewer?.nativeElement).then(instance => {
       console.log(instance);
     });

@@ -19,6 +19,10 @@ export class CartService {
     return this.http.get(this.url + '/cart/getonecart.php', {params: {token, bookId}});
   }
 
+  getFullCart(token: string): Observable<any> {
+    return this.http.get(this.url + '/cart/getfullcart.php', {params: {token}});
+  }
+
   addToCart(bookId: string, token: string): Observable<any> {
     return this.http.post(this.url + '/cart/addtocart.php', {bookId, token});
   }

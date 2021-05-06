@@ -1,0 +1,21 @@
+.buy-form {
+  width: 540px;
+  background-color: white;
+  height: 300px;
+  padding: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  animation-name: fadeIn;
+  animation-duration: .3s;
+
+  form {
+    width: 100%;
+  }
+}
+
+@keyframes fadeIn {
+  0% {opacity: 0;}
+  100% {opacity: 1;}
+}

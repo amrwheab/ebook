@@ -1,0 +1,34 @@
+<div *ngIf="!loaded" style="height: 300px;line-height: 300px;text-align: center;">
+  <nz-spin nzSimple [nzSize]="'large'"></nz-spin>
+</div>
+<div *ngIf="loaded && cart.length === 0" style="display: flex;align-items: center;flex-flow: column;">
+  <h2>No elements in cart</h2>
+  <div style="width: 100%;height: 300px;margin-bottom: 20px;">
+    <img style="width: 100%;height: 100%;" src="assets/notfound.svg" alt="">
+  </div>
+  <a routerLink="/">Go Home</a>
+</div>
+<div *ngIf="loaded && cart.length > 1 && totalprice > 0" class="total-buy">
+  <h3>buy all books with total price <span style="color: #1890ff;">{{ totalprice | currency}}</span> ?</h3>
+  <button nz-button nzType="primary" (click)="sendBuy('')">Buy Now</button>
+</div>
+<nz-divider *ngIf="loaded && cart.length > 1 && totalprice > 0"></nz-divider>
+<div class="visit" *ngIf="loaded">
+  <div class="card" *ngFor="let elem of cart">
+    <div class="card-img">
+      <img [src]="elem.book.imgUrl" alt="" [routerLink]="['/books', elem.book.slug]">
+    </div>
+    <h4 class="card-title" nz-tooltip nzTooltipPlacement="bottom" [nzTooltipTitle]="elem.book.name"  [routerLink]="['/books', elem.book.slug]">{{elem.book.name.slice(0, 20) | titlecase}}<span *ngIf="elem.book.name.length > 20">...</span></h4>
+      <span class="card-text">{{elem.book.info.slice(0, 40)}}<span *ngIf="elem.book.info.length > 40">...</span></span>
+    <span class="price">{{elem.book.price | currency}}</span>
+    <div style="display: flex;justify-content: space-between;">
+      <button nz-button nzType="primary" (click)="sendBuy(elem.book.id)" *ngIf="!elem.book.buyed">Buy Now</button>
+      <button nz-button nzType="primary" nzDanger (click)="removeFromCart(elem.book.id)">Delete</button>
+    </div>
+  </div>
+</div>
+
+<div class="overlay" #overlay *ngIf="buyNow" (click)="closePop($event)">
+  <app-stripe [buyPrice]="buyPrice" [buyBookIds]="buyBookIds" (closeBuy)="buyNow=false" (success)="removebuyed()"></app-stripe>
+</div>
+

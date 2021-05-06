@@ -1,3 +1,4 @@
+import { ReactiveFormsModule } from '@angular/forms';
 import { AuthorsModule } from './authors/authors.module';
 import { DepartmentsmodModule } from './departmentsmod/departmentsmod.module';
 import { JwtInterceptor } from './interceptors/jwt.interceptor';
@@ -16,7 +17,9 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { HomeComponent } from './home/home.component';
 import { MycarouselComponent } from './mycarousel/mycarousel.component';
 import { BookComponent } from './book/book.component';
-
+import { CartComponent } from './cart/cart.component';
+import { NgxStripeModule } from 'ngx-stripe';
+import { StripeComponent } from './stripe/stripe.component';
 
 registerLocaleData(en);
 
@@ -25,7 +28,9 @@ registerLocaleData(en);
     AppComponent,
     HomeComponent,
     MycarouselComponent,
-    BookComponent
+    BookComponent,
+    CartComponent,
+    StripeComponent
   ],
   imports: [
     BrowserModule,
@@ -36,7 +41,9 @@ registerLocaleData(en);
     ZoroModule,
     AuthModule,
     DepartmentsmodModule,
-    AuthorsModule
+    AuthorsModule,
+    NgxStripeModule.forRoot('pk_test_51IAtnlKMAtDRnFQfeMLEaqLtzwx7w6lMmQfYab9sTkDUrXttEalyvJVWq4OFSb1Okz4FerdT2QIJMOmCOKnC4ECX00nlQPfzTu'),
+    ReactiveFormsModule
   ],
   providers: [{
     provide: HTTP_INTERCEPTORS,

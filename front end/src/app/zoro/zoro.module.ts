@@ -29,7 +29,7 @@ import { NzPaginationModule } from 'ng-zorro-antd/pagination';
 import { NzCarouselModule } from 'ng-zorro-antd/carousel';
 import { NzCollapseModule } from 'ng-zorro-antd/collapse';
 import { IconsProviderModule } from '../icons-provider.module';
-
+import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 
 @NgModule({
   declarations: [],
@@ -61,7 +61,8 @@ import { IconsProviderModule } from '../icons-provider.module';
     NzPaginationModule,
     NzCarouselModule,
     NzCollapseModule,
-    IconsProviderModule
+    IconsProviderModule,
+    NzToolTipModule
   ],
   exports: [
     NzButtonModule,
@@ -90,7 +91,8 @@ import { IconsProviderModule } from '../icons-provider.module';
     NzPaginationModule,
     NzCarouselModule,
     NzCollapseModule,
-    IconsProviderModule
+    IconsProviderModule,
+    NzToolTipModule
   ],
   providers: [{ provide: NZ_I18N, useValue: en_US }]
 })

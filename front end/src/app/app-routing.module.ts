@@ -1,3 +1,5 @@
+import { IsuserGuard } from './guards/isuser.guard';
+import { CartComponent } from './cart/cart.component';
 import { BookComponent } from './book/book.component';
 import { HomeComponent } from './home/home.component';
 import { AuthGuard } from './guards/auth.guard';
@@ -11,7 +13,8 @@ const routes: Routes = [
   {path: 'auth', loadChildren: './auth/auth.module#AuthModule', canActivate: [AuthGuard]},
   {path: 'departments', loadChildren: './departmentsmod/departmentsmod.module#DepartmentsmodModule'},
   {path: 'authors', loadChildren: './authors/authors.module#AuthorsModule'},
-  {path: 'books/:slug', component: BookComponent}
+  {path: 'books/:slug', component: BookComponent},
+  {path: 'cart', component: CartComponent, canActivate: [IsuserGuard]}
 ];
 
 @NgModule({
