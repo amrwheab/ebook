@@ -35,6 +35,10 @@ export class BooksService {
     return this.http.get(environment.server + '/book/getfeatbooks.php');
   }
 
+  getMostBuyedBooks(): Observable<any> {
+    return this.http.get(environment.server + '/book/getmostbuyedbooks.php');
+  }
+
   getBookBySlug(slug: string): Observable<any> {
     return this.http.get(environment.server + '/book/getbookbyslug.php', {params: {slug}});
   }

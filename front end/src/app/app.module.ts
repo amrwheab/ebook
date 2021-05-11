@@ -20,6 +20,7 @@ import { BookComponent } from './book/book.component';
 import { CartComponent } from './cart/cart.component';
 import { NgxStripeModule } from 'ngx-stripe';
 import { StripeComponent } from './stripe/stripe.component';
+import { BuysComponent } from './buys/buys.component';
 
 registerLocaleData(en);
 
@@ -30,7 +31,8 @@ registerLocaleData(en);
     MycarouselComponent,
     BookComponent,
     CartComponent,
-    StripeComponent
+    StripeComponent,
+    BuysComponent
   ],
   imports: [
     BrowserModule,

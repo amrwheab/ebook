@@ -1,3 +1,4 @@
+import { BuysComponent } from './buys/buys.component';
 import { IsuserGuard } from './guards/isuser.guard';
 import { CartComponent } from './cart/cart.component';
 import { BookComponent } from './book/book.component';
@@ -14,7 +15,8 @@ const routes: Routes = [
   {path: 'departments', loadChildren: './departmentsmod/departmentsmod.module#DepartmentsmodModule'},
   {path: 'authors', loadChildren: './authors/authors.module#AuthorsModule'},
   {path: 'books/:slug', component: BookComponent},
-  {path: 'cart', component: CartComponent, canActivate: [IsuserGuard]}
+  {path: 'cart', component: CartComponent, canActivate: [IsuserGuard]},
+  {path: 'purchases', component: BuysComponent, canActivate: [IsuserGuard]}
 ];
 
 @NgModule({

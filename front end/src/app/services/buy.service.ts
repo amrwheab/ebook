@@ -10,8 +10,8 @@ export class BuyService {
 
   constructor(private http: HttpClient) { }
 
-  getBuyedBooks(userId: string): Observable<any> {
-    return this.http.get('/buy/getbuyed.php', {params: {userId}});
+  getBuyedBooks(userId: string, page: string): Observable<any> {
+    return this.http.get(environment.server + '/buy/getbuyed.php', {params: {userId, page}});
   }
 
   getOneBuyed(userId: string, bookId: string): Observable<any> {

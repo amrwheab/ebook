@@ -1,17 +1,17 @@
 import { Department } from './../shard/depart';
 import { DepartmentService } from './../services/department.service';
 import { Subscription } from 'rxjs';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 
 @Component({
   selector: 'app-departments',
   templateUrl: './departments.component.html',
   styleUrls: ['./departments.component.scss']
 })
-export class DepartmentsComponent implements OnInit {
+export class DepartmentsComponent implements OnInit, OnDestroy {
 
   departsObs: Subscription | undefined;
-  departload: boolean = false;
+  departload = false;
   departments: Department[] = [];
 
   constructor(private departSer: DepartmentService) { }
@@ -24,6 +24,12 @@ export class DepartmentsComponent implements OnInit {
     }, () => {
       this.departload = true;
     });
+  }
+
+  ngOnDestroy(): void {
+    if (this.departsObs) {
+      this.departsObs.unsubscribe();
+    }
   }
 
 }

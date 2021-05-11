@@ -20,9 +20,13 @@ export class HomeComponent implements OnInit, OnDestroy {
   featslide = 0;
   featSlideWidth = 0;
   featured: Book[] = [];
+  mostBuyedSlide = 0;
+  mostBuyedSlideWidth = 0;
+  mostBuyed: Book[] = [];
   cart: Cart[] = [];
   cartOps: Subscription | undefined;
   featutedObs: Subscription | undefined;
+  mostBuyedOps: Subscription | undefined;
   departments: Department[] = [];
   departmentsObs: Subscription | undefined;
   departedBooks: Book[][] = [];
@@ -41,6 +45,15 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.featutedObs = this.bookSer.getFeaturedBooks().subscribe((books: Book[]) => {
       this.featured = books;
       this.featSlideWidth = (197 * this.featured.length) - ((187 * this.slidesToShow) + (10 * (this.slidesToShow - 1)));
+    }, err => {
+      console.log(err);
+    });
+
+    // tslint:disable-next-line: deprecation
+    this.mostBuyedOps = this.bookSer.getMostBuyedBooks().subscribe((books: Book[]) => {
+      this.mostBuyed = books;
+      console.log(this.mostBuyed);
+      this.mostBuyedSlideWidth = (197 * this.mostBuyed.length) - ((187 * this.slidesToShow) + (10 * (this.slidesToShow - 1)));
     }, err => {
       console.log(err);
     });
@@ -105,6 +118,9 @@ export class HomeComponent implements OnInit, OnDestroy {
     if (this.featutedObs) {
       this.featutedObs.unsubscribe();
     }
+    if (this.mostBuyedOps) {
+      this.mostBuyedOps.unsubscribe();
+    }
     if (this.departmentsObs) {
       this.departmentsObs.unsubscribe();
     }
@@ -118,6 +134,18 @@ export class HomeComponent implements OnInit, OnDestroy {
     } else {
       if (this.featslide < 0) {
         this.featslide += 197;
+      }
+    }
+  }
+
+  mostBuyedAction(right: boolean): void {
+    if (right) {
+      if (this.mostBuyedSlide > -this.mostBuyedSlideWidth + 10) {
+        this.mostBuyedSlide -= 197;
+      }
+    } else {
+      if (this.mostBuyedSlide < 0) {
+        this.mostBuyedSlide += 197;
       }
     }
   }

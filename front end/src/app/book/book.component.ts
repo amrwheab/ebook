@@ -8,7 +8,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { BooksService } from './../services/books.service';
 import { environment } from './../../environments/environment';
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import WebViewer from '@pdftron/webviewer';
 
 @Component({
@@ -16,7 +16,7 @@ import WebViewer from '@pdftron/webviewer';
   templateUrl: './book.component.html',
   styleUrls: ['./book.component.scss']
 })
-export class BookComponent implements OnInit {
+export class BookComponent implements OnInit, OnDestroy {
 
   @ViewChild('viewer') viewer: ElementRef | undefined;
 
@@ -66,6 +66,18 @@ export class BookComponent implements OnInit {
       this.loaded = true;
       console.log(err);
     });
+  }
+
+  ngOnDestroy(): void {
+    if (this.bookOps) {
+      this.bookOps.unsubscribe();
+    }
+    if (this.cartOps) {
+      this.cartOps.unsubscribe();
+    }
+    if (this.buyedOps) {
+      this.buyedOps.unsubscribe();
+    }
   }
 
   showBook(): void {

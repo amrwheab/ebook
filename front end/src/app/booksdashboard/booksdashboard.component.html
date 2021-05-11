@@ -22,10 +22,10 @@
   <tbody>
     <tr *ngFor="let book of rowSelectionTable.data">
       <td [nzChecked]="setOfCheckedId.has(book.id)" (nzCheckedChange)="onItemChecked(book.id, $event)"></td>
-      <td>{{ book.name }}</td>
+      <td><a [routerLink]="['/books', book.slug]" class="dash-link">{{book.name}}</a></td>
       <td>{{ book.price }}</td>
-      <td *ngIf="!mobScreen">{{ book.auther.name }}</td>
-      <td *ngIf="!mobScreen">{{ book.department.name }}</td>
+      <td *ngIf="!mobScreen"><a class="dash-link" [routerLink]="['/authors', book.auther.slug]">{{ book.auther.name }}</a></td>
+      <td *ngIf="!mobScreen"><a class="dash-link" [routerLink]="['/departments', book.department.name ]">{{ book.department.name }}</a></td>
       <td>{{ book.buysNum }}</td>
     </tr>
   </tbody>

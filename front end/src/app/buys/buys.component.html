@@ -1,0 +1,20 @@
+<div *ngIf="!booksLoaded" style="height: 300px;line-height: 300px;text-align: center;">
+  <nz-spin nzSimple [nzSize]="'large'"></nz-spin>
+</div>
+<div class="visit" *ngIf="booksLoaded">
+  <div class="card" *ngFor="let book of buyedBooks">
+    <div class="card-img">
+      <img [src]="book.imgUrl" alt="" [routerLink]="['/books', book.slug]">
+    </div>
+    <h4 class="card-title" nz-tooltip nzTooltipPlacement="bottom" [nzTooltipTitle]="book.name"  [routerLink]="['/books', book.slug]">{{book.name.slice(0, 20) | titlecase}}<span *ngIf="book.name.length > 20">...</span></h4>
+      <span class="card-text">{{book.info.slice(0, 40)}}<span *ngIf="book.info.length > 40">...</span></span>
+    <span class="price">{{book.price | currency}}</span>
+    <div>
+      <button *ngIf="!cartConfirm(book.id)" nz-button nzType="primary" (click)="addToCart(book.id)">Add To Cart<i nz-icon nzType="shopping-cart" nzTheme="outline"></i></button>
+      <button *ngIf="cartConfirm(book.id)" nz-button nzType="primary" nzDanger (click)="removeFromCart(book.id)">Remove From Cart<i nz-icon nzType="shopping-cart" nzTheme="outline"></i></button>
+    </div>
+  </div>
+</div>
+<div style="margin-top: 10px; display: flex;justify-content: center;" *ngIf="booksLoaded">
+  <nz-pagination [nzPageIndex]="1" [nzTotal]="totalBooks" (nzPageIndexChange)="pageChange($event)"></nz-pagination>
+</div>

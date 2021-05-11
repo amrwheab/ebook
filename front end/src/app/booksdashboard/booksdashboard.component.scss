@@ -19,3 +19,9 @@
     width: 100%;
   }
 }
+.dash-link {
+  color: black;
+  &:hover {
+    color: #1890ff;
+  }
+}

@@ -1,17 +1,18 @@
+import { Subscription } from 'rxjs';
 import { BuyService } from './../services/buy.service';
 import { Router } from '@angular/router';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { StripeService } from 'ngx-stripe';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
-import { Component, Input, OnInit, EventEmitter, Output } from '@angular/core';
+import { Component, Input, OnInit, EventEmitter, Output, OnDestroy } from '@angular/core';
 
 @Component({
   selector: 'app-stripe',
   templateUrl: './stripe.component.html',
   styleUrls: ['./stripe.component.scss']
 })
-export class StripeComponent implements OnInit {
+export class StripeComponent implements OnInit, OnDestroy {
 
   // tslint:disable-next-line: no-input-rename
   @Input('buyPrice') buyPrice: number | undefined;
@@ -24,6 +25,8 @@ export class StripeComponent implements OnInit {
 
   element: any;
   card: any;
+  stripeOps: Subscription | undefined;
+  stripeOpsBuy: Subscription | undefined;
 
   stripeForm: FormGroup | undefined;
   constructor(private fb: FormBuilder,
@@ -39,9 +42,18 @@ export class StripeComponent implements OnInit {
     this.startingStrip();
   }
 
+  ngOnDestroy(): void {
+    if (this.stripeOps) {
+      this.stripeOps.unsubscribe();
+    }
+    if (this.stripeOpsBuy) {
+      this.stripeOpsBuy.unsubscribe();
+    }
+  }
+
   startingStrip(): void {
     // tslint:disable-next-line: deprecation
-    this.stripeService.elements({locale: 'en'}).subscribe(elements => {
+    this.stripeOps = this.stripeService.elements({locale: 'en'}).subscribe(elements => {
       this.element = elements;
       // Only mount the element the first time
       if (!this.card) {
@@ -69,7 +81,7 @@ export class StripeComponent implements OnInit {
     const name = this.stripeForm?.get('name')?.value;
     const messageId = this.message.loading('action in progress').messageId;
     // tslint:disable-next-line: deprecation
-    this.stripeService.createToken(this.card, { name }).subscribe(result => {
+    this.stripeOpsBuy = this.stripeService.createToken(this.card, { name }).subscribe(result => {
       if (result.token) {
         const userToken = localStorage.getItem('token');
         if (userToken) {

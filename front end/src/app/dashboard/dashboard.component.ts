@@ -16,6 +16,7 @@ export class DashboardComponent implements OnInit {
 
     this.url = this.router.url;
 
+    // tslint:disable-next-line: deprecation
     this.router.events.subscribe((e) => {
       if (e instanceof NavigationEnd) {
         this.url = e.url;

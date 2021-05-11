@@ -25,6 +25,7 @@ export class MycarouselComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
 
+    // tslint:disable-next-line: deprecation
     this.carouselObs = this.carouselSer.getCarousel().subscribe((gallery: Carousel[]) => {
       this.carouselLoad = true;
       this.gallery = gallery;

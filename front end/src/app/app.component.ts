@@ -1,9 +1,10 @@
+import { Subscription } from 'rxjs';
 import { AutherService } from './services/auther.service';
 import { DepartmentService } from './services/department.service';
 import { User } from './shard/user';
 import { AuthService } from './services/auth.service';
 import { NavigationEnd, Router } from '@angular/router';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Department } from './shard/depart';
 import { Auther } from './shard/auther';
 
@@ -12,7 +13,7 @@ import { Auther } from './shard/auther';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent implements OnInit {
+export class AppComponent implements OnInit, OnDestroy {
   breadItems: string[] = [];
   user: User = {
     id: '',
@@ -26,6 +27,10 @@ export class AppComponent implements OnInit {
   };
   departs: Department[] = [];
   authors: Auther[] = [];
+
+  authOps: Subscription | undefined;
+  autherOps: Subscription | undefined;
+  departOps: Subscription | undefined;
 
   constructor(public router: Router,
               private authSer: AuthService,
@@ -54,6 +59,8 @@ export class AppComponent implements OnInit {
     // tslint:disable-next-line: deprecation
     this.authSer.getUserFromToken(token).subscribe((user: User) => {
       this.user = user;
+    }, err => {
+      localStorage.removeItem('token');
     });
 
     // tslint:disable-next-line: deprecation
@@ -65,6 +72,18 @@ export class AppComponent implements OnInit {
     this.authorSer.getAuthersNames().subscribe(authors => {
       this.authors = authors.slice(-3);
     });
+  }
+
+  ngOnDestroy(): void {
+    if (this.authOps) {
+      this.authOps.unsubscribe();
+    }
+    if (this.autherOps) {
+      this.autherOps.unsubscribe();
+    }
+    if (this.departOps) {
+      this.departOps.unsubscribe();
+    }
   }
 
   logOut(): void {
