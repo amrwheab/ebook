@@ -16,7 +16,7 @@
             <a routerLink="/dashboard/departments">Departments</a>
           </li>
           <li nz-menu-item nzMatchRouter>
-            <a routerLink="/dashboard/authers" [queryParams]="{page: 1}">Authors</a>
+            <a routerLink="/dashboard/authers">Authors</a>
           </li>
           <li nz-menu-item nzMatchRouter>
             <a routerLink="/dashboard/carousel">Carousel</a>
@@ -57,6 +57,10 @@
           <li nz-menu-item routerLink="/cart" *ngIf="user.id" routerLinkActive="ant-menu-item-selected">Cart</li>
           <li nz-menu-item routerLink="/purchases" *ngIf="user.id" routerLinkActive="ant-menu-item-selected">Purchases</li>
         </ul>
+        <form nz-col nzMd="8" class="search-form">
+          <input nz-input placeholder="Search" class="search-input" #search >
+          <button nz-button nzType="primary" (click)="searchClick(search.value)">Search</button>
+        </form>
         <button nz-button nzDanger style="position: relative;right: 42px;" *ngIf="user.id" (click)="logOut()">Log out</button>
       </div>
     </nz-header>

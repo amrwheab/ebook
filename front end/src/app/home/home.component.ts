@@ -52,7 +52,6 @@ export class HomeComponent implements OnInit, OnDestroy {
     // tslint:disable-next-line: deprecation
     this.mostBuyedOps = this.bookSer.getMostBuyedBooks().subscribe((books: Book[]) => {
       this.mostBuyed = books;
-      console.log(this.mostBuyed);
       this.mostBuyedSlideWidth = (197 * this.mostBuyed.length) - ((187 * this.slidesToShow) + (10 * (this.slidesToShow - 1)));
     }, err => {
       console.log(err);

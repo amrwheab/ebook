@@ -20,6 +20,6 @@ export class AuthService {
   }
 
   getUserFromToken(token: string): Observable<any> {
-    return this.http.get(this.url + '/getuserfromtoken.php/' + token);
+    return this.http.get(this.url + '/getuserfromtoken.php', {params: {token}});
   }
 }

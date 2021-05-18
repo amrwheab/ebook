@@ -86,6 +86,12 @@ export class AppComponent implements OnInit, OnDestroy {
     }
   }
 
+  searchClick(text: string): void {
+    if (text) {
+      this.router.navigate(['/search'], {queryParams: {text}});
+    }
+  }
+
   logOut(): void {
     localStorage.removeItem('token');
     location.reload();

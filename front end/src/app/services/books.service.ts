@@ -14,17 +14,18 @@ export class BooksService {
     return this.http.post(environment.server + '/book/addbook.php', data);
   }
 
-  getBooks(page: number, search: string): Observable<any> {
+  getBooks(page: number, search: string, limit: string): Observable<any> {
     return this.http.get(environment.server + '/book/getallbooks.php', {
       params: {
         page : page.toString(),
-        search
+        search,
+        limit
       }
     });
   }
 
   getDepartedBooks(id: string): Observable<any> {
-    return this.http.get(environment.server + '/book/getdepartbooks.php/' + id);
+    return this.http.get(environment.server + '/book/getdepartbooks.php' , {params:{id}});
   }
 
   getByDepartName(name: string, page: string): Observable<any> {

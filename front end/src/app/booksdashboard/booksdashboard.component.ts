@@ -83,7 +83,7 @@ export class BooksdashboardComponent implements OnInit, OnDestroy {
       this.page += 1;
       const search = this.actRoute.snapshot.queryParams.search || '';
       // tslint:disable-next-line: deprecation
-      this.booksObs = this.bookSer.getBooks(this.page, search).subscribe(books => {
+      this.booksObs = this.bookSer.getBooks(this.page, search, '20').subscribe(books => {
         this.booksLoad = true;
         this.listOfData = [...this.listOfData, ...books];
       }, err => {
@@ -116,7 +116,7 @@ export class BooksdashboardComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     const search = this.actRoute.snapshot.queryParams.search || '';
     // tslint:disable-next-line: deprecation
-    this.booksObs = this.bookSer.getBooks(1, search).subscribe(books => {
+    this.booksObs = this.bookSer.getBooks(1, search, '20').subscribe(books => {
       this.booksLoad = true;
       this.listOfData = books;
       console.log(books[0]);
@@ -157,7 +157,7 @@ export class BooksdashboardComponent implements OnInit, OnDestroy {
   searchCommand(): void {
     const search = this.actRoute.snapshot.queryParams.search;
     // tslint:disable-next-line: deprecation
-    this.booksObs = this.bookSer.getBooks(1, search).subscribe(books => {
+    this.booksObs = this.bookSer.getBooks(1, search, '20').subscribe(books => {
       this.booksLoad = true;
       this.listOfData = books;
     }, err => {

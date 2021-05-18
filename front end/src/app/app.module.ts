@@ -1,4 +1,4 @@
-import { ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { AuthorsModule } from './authors/authors.module';
 import { DepartmentsmodModule } from './departmentsmod/departmentsmod.module';
 import { JwtInterceptor } from './interceptors/jwt.interceptor';
@@ -21,6 +21,7 @@ import { CartComponent } from './cart/cart.component';
 import { NgxStripeModule } from 'ngx-stripe';
 import { StripeComponent } from './stripe/stripe.component';
 import { BuysComponent } from './buys/buys.component';
+import { SearchComponent } from './search/search.component';
 
 registerLocaleData(en);
 
@@ -32,7 +33,8 @@ registerLocaleData(en);
     BookComponent,
     CartComponent,
     StripeComponent,
-    BuysComponent
+    BuysComponent,
+    SearchComponent
   ],
   imports: [
     BrowserModule,
@@ -45,7 +47,8 @@ registerLocaleData(en);
     DepartmentsmodModule,
     AuthorsModule,
     NgxStripeModule.forRoot('pk_test_51IAtnlKMAtDRnFQfeMLEaqLtzwx7w6lMmQfYab9sTkDUrXttEalyvJVWq4OFSb1Okz4FerdT2QIJMOmCOKnC4ECX00nlQPfzTu'),
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    FormsModule
   ],
   providers: [{
     provide: HTTP_INTERCEPTORS,

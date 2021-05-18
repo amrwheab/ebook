@@ -25,6 +25,6 @@ export class CarouselService {
   }
 
   deleteCarousel(id: string): Observable<any> {
-    return this.http.delete(this.url + '/deletecarousel.php/' + id);
+    return this.http.delete(this.url + '/deletecarousel.php' , {params:{id}});
   }
 }

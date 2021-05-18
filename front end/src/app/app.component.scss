@@ -91,3 +91,16 @@ nz-content {
 nz-breadcrumb {
   margin-bottom: 15px;
 }
+
+.search-form {
+  display: flex;
+  margin-right: 20px;
+
+  @media screen and (max-width: 730px) {
+    display: none;
+  }
+
+  .search-input {
+    margin-right: 10px;
+  }
+}
