@@ -1,3 +1,4 @@
+import { FormsModule } from '@angular/forms';
 import { ZoroModule } from './../zoro/zoro.module';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -12,7 +13,8 @@ import { AuthorvisitComponent } from '../authorvisit/authorvisit.component';
   imports: [
     CommonModule,
     AuthorsRoutingModule,
-    ZoroModule
+    ZoroModule,
+    FormsModule
   ]
 })
 export class AuthorsModule { }

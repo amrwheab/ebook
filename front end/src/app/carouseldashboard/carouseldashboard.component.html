@@ -48,6 +48,26 @@
           </nz-form-control>
         </nz-form-item>
         <nz-form-item>
+          <nz-form-label>Action</nz-form-label>
+          <nz-form-control>
+            <!-- nzShowSearch nzAllowClear -->
+            <nz-select style="margin-bottom: 5px;" nzPlaceHolder="Select distination of action" formControlName="dist" (ngModelChange)="inputDist()">
+              <nz-option nzValue="/departments" nzLabel="department"></nz-option>
+              <nz-option nzValue="/authors" nzLabel="author"></nz-option>
+              <nz-option nzValue="/books" nzLabel="book"></nz-option>
+            </nz-select>
+            <nz-select nzShowSearch nzAllowClear *ngIf="carouselForm.value.dist === '/departments'" style="margin-bottom: 5px;" nzPlaceHolder="Select department name" formControlName="actionSelect">
+              <nz-option *ngFor="let depart of department" [nzValue]="depart.name" [nzLabel]="depart.name"></nz-option>
+            </nz-select>
+            <nz-select nzShowSearch nzAllowClear (nzOnSearch)="autherSearch($event)" *ngIf="carouselForm.value.dist === '/authors'" style="margin-bottom: 5px;" nzPlaceHolder="Select auther name" formControlName="actionSelect">
+              <nz-option *ngFor="let auth of auther" [nzValue]="auth.slug" [nzLabel]="auth.name"></nz-option>
+            </nz-select>
+            <nz-select nzShowSearch nzAllowClear (nzOnSearch)="bookSearch($event)" *ngIf="carouselForm.value.dist === '/books'" style="margin-bottom: 5px;" nzPlaceHolder="Select book name" formControlName="actionSelect">
+              <nz-option *ngFor="let book of books" [nzValue]="book.slug" [nzLabel]="book.name"></nz-option>
+            </nz-select>
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
           <nz-form-label>Image</nz-form-label>
           <nz-form-control>
             <input nz-input nz-button nzType="primary" type="file" (change)="onFileChange($event)">

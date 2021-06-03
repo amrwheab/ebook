@@ -2,7 +2,7 @@
   <nz-spin nzSimple [nzSize]="'large'"></nz-spin>
 </div>
 <div *ngIf="loaded && cart.length === 0" style="display: flex;align-items: center;flex-flow: column;">
-  <h2>No elements in cart</h2>
+  <h2>No books in cart</h2>
   <div style="width: 100%;height: 300px;margin-bottom: 20px;">
     <img style="width: 100%;height: 100%;" src="assets/notfound.svg" alt="">
   </div>
@@ -21,6 +21,7 @@
     <h4 class="card-title" nz-tooltip nzTooltipPlacement="bottom" [nzTooltipTitle]="elem.book.name"  [routerLink]="['/books', elem.book.slug]">{{elem.book.name.slice(0, 20) | titlecase}}<span *ngIf="elem.book.name.length > 20">...</span></h4>
       <span class="card-text">{{elem.book.info.slice(0, 40)}}<span *ngIf="elem.book.info.length > 40">...</span></span>
     <span class="price">{{elem.book.price | currency}}</span>
+    <nz-rate class="rate-card" [ngModel]="elem.book.rate" disabled="true"></nz-rate>
     <div style="display: flex;justify-content: space-between;">
       <button nz-button nzType="primary" (click)="sendBuy(elem.book.id)" *ngIf="!elem.book.buyed">Buy Now</button>
       <button nz-button nzType="primary" nzDanger (click)="removeFromCart(elem.book.id)">Delete</button>

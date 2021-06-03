@@ -30,6 +30,7 @@ import { NzCarouselModule } from 'ng-zorro-antd/carousel';
 import { NzCollapseModule } from 'ng-zorro-antd/collapse';
 import { IconsProviderModule } from '../icons-provider.module';
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
+import { NzRateModule } from 'ng-zorro-antd/rate';
 
 @NgModule({
   declarations: [],
@@ -62,7 +63,8 @@ import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
     NzCarouselModule,
     NzCollapseModule,
     IconsProviderModule,
-    NzToolTipModule
+    NzToolTipModule,
+    NzRateModule
   ],
   exports: [
     NzButtonModule,
@@ -92,7 +94,8 @@ import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
     NzCarouselModule,
     NzCollapseModule,
     IconsProviderModule,
-    NzToolTipModule
+    NzToolTipModule,
+    NzRateModule
   ],
   providers: [{ provide: NZ_I18N, useValue: en_US }]
 })

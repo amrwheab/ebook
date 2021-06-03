@@ -1,7 +1,3 @@
-.tabel-operations {
-  position: absolute;
-  bottom: -50px;
-}
 .search-input {
   display: inline-block;
   width: 40%;
@@ -12,16 +8,7 @@
   margin-bottom: 10px;
 }
 @media (max-width: 768px) {
-  .tabel-operations {
-    bottom: -84px;
-  }
   .search-input {
     width: 100%;
-  }
-}
-.dash-link {
-  color: black;
-  &:hover {
-    color: #1890ff;
   }
 }

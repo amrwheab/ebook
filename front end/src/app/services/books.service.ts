@@ -44,6 +44,10 @@ export class BooksService {
     return this.http.get(environment.server + '/book/getbookbyslug.php', {params: {slug}});
   }
 
+  getRelatedBooks(department: string, auther: string, bookId: string): Observable<any> {
+    return this.http.get(environment.server + '/book/getrelatedbooks.php', {params: {department, auther, bookId}});
+  }
+
   deleteBooks(data: string[]): Observable<any> {
     let query = '/book/deletebook.php';
     // tslint:disable-next-line: prefer-for-of

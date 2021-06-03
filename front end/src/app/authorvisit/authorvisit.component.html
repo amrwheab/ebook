@@ -23,8 +23,9 @@
       <h4 class="card-title" nz-tooltip nzTooltipPlacement="bottom" [nzTooltipTitle]="book.name" [routerLink]="['/books', book.slug]">{{book.name.slice(0, 20) | titlecase}}<span *ngIf="book.name.length > 20">...</span></h4>
       <span class="card-text">{{book.info.slice(0, 40)}}<span *ngIf="book.info.length > 40">...</span></span>
       <span class="price">{{book.price | currency}}</span>
+      <nz-rate class="rate-card" [(ngModel)]="book.rate" disabled="true"></nz-rate>
       <div>
-        <button *ngIf="!cartConfirm(book.id)" nz-button nzType="primary" (click)="addToCart(book.id)">Add To Cart<i nz-icon nzType="shopping-cart" nzTheme="outline"></i></button>
+        <button *ngIf="!cartConfirm(book.id)" nz-button nzType="primary" (click)="addToCart(book.id, book.slug)">Add To Cart<i nz-icon nzType="shopping-cart" nzTheme="outline"></i></button>
         <button *ngIf="cartConfirm(book.id)" nz-button nzType="primary" nzDanger (click)="removeFromCart(book.id)">Remove From Cart<i nz-icon nzType="shopping-cart" nzTheme="outline"></i></button>
       </div>
     </div>

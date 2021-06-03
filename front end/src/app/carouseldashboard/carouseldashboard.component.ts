@@ -1,9 +1,15 @@
+import { Auther } from './../shard/auther';
+import { Book } from './../shard/book';
+import { BooksService } from './../services/books.service';
+import { AutherService } from './../services/auther.service';
+import { DepartmentService } from './../services/department.service';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { Carousel } from './../shard/carousel';
 import { Subscription } from 'rxjs';
 import { CarouselService } from './../services/carousel.service';
 import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
+import { Department } from '../shard/depart';
 
 @Component({
   selector: 'app-carouseldashboard',
@@ -22,14 +28,28 @@ export class CarouseldashboardComponent implements OnInit, OnDestroy {
   imageUpload = null;
   deleteVisable = false;
   selectedDeletingCarousel: string | undefined;
+
+  action: string[] = [];
+  bookOps: Subscription | undefined;
+  books: Book[] = [];
+  departOps: Subscription | undefined;
+  department: Department[] = [];
+  autherOps: Subscription | undefined;
+  auther: Auther[] = [];
+
   carouselForm = new FormGroup({
     title: new FormControl(null, [Validators.required]),
     content: new FormControl(null, [Validators.required]),
     carouselImg: new FormControl(null),
+    dist: new FormControl(null, [Validators.required]),
+    actionSelect: new FormControl(null, [Validators.required]),
   });
 
   constructor(private carouselSer: CarouselService,
-              private message: NzMessageService) { }
+              private message: NzMessageService,
+              private departSer: DepartmentService,
+              private autherSer: AutherService,
+              private bookSer: BooksService) { }
 
   ngOnInit(): void {
     // tslint:disable-next-line: deprecation
@@ -46,12 +66,24 @@ export class CarouseldashboardComponent implements OnInit, OnDestroy {
     if (this.carouselObs) {
       this.carouselObs.unsubscribe();
     }
+    if (this.departOps) {
+      this.departOps.unsubscribe();
+    }
+    if (this.autherOps) {
+      this.autherOps.unsubscribe();
+    }
+    if (this.bookOps) {
+      this.bookOps.unsubscribe();
+    }
   }
 
   generatingValues(): void {
+    const actionArr: any = this.carousel.find(ele => ele.id === this.selectedCarouselValue)?.action?.split('/');
     this.carouselForm.patchValue({
       title: this.carousel.find(ele => ele.id === this.selectedCarouselValue)?.title,
-      content: this.carousel.find(ele => ele.id === this.selectedCarouselValue)?.content
+      content: this.carousel.find(ele => ele.id === this.selectedCarouselValue)?.content,
+      dist: actionArr[0],
+      actionSelect: actionArr[1]
     });
 
     this.updateModeHelper = true;
@@ -81,7 +113,31 @@ export class CarouseldashboardComponent implements OnInit, OnDestroy {
     });
   }
 
+  inputDist(): void {
+    const value = this.carouselForm.value.dist;
+    if (value === '/departments') {
+      this.departOps = this.departSer.getDeparts().subscribe(departs => this.department = departs);
+    } else if (value === '/authors') {
+      this.autherOps = this.autherSer.getAuthers('1', '').subscribe(authers => this.auther = authers.authers);
+    } else {
+      this.bookOps = this.bookSer.getBooks(1, '', '10').subscribe(books => this.books = books);
+    }
+  }
+
+  autherSearch(search: string): void {
+    if (search) {
+      this.autherOps = this.autherSer.getAuthers('1', search).subscribe(authers => this.auther = authers.authers);
+    }
+  }
+
+  bookSearch(search: string): void {
+    if (search) {
+      this.bookOps = this.bookSer.getBooks(1, search, '10').subscribe(books => this.books = books);
+    }
+  }
+
   onSubmit(): void {
+    const action = this.carouselForm.value.dist + '/' + this.carouselForm.value.actionSelect;
     if (this.updateMode) {
       const formData = new FormData();
 
@@ -92,6 +148,7 @@ export class CarouseldashboardComponent implements OnInit, OnDestroy {
       if (this.carouselForm.value.carouselImg) {
         formData.append('carouselImg', this.carouselForm.value.carouselImg);
       }
+      formData.append('action', action);
 
       const id  = this.message.loading('Action in progress').messageId;
       // tslint:disable-next-line: deprecation
@@ -114,6 +171,7 @@ export class CarouseldashboardComponent implements OnInit, OnDestroy {
         formData.append('title', this.carouselForm.value.title);
         formData.append('content', this.carouselForm.value.content);
         formData.append('carouselImg', this.carouselForm.value.carouselImg);
+        formData.append('action', action);
 
         const id  = this.message.loading('Action in progress').messageId;
         // tslint:disable-next-line: deprecation

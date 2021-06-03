@@ -1,0 +1,26 @@
+<form>
+  <input nz-input placeholder="Search" class="search-input" #search (input)="onInputSearch(search.value)" />
+  <button nz-button nzType="primary" class="search-btn" (click)="ngOnInit()">Search</button>
+</form>
+<div *ngIf="!userLoaded" style="height: 300px;line-height: 300px;text-align: center;">
+  <nz-spin nzSimple [nzSize]="'large'"></nz-spin>
+</div>
+<nz-table #basicTable nzShowSizeChanger [nzData]="listOfData"
+  (nzCurrentPageDataChange)="onCurrentPageDataChange($event)">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Email</th>
+      <th>Address</th>
+      <th>Admin</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let user of basicTable.data">
+      <td>{{user.name}}</td>
+      <td>{{ user.email }}</td>
+      <td>{{ user.address }}</td>
+      <td><nz-switch [(ngModel)]="user.isAdmin" (ngModelChange)="changeUserAdmin(user.isAdmin, user.id)"></nz-switch></td>
+    </tr>
+  </tbody>
+</nz-table>

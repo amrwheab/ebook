@@ -12,4 +12,6 @@ export class Book {
   miniPath: string | undefined;
   fullPath: string | undefined;
   isFeatured: boolean | undefined;
+  rate: number | undefined;
+  slug: string | undefined;
 }

@@ -7,8 +7,11 @@
       </a>
     </div>
     <ul nz-menu nzTheme="dark" nzMode="inline">
-      <li nz-submenu [nzOpen]="router.url.split('/')[1].includes('dashboard')" nzTitle="Dashboard" nzIcon="dashboard" *ngIf="user.isAdmin">
+      <li nz-submenu [nzOpen]="router.url.split('/')[1].includes('dashboard')" nzTitle="Dashboard" nzIcon="dashboard" *ngIf="user?.isAdmin">
         <ul>
+          <li *ngIf="user.mainAdmin" nz-menu-item nzMatchRouter>
+            <a routerLink="/dashboard/admin">Admin</a>
+          </li>
           <li nz-menu-item nzMatchRouter>
             <a routerLink="/dashboard/books">Books</a>
           </li>
@@ -52,16 +55,16 @@
       height: 100%;">
         <ul nz-menu nzTheme="light" nzMode="horizontal" class="header-menu">
           <li nz-menu-item routerLink="/" routerLinkActive="ant-menu-item-selected" [routerLinkActiveOptions]="{exact: true}">Home</li>
-          <li nz-menu-item routerLink="/auth/login" *ngIf="!user.id" routerLinkActive="ant-menu-item-selected">Login</li>
-          <li nz-menu-item routerLink="/auth/signup" *ngIf="!user.id" routerLinkActive="ant-menu-item-selected">Signup</li>
-          <li nz-menu-item routerLink="/cart" *ngIf="user.id" routerLinkActive="ant-menu-item-selected">Cart</li>
-          <li nz-menu-item routerLink="/purchases" *ngIf="user.id" routerLinkActive="ant-menu-item-selected">Purchases</li>
+          <li nz-menu-item routerLink="/login" *ngIf="!user?.id" routerLinkActive="ant-menu-item-selected">Login</li>
+          <li nz-menu-item routerLink="/signup" *ngIf="!user?.id" routerLinkActive="ant-menu-item-selected">Signup</li>
+          <li nz-menu-item routerLink="/cart" *ngIf="user?.id" routerLinkActive="ant-menu-item-selected">Cart</li>
+          <li nz-menu-item routerLink="/purchases" *ngIf="user?.id" routerLinkActive="ant-menu-item-selected">Purchases</li>
         </ul>
         <form nz-col nzMd="8" class="search-form">
           <input nz-input placeholder="Search" class="search-input" #search >
           <button nz-button nzType="primary" (click)="searchClick(search.value)">Search</button>
         </form>
-        <button nz-button nzDanger style="position: relative;right: 42px;" *ngIf="user.id" (click)="logOut()">Log out</button>
+        <button nz-button nzDanger style="position: relative;right: 42px;" *ngIf="user?.id" (click)="logOut()">Log out</button>
       </div>
     </nz-header>
     <nz-content>

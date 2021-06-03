@@ -1,4 +1,4 @@
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { AuthService } from './../services/auth.service';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
@@ -11,6 +11,8 @@ import { NzMessageService } from 'ng-zorro-antd/message';
 })
 export class LoginComponent implements OnInit {
 
+  redirectTo: string | undefined;
+
   loginForm = new FormGroup({
     email: new FormControl('', [
       Validators.required,
@@ -22,9 +24,21 @@ export class LoginComponent implements OnInit {
     ])
   });
 
-  constructor(private authSer: AuthService, private message: NzMessageService, private router: Router) { }
+  constructor(private authSer: AuthService,
+              private message: NzMessageService,
+              private router: Router,
+              private actRoute: ActivatedRoute) { }
 
   ngOnInit(): void {
+    this.redirectTo = this.actRoute.snapshot.queryParams.redirectTo;
+  }
+
+  goToSignUp(): void {
+    if (this.redirectTo) {
+      this.router.navigate(['/signup'], {queryParams: {redirectTo: this.redirectTo}});
+    } else {
+      this.router.navigate(['/signup']);
+    }
   }
 
   onSubmit(): void {
@@ -39,7 +53,8 @@ export class LoginComponent implements OnInit {
       this.authSer.loginUser(this.loginForm.value).subscribe(data => {
         this.message.remove(id);
         localStorage.setItem('token', data.token);
-        this.router.navigate(['/']).then(() => {
+        const navigate = this.redirectTo ? `/books/${this.redirectTo}` : '/';
+        this.router.navigate([navigate]).then(() => {
           location.reload();
         });
       }, err => {

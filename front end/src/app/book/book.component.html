@@ -1,7 +1,6 @@
 <div *ngIf="!loaded" style="height: 300px;line-height: 300px;text-align: center;">
   <nz-spin nzSimple [nzSize]="'large'"></nz-spin>
 </div>
-
 <div class="auther" *ngIf="loaded">
   <div class="book-info">
     <div class="img-contain">
@@ -18,6 +17,73 @@
       <button nz-button nzType="default" nzSize="large" (click)="showBook()">Show {{buyed?'Book':'Demo'}}</button>
     </div>
   </div>
+  <nz-divider></nz-divider>
+  <div class="eval">
+    <div class="comments">
+      <h3 class="comments-address">Comments</h3>
+      <a (click)="loadMoreComments()" *ngIf="commentsLoadMore" style="font-size: 1rem;display: inline-block;margin-bottom: 10px;">load more...</a>
+      <p *ngIf="commentsLoad && comments.length === 0">There is no comments on this book</p>
+      <p *ngIf="!commentsLoad">Loading Comments</p>
+      <div class="comment-contain" *ngFor="let comment of comments">
+        <img class="user-img" src="assets/auther.png">
+        <div class="comment-body">
+          <h4><a>{{comment.user_name | titlecase}}</a></h4>
+          <p>{{comment.body}}</p>
+        </div>
+      </div>
+      <form style="display: flex;">
+        <input name="commentbody" autocomplete="off" [(ngModel)]="commentbody" type="text" nz-input placeholder="Write a comment..." style="margin-right: 10px;" >
+        <button type="submit" nz-button nzType="primary" (click)="addComment()">Add</button>
+      </form>
+    </div>
+    <div class="rate">
+      <nz-divider class="divid"></nz-divider>
+      <h3 style="font-size: 1.2rem;">Rate</h3>
+      <div>
+        <nz-rate [ngModel]="5" nzDisabled="true" style="margin-right: 10px;"></nz-rate>
+        <span>{{rate['5star']}}</span>
+      </div>
+      <div>
+        <nz-rate [ngModel]="4" nzDisabled="true" style="margin-right: 10px;"></nz-rate>
+        <span>{{rate['4star']}}</span>
+      </div>
+      <div>
+        <nz-rate [ngModel]="3" nzDisabled="true" style="margin-right: 10px;"></nz-rate>
+        <span>{{rate['3star']}}</span>
+      </div>
+      <div>
+        <nz-rate [ngModel]="2" nzDisabled="true" style="margin-right: 10px;"></nz-rate>
+        <span>{{rate['2star']}}</span>
+      </div>
+      <div>
+        <nz-rate [ngModel]="1" nzDisabled="true" style="margin-right: 10px;"></nz-rate>
+        <span>{{rate['1star']}}</span>
+      </div>
+      <nz-divider></nz-divider>
+      <h3>Add Your Rate</h3>
+      <nz-rate [ngModel]="rate['userRate']" (ngModelChange)="addRate($event)"></nz-rate>
+    </div>
+  </div>
 </div>
+<nz-divider></nz-divider>
+<div class="eval" style="display: block;">
+  <h3 style="font-size: 1.2rem;">Related Books</h3>
+  <div class="visit">
+    <div class="card" *ngFor="let book of relatedbooks">
+      <div class="card-img">
+        <img [src]="book.imgUrl" alt="" [routerLink]="['/books', book.slug]">
+      </div>
+      <h4 class="card-title" nz-tooltip nzTooltipPlacement="bottom" [nzTooltipTitle]="book.name" [routerLink]="['/books', book.slug]">{{book.name.slice(0, 20) | titlecase}}<span *ngIf="book.name.length > 20">...</span></h4>
+      <span class="card-text">{{book.info.slice(0, 40)}}<span *ngIf="book.info.length > 40">...</span></span>
+      <span class="price">{{book.price | currency}}</span>
+      <nz-rate class="rate-card" [ngModel]="book.rate" disabled="true"></nz-rate>
+      <div>
+        <button *ngIf="!cartConfirm(book.id)" nz-button nzType="primary" (click)="addRelatedToCart(book.id, book.slug)">Add To Cart<i nz-icon nzType="shopping-cart" nzTheme="outline"></i></button>
+        <button *ngIf="cartConfirm(book.id)" nz-button nzType="primary" nzDanger (click)="removeRelatedFromCart(book.id)">Remove From Cart<i nz-icon nzType="shopping-cart" nzTheme="outline"></i></button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <i nz-icon nzType="close" nzTheme="outline" class="cross-btn" *ngIf="readMode==='block'" (click)="readMode='none'"></i>
 <div #viewer [style]="'overflow: hidden;width: 100%;height: 100%;position: absolute;top: 0;left: 0;z-index: 2001;display:' + readMode"></div>

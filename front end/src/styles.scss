@@ -6,7 +6,7 @@
 
 .card {
   width: 187px;
-  height: 327px;
+  height: 350px;
   padding: 5px;
   border: 1px solid #DDD;
   border-radius: 7px;
@@ -37,5 +37,15 @@
     display: block;
     font-weight: bold;
     color: #1890ff;
+  }
+
+  .rate-card {
+    ul.ant-rate {
+      margin-top: -11px;
+
+      li.ant-rate-star {
+        width: 9px;
+      }
+    }
   }
 }

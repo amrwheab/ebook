@@ -47,6 +47,7 @@ export class MycarouselComponent implements OnInit, OnDestroy {
     this.pageSize = window.innerWidth;
     this.carPosition = - this.pageSize;
 
+    // tslint:disable-next-line: no-non-null-assertion
     this.sliderIterv = window.setInterval(() => this.carRight(this.pageSize!), 10000);
   }
 
@@ -69,15 +70,18 @@ export class MycarouselComponent implements OnInit, OnDestroy {
         this.carPosition = -w;
         this.carTran = 'none';
         setTimeout(() => {
+          // tslint:disable-next-line: no-non-null-assertion
           this.carPosition! -= w;
           this.carTran = '.5s ease-out;';
         }, 0);
       } else {
+        // tslint:disable-next-line: no-non-null-assertion
         this.carPosition! -= w;
         this.carTran = '.5s ease-out;';
       }
     }
 
+    // tslint:disable-next-line: no-non-null-assertion
     this.sliderIterv = window.setInterval(() => this.carRight(this.pageSize!), 10000);
   }
 
@@ -90,15 +94,18 @@ export class MycarouselComponent implements OnInit, OnDestroy {
       this.carTran = 'none';
       this.carPosition = -(this.gallery.length) * w;
       setTimeout(() => {
+        // tslint:disable-next-line: no-non-null-assertion
         this.carPosition! += w;
         this.carTran = '.5s ease-out;';
       }, 0);
     }else if (this.carPosition === -w) {
       this.carPosition = 0;
     }else {
+      // tslint:disable-next-line: no-non-null-assertion
       this.carPosition! += w;
     }
 
+    // tslint:disable-next-line: no-non-null-assertion
     this.sliderIterv = window.setInterval(() => this.carRight(this.pageSize!), 10000);
   }
 
@@ -110,7 +117,9 @@ export class MycarouselComponent implements OnInit, OnDestroy {
 
     }
 
+    // tslint:disable-next-line: no-non-null-assertion
     this.carPosition = -this.pageSize! * (i + 1);
+    // tslint:disable-next-line: no-non-null-assertion
     this.sliderIterv = window.setInterval(() => this.carRight(this.pageSize!), 10000);
   }
 

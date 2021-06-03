@@ -13,18 +13,21 @@
       <div class="car-input" [class.mob]="mobileScreen">
         <h2>{{gallery[gallery.length-1].title}}</h2>
         <p *ngIf="!mobileScreen">{{gallery[gallery.length-1].content}}</p>
+        <a nz-button nzType="primary" [routerLink]="gallery[gallery.length-1].action" >Go Now</a>
       </div>
     </div>
     <div [style]="'width:'+pageSize+'px;'+'background-image:url('+car.img+');'" *ngFor="let car of gallery;let i = index" class="insideCar">
       <div class="car-input" [class.mob]="mobileScreen">
         <h2>{{car.title}}</h2>
         <p *ngIf="!mobileScreen">{{car.content}}</p>
+        <a nz-button nzType="primary" [routerLink]="car.action" >Go Now</a>
       </div>
     </div>
     <div [style]="'width:'+pageSize+'px;'+'background-image:url('+gallery[0].img+');'" class="insideCar">
       <div class="car-input" [class.mob]="mobileScreen">
         <h2>{{gallery[0].title}}</h2>
         <p *ngIf="!mobileScreen">{{gallery[0].content}}</p>
+        <a nz-button nzType="primary" [routerLink]="gallery[0].action" >Go Now</a>
       </div>
     </div>
   </div>

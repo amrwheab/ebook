@@ -3,4 +3,5 @@ export class Auther {
   name: string | undefined;
   imgUrl: string | undefined;
   info: string | undefined;
+  slug: string | undefined;
 }

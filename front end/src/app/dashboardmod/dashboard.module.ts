@@ -9,6 +9,7 @@ import { AuthersdashboardComponent } from '../authersdashboard/authersdashboard.
 import { DashboardRoutingModule } from './dashboard-routing.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CarouseldashboardComponent } from '../carouseldashboard/carouseldashboard.component';
+import { UserdashboardComponent } from '../userdashboard/userdashboard.component';
 
 @NgModule({
   declarations: [
@@ -17,7 +18,8 @@ import { CarouseldashboardComponent } from '../carouseldashboard/carouseldashboa
     ModifybookComponent,
     DepartmentsdashboardComponent,
     AuthersdashboardComponent,
-    CarouseldashboardComponent
+    CarouseldashboardComponent,
+    UserdashboardComponent
   ],
   imports: [
     CommonModule,

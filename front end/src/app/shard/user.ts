@@ -9,4 +9,5 @@ export class User {
   isAdmin: boolean | undefined;
   cart: Book[] | undefined;
   slug: string | undefined;
+  mainAdmin: boolean | undefined;
 }

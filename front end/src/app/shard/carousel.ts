@@ -3,4 +3,5 @@ export class Carousel {
   title: string | undefined;
   content: string | undefined;
   img: string | undefined;
+  action: string | undefined;
 }

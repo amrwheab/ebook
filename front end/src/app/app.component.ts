@@ -4,7 +4,7 @@ import { DepartmentService } from './services/department.service';
 import { User } from './shard/user';
 import { AuthService } from './services/auth.service';
 import { NavigationEnd, Router } from '@angular/router';
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, ElementRef } from '@angular/core';
 import { Department } from './shard/depart';
 import { Auther } from './shard/auther';
 
@@ -14,6 +14,7 @@ import { Auther } from './shard/auther';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit, OnDestroy {
+
   breadItems: string[] = [];
   user: User = {
     id: '',
@@ -23,7 +24,8 @@ export class AppComponent implements OnInit, OnDestroy {
     buyedBooks: [],
     isAdmin: false,
     cart: [],
-    slug: ''
+    slug: '',
+    mainAdmin: false
   };
   departs: Department[] = [];
   authors: Auther[] = [];
@@ -38,7 +40,6 @@ export class AppComponent implements OnInit, OnDestroy {
               private authorSer: AutherService) {}
 
   ngOnInit(): void {
-
 
     // tslint:disable-next-line: deprecation
     this.router.events.subscribe((e) => {

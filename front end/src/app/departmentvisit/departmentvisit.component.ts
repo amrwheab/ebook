@@ -71,7 +71,7 @@ export class DepartmentvisitComponent implements OnInit, OnDestroy {
     return Boolean(this.cart.find(ele => ele.bookId === id));
 }
 
-addToCart(id: string): void {
+addToCart(id: string, slug: string): void {
   const token = localStorage.getItem('token');
   if (token) {
     const messageId  = this.message.loading('Action in progress').messageId;
@@ -84,7 +84,7 @@ addToCart(id: string): void {
       this.message.error('some thing went wrong');
     });
   } else {
-    this.router.navigate(['/login']);
+    this.router.navigate(['/login'], {queryParams: {redirectTo: slug}});
   }
 }
 
