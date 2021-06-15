@@ -11,6 +11,7 @@
       <span class="card-text">{{book.info.slice(0, 40)}}<span *ngIf="book.info.length > 40">...</span></span>
     <span class="price">{{book.price | currency}}</span>
     <nz-rate class="rate-card" [ngModel]="book.rate" disabled="true"></nz-rate>
+    <span style="margin-left: 15px;">({{book.rateNum}})</span>
     <div>
       <button *ngIf="!cartConfirm(book.id)" nz-button nzType="primary" (click)="addToCart(book.id, book.slug)">Add To Cart<i nz-icon nzType="shopping-cart" nzTheme="outline"></i></button>
       <button *ngIf="cartConfirm(book.id)" nz-button nzType="primary" nzDanger (click)="removeFromCart(book.id)">Remove From Cart<i nz-icon nzType="shopping-cart" nzTheme="outline"></i></button>

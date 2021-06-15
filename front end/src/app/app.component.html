@@ -59,6 +59,7 @@
           <li nz-menu-item routerLink="/signup" *ngIf="!user?.id" routerLinkActive="ant-menu-item-selected">Signup</li>
           <li nz-menu-item routerLink="/cart" *ngIf="user?.id" routerLinkActive="ant-menu-item-selected">Cart</li>
           <li nz-menu-item routerLink="/purchases" *ngIf="user?.id" routerLinkActive="ant-menu-item-selected">Purchases</li>
+          <li nz-menu-item routerLink="/aboutus" routerLinkActive="ant-menu-item-selected">About us</li>
         </ul>
         <form nz-col nzMd="8" class="search-form">
           <input nz-input placeholder="Search" class="search-input" #search >

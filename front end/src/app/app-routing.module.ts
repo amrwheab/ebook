@@ -1,3 +1,4 @@
+import { AboutusComponent } from './aboutus/aboutus.component';
 import { SearchComponent } from './search/search.component';
 import { BuysComponent } from './buys/buys.component';
 import { IsuserGuard } from './guards/isuser.guard';
@@ -18,6 +19,7 @@ const routes: Routes = [
   {path: 'cart', component: CartComponent, canActivate: [IsuserGuard]},
   {path: 'purchases', component: BuysComponent, canActivate: [IsuserGuard]},
   {path: 'search', component: SearchComponent},
+  {path: 'aboutus', component: AboutusComponent},
 ];
 
 @NgModule({

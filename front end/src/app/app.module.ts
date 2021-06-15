@@ -22,6 +22,7 @@ import { NgxStripeModule } from 'ngx-stripe';
 import { StripeComponent } from './stripe/stripe.component';
 import { BuysComponent } from './buys/buys.component';
 import { SearchComponent } from './search/search.component';
+import { AboutusComponent } from './aboutus/aboutus.component';
 
 registerLocaleData(en);
 
@@ -34,7 +35,8 @@ registerLocaleData(en);
     CartComponent,
     StripeComponent,
     BuysComponent,
-    SearchComponent
+    SearchComponent,
+    AboutusComponent
   ],
   imports: [
     BrowserModule,

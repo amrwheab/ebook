@@ -13,5 +13,6 @@ export class Book {
   fullPath: string | undefined;
   isFeatured: boolean | undefined;
   rate: number | undefined;
+  rateNum: number | undefined;
   slug: string | undefined;
 }
