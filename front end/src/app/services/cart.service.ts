@@ -1,3 +1,4 @@
+import { Cart } from './../shard/cart';
 import { environment } from './../../environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
@@ -9,7 +10,18 @@ import { Injectable } from '@angular/core';
 export class CartService {
 
   url = environment.server;
-  constructor(private http: HttpClient) { }
+  cart: Cart[] = [];
+  constructor(private http: HttpClient) {
+    const token = localStorage.getItem('token');
+    if (token) {
+      // tslint:disable-next-line: deprecation
+      this.getMiniCart(token).subscribe(cart => {
+        this.cart = cart;
+      }, err => {
+        console.log(err);
+      });
+  }
+}
 
   getMiniCart(token: string): Observable<any> {
     return this.http.get(this.url + '/cart/getminicart.php', {params: {token}});
@@ -31,3 +43,4 @@ export class CartService {
     return this.http.delete(this.url + '/cart/deletefromcart.php', {params: {bookId, token}});
   }
 }
+

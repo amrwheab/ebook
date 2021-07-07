@@ -46,10 +46,6 @@ export class BookComponent implements OnInit, OnDestroy {
 
   relatedbooks: Book[] | undefined = [];
   relatedBooksOps: Subscription | undefined;
-
-  relatedCartOps: Subscription | undefined;
-  relatedCart: Cart[] | undefined = [];
-
   rate = {
     '1star': 0,
     '2star': 0,
@@ -93,13 +89,6 @@ export class BookComponent implements OnInit, OnDestroy {
           // tslint:disable-next-line: deprecation
           this.buyedOps = this.buySer.getOneBuyed(jwt.decodeToken(token).id, book.id).subscribe(buy => {
             this.buyed = buy;
-          }, err => {
-            console.log(err);
-          });
-
-          // tslint:disable-next-line: deprecation
-          this.relatedCartOps = this.cartSer.getMiniCart(token).subscribe(cart => {
-            this.relatedCart = cart;
           }, err => {
             console.log(err);
           });
@@ -152,9 +141,6 @@ export class BookComponent implements OnInit, OnDestroy {
     if (this.bookOps) {
       this.bookOps.unsubscribe();
     }
-    if (this.cartOps) {
-      this.cartOps.unsubscribe();
-    }
     if (this.buyedOps) {
       this.buyedOps.unsubscribe();
     }
@@ -164,8 +150,8 @@ export class BookComponent implements OnInit, OnDestroy {
     if (this.relatedBooksOps) {
       this.relatedBooksOps.unsubscribe();
     }
-    if (this.relatedCartOps) {
-      this.relatedCartOps.unsubscribe();
+    if (this.cartOps) {
+      this.cartOps.unsubscribe();
     }
     if (this.actRouteSub) {
       this.actRouteSub.unsubscribe();
@@ -268,42 +254,6 @@ export class BookComponent implements OnInit, OnDestroy {
       console.log(err);
     });
   }
-
-  cartConfirm(id: string): boolean {
-    return Boolean(this.relatedCart?.find(ele => ele.bookId === id));
-}
-
-addRelatedToCart(id: string, slug: string): void {
-  const token = localStorage.getItem('token');
-  if (token) {
-    const messageId  = this.message.loading('Action in progress').messageId;
-    // tslint:disable-next-line: deprecation
-    this.cartSer.addToCart(id, token).subscribe(() => {
-      this.message.remove(messageId);
-      this.relatedCart?.push({bookId: id, userId: '', id: '', buyed: false});
-    }, (err) => {
-      this.message.remove(messageId);
-      console.log(err);
-      this.message.error(err.error.message);
-    });
-  } else {
-    this.router.navigate(['/login'], {queryParams: {redirectTo: slug}});
-  }
-}
-
-removeRelatedFromCart(id: string): void {
-  // tslint:disable-next-line: no-non-null-assertion
-  const token = localStorage.getItem('token')!;
-  const messageId  = this.message.loading('Action in progress').messageId;
-  // tslint:disable-next-line: deprecation
-  this.cartSer.removeFromCart(id, token).subscribe(() => {
-    this.message.remove(messageId);
-    this.relatedCart = this.relatedCart?.filter(ele => ele.bookId !== id);
-  }, () => {
-    this.message.remove(messageId);
-    this.message.error('some thing went wrong');
-  });
-}
 
 addRate(stars: number): void {
   const jwt = new JwtHelperService();

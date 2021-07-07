@@ -1,3 +1,4 @@
+import { BookmodModule } from './bookmod/bookmod.module';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { AuthorsModule } from './authors/authors.module';
 import { DepartmentsmodModule } from './departmentsmod/departmentsmod.module';
@@ -22,7 +23,6 @@ import { NgxStripeModule } from 'ngx-stripe';
 import { StripeComponent } from './stripe/stripe.component';
 import { BuysComponent } from './buys/buys.component';
 import { SearchComponent } from './search/search.component';
-import { AboutusComponent } from './aboutus/aboutus.component';
 
 registerLocaleData(en);
 
@@ -35,8 +35,7 @@ registerLocaleData(en);
     CartComponent,
     StripeComponent,
     BuysComponent,
-    SearchComponent,
-    AboutusComponent
+    SearchComponent
   ],
   imports: [
     BrowserModule,
@@ -50,7 +49,8 @@ registerLocaleData(en);
     AuthorsModule,
     NgxStripeModule.forRoot('pk_test_51IAtnlKMAtDRnFQfeMLEaqLtzwx7w6lMmQfYab9sTkDUrXttEalyvJVWq4OFSb1Okz4FerdT2QIJMOmCOKnC4ECX00nlQPfzTu'),
     ReactiveFormsModule,
-    FormsModule
+    FormsModule,
+    BookmodModule
   ],
   providers: [{
     provide: HTTP_INTERCEPTORS,

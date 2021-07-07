@@ -1,3 +1,4 @@
+import { BookmodModule } from './../bookmod/bookmod.module';
 import { FormsModule } from '@angular/forms';
 import { ZoroModule } from './../zoro/zoro.module';
 import { DepartmentvisitComponent } from './../departmentvisit/departmentvisit.component';
@@ -15,7 +16,8 @@ import { DepartmentsmodRoutingModule } from '../departmentsmod/departmentsmod-ro
     CommonModule,
     DepartmentsmodRoutingModule,
     ZoroModule,
-    FormsModule
+    FormsModule,
+    BookmodModule
   ]
 })
 export class DepartmentsmodModule { }

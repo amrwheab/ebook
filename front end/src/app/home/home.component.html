@@ -7,20 +7,7 @@
     <i nz-icon nzType="right" class="arrows" [class.not-allowed]="featslide <= -featSlideWidth+10" nzTheme="outline" (click)="featSlideAction(true)" style="right: 20px;"></i>
     <div class="screen-slider" [style]="'transform: translate('+featslide+'px);'">
       <div class="slide-cell" *ngFor="let feat of featured">
-        <div class="card">
-          <div class="card-img">
-            <img [routerLink]="['/books', feat.slug]" [src]="feat.imgUrl" alt="">
-          </div>
-          <h4 class="card-title" nz-tooltip nzTooltipPlacement="bottom" [nzTooltipTitle]="feat.name" [routerLink]="['/books', feat.slug]">{{feat.name.slice(0, 20) | titlecase}}<span *ngIf="feat.name.length > 20">...</span></h4>
-          <span class="card-text">{{feat.info.slice(0, 40)}}<span *ngIf="feat.info.length > 40">...</span></span>
-          <span class="price">{{feat.price | currency}}</span>
-          <nz-rate class="rate-card" [ngModel]="feat.rate" disabled="true"></nz-rate>
-          <span style="margin-left: 15px;">({{feat.rateNum}})</span>
-          <div>
-            <button *ngIf="!cartConfirm(feat.id)" nz-button nzType="primary" (click)="addToCart(feat.id, feat.slug)">Add To Cart<i nz-icon nzType="shopping-cart" nzTheme="outline"></i></button>
-            <button *ngIf="cartConfirm(feat.id)" nz-button nzType="primary" nzDanger (click)="removeFromCart(feat.id)">Remove From Cart<i nz-icon nzType="shopping-cart" nzTheme="outline"></i></button>
-          </div>
-        </div>
+        <app-bookcard [book]="feat"></app-bookcard>
       </div>
 
     </div>
@@ -33,20 +20,7 @@
     <i nz-icon nzType="right" class="arrows" [class.not-allowed]="featslide <= -featSlideWidth+10" nzTheme="outline" (click)="mostBuyedAction(true)" style="right: 20px;"></i>
     <div class="screen-slider" [style]="'transform: translate('+mostBuyedSlide+'px);'">
   <div class="slide-cell" *ngFor="let book of mostBuyed">
-    <div class="card">
-      <div class="card-img">
-        <img [routerLink]="['/books', book.slug]" [src]="book.imgUrl" alt="">
-      </div>
-      <h4 class="card-title" nz-tooltip nzTooltipPlacement="bottom" [nzTooltipTitle]="book.name" [routerLink]="['/books', book.slug]">{{book.name.slice(0, 20) | titlecase}}<span *ngIf="book.name.length > 20">...</span></h4>
-      <span class="card-text">{{book.info.slice(0, 40)}}<span *ngIf="book.info.length > 40">...</span></span>
-      <span class="price">{{book.price | currency}}</span>
-      <nz-rate class="rate-card" [ngModel]="book.rate" disabled="true"></nz-rate>
-      <span style="margin-left: 15px;">({{book.rateNum}})</span>
-      <div>
-        <button *ngIf="!cartConfirm(book.id)" nz-button nzType="primary" (click)="addToCart(book.id, book.slug)">Add To Cart<i nz-icon nzType="shopping-cart" nzTheme="outline"></i></button>
-        <button *ngIf="cartConfirm(book.id)" nz-button nzType="primary" nzDanger (click)="removeFromCart(book.id)">Remove From Cart<i nz-icon nzType="shopping-cart" nzTheme="outline"></i></button>
-      </div>
-    </div>
+    <app-bookcard [book]="book"></app-bookcard>
   </div>
   </div>
   </div>
@@ -58,20 +32,7 @@
       <i nz-icon nzType="right" class="arrows" [class.not-allowed]="departsSlide[i] <= -departsSlideWidth[i]+10" nzTheme="outline" (click)="departSlideAction(true, i)" style="right: 20px;"></i>
       <div class="screen-slider" [style]="'transform: translate('+departsSlide[i]+'px);'">
         <div class="slide-cell" *ngFor="let book of depart">
-          <div class="card">
-            <div class="card-img">
-              <img [src]="book.imgUrl" alt="" [routerLink]="['/books', book.slug]">
-            </div>
-            <h4 class="card-title" nz-tooltip nzTooltipPlacement="bottom" [nzTooltipTitle]="book.name"  [routerLink]="['/books', book.slug]">{{book.name.slice(0, 20) | titlecase}}<span *ngIf="book.name.length > 20">...</span></h4>
-            <span class="card-text">{{book.info.slice(0, 40)}}<span *ngIf="book.info.length > 40">...</span></span>
-            <span class="price">{{book.price | currency}}</span>
-            <nz-rate class="rate-card" [ngModel]="book.rate" disabled="true"></nz-rate>
-            <span style="margin-left: 15px;">({{book.rateNum}})</span>
-            <div>
-              <button *ngIf="!cartConfirm(book.id)" nz-button nzType="primary" (click)="addToCart(book.id, book.slug)">Add To Cart<i nz-icon nzType="shopping-cart" nzTheme="outline"></i></button>
-              <button *ngIf="cartConfirm(book.id)" nz-button nzType="primary" nzDanger (click)="removeFromCart(book.id)">Remove From Cart<i nz-icon nzType="shopping-cart" nzTheme="outline"></i></button>
-            </div>
-          </div>
+          <app-bookcard [book]="book"></app-bookcard>
         </div>
       </div>
     </div>

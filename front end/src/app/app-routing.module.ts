@@ -18,8 +18,7 @@ const routes: Routes = [
   {path: 'books/:slug', component: BookComponent},
   {path: 'cart', component: CartComponent, canActivate: [IsuserGuard]},
   {path: 'purchases', component: BuysComponent, canActivate: [IsuserGuard]},
-  {path: 'search', component: SearchComponent},
-  {path: 'aboutus', component: AboutusComponent},
+  {path: 'search', component: SearchComponent}
 ];
 
 @NgModule({

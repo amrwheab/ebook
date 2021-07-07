@@ -1,7 +1,4 @@
 import { AutherService } from './../services/auther.service';
-import { Cart } from './../shard/cart';
-import { CartService } from './../services/cart.service';
-import { JwtHelperService } from '@auth0/angular-jwt';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
@@ -21,10 +18,8 @@ export class SearchComponent implements OnInit, OnDestroy {
   autherload = false;
   booksOps: Subscription | undefined;
   paramOps: Subscription | undefined;
-  cartOps: Subscription | undefined;
   autherOps: Subscription | undefined;
   books: Book[] = [];
-  cart: Cart[] = [];
   authers: Auther[] = [];
   loadMoreBooks = true;
   loadMoreAuthers = true;
@@ -35,7 +30,6 @@ export class SearchComponent implements OnInit, OnDestroy {
               private actRoute: ActivatedRoute,
               private router: Router,
               private message: NzMessageService,
-              private cartSer: CartService,
               private autherSer: AutherService) { }
 
   ngOnInit(): void {
@@ -68,20 +62,6 @@ export class SearchComponent implements OnInit, OnDestroy {
         this.router.navigate(['/']);
       }
     });
-
-    const jwt = new JwtHelperService();
-    // tslint:disable-next-line: no-non-null-assertion
-    const token = localStorage.getItem('token')!;
-    // tslint:disable-next-line: no-non-null-assertion
-    const userId = jwt.decodeToken(token!)?.id;
-    if (userId) {
-      // tslint:disable-next-line: deprecation
-      this.cartOps = this.cartSer.getMiniCart(token).subscribe(cart => {
-        this.cart = cart;
-      }, err => {
-        console.log(err);
-      });
-    }
   }
 
 
@@ -92,46 +72,9 @@ export class SearchComponent implements OnInit, OnDestroy {
     if (this.paramOps) {
       this.paramOps.unsubscribe();
     }
-    if (this.cartOps) {
-      this.cartOps.unsubscribe();
-    }
     if (this.autherOps) {
       this.autherOps.unsubscribe();
     }
-  }
-
-  cartConfirm(id: string): boolean {
-    return Boolean(this.cart.find(ele => ele.bookId === id));
-  }
-  addToCart(id: string, slug: string): void {
-    const token = localStorage.getItem('token');
-    if (token) {
-      const messageId = this.message.loading('Action in progress').messageId;
-      // tslint:disable-next-line: deprecation
-      this.cartSer.addToCart(id, token).subscribe(() => {
-        this.message.remove(messageId);
-        this.cart.push({ bookId: id, userId: '', id: '', buyed: false });
-      }, () => {
-        this.message.remove(messageId);
-        this.message.error('some thing went wrong');
-      });
-    } else {
-      this.router.navigate(['/login'], {queryParams: {redirectTo: slug}});
-    }
-  }
-
-  removeFromCart(id: string): void {
-    // tslint:disable-next-line: no-non-null-assertion
-    const token = localStorage.getItem('token')!;
-    const messageId = this.message.loading('Action in progress').messageId;
-    // tslint:disable-next-line: deprecation
-    this.cartSer.removeFromCart(id, token).subscribe(() => {
-      this.message.remove(messageId);
-      this.cart = this.cart.filter(ele => ele.bookId !== id);
-    }, () => {
-      this.message.remove(messageId);
-      this.message.error('some thing went wrong');
-    });
   }
 
   loadMoreBook(): void {
@@ -139,7 +82,6 @@ export class SearchComponent implements OnInit, OnDestroy {
     this.bookspage++;
     // tslint:disable-next-line: deprecation
     this.booksOps = this.booksSer.getBooks(this.bookspage, text, '10').subscribe(books => {
-      console.log(books);
       this.books = [...this.books, ...books];
       this.booksLoaded = true;
       if (books.length < 10) {

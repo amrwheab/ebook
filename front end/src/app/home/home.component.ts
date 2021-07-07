@@ -23,8 +23,6 @@ export class HomeComponent implements OnInit, OnDestroy {
   mostBuyedSlide = 0;
   mostBuyedSlideWidth = 0;
   mostBuyed: Book[] = [];
-  cart: Cart[] = [];
-  cartOps: Subscription | undefined;
   featutedObs: Subscription | undefined;
   mostBuyedOps: Subscription | undefined;
   departments: Department[] = [];
@@ -35,10 +33,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   mobileScreen: boolean | undefined;
   constructor(private bookSer: BooksService,
-              private departSer: DepartmentService,
-              private cartSer: CartService,
-              private router: Router,
-              private message: NzMessageService) { }
+              private departSer: DepartmentService) { }
 
   ngOnInit(): void {
     // tslint:disable-next-line: deprecation
@@ -78,16 +73,6 @@ export class HomeComponent implements OnInit, OnDestroy {
     }, err => {
       console.log(err);
     });
-
-    const token = localStorage.getItem('token');
-    if (token) {
-      // tslint:disable-next-line: deprecation
-      this.cartOps = this.cartSer.getMiniCart(token).subscribe(cart => {
-        this.cart = cart;
-      }, err => {
-        console.log(err);
-      });
-    }
 
     const size = window.innerWidth;
     if (size > 0 && size < 576) {
@@ -159,41 +144,5 @@ export class HomeComponent implements OnInit, OnDestroy {
         this.departsSlide[i] += 197;
       }
     }
-  }
-
-  cartConfirm(id: string): boolean {
-      return Boolean(this.cart.find(ele => ele.bookId === id));
-  }
-
-  addToCart(id: string, slug: string): void {
-    const token = localStorage.getItem('token');
-    if (token) {
-      const messageId  = this.message.loading('Action in progress').messageId;
-      // tslint:disable-next-line: deprecation
-      this.cartSer.addToCart(id, token).subscribe(() => {
-        this.message.remove(messageId);
-        const buyed = this.cart.find(ele => ele.bookId === id)?.buyed;
-        this.cart.push({bookId: id, userId: '', id: '', buyed});
-      }, () => {
-        this.message.remove(messageId);
-        this.message.error('some thing went wrong');
-      });
-    } else {
-      this.router.navigate(['/login'], {queryParams: {redirectTo: slug}});
-    }
-  }
-
-  removeFromCart(id: string): void {
-    // tslint:disable-next-line: no-non-null-assertion
-    const token = localStorage.getItem('token')!;
-    const messageId  = this.message.loading('Action in progress').messageId;
-    // tslint:disable-next-line: deprecation
-    this.cartSer.removeFromCart(id, token).subscribe(() => {
-      this.message.remove(messageId);
-      this.cart = this.cart.filter(ele => ele.bookId !== id);
-    }, () => {
-      this.message.remove(messageId);
-      this.message.error('some thing went wrong');
-    });
   }
 }

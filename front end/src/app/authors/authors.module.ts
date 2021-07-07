@@ -1,3 +1,4 @@
+import { BookmodModule } from './../bookmod/bookmod.module';
 import { FormsModule } from '@angular/forms';
 import { ZoroModule } from './../zoro/zoro.module';
 import { NgModule } from '@angular/core';
@@ -14,7 +15,8 @@ import { AuthorvisitComponent } from '../authorvisit/authorvisit.component';
     CommonModule,
     AuthorsRoutingModule,
     ZoroModule,
-    FormsModule
+    FormsModule,
+    BookmodModule
   ]
 })
 export class AuthorsModule { }

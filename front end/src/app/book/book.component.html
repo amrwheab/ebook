@@ -4,12 +4,12 @@
 <div class="auther" *ngIf="loaded">
   <div class="book-info">
     <div class="img-contain">
-      <img [src]="book?.imgUrl" [alt]="auther?.name">
+      <img [src]="book?.imgUrl" [alt]="book?.auther?.name">
     </div>
     <div class="info-contain">
       <h2>{{book?.name}}</h2>
-      <a [routerLink]="['/departments', book.department.name.toLowerCase()]" class="auther">{{book?.department.name}}</a>
-      <a [routerLink]="['/authors', book.auther.slug]" class="auther">{{book?.auther.name}}</a>
+      <a [routerLink]="['/departments', book?.department?.name?.toLowerCase()]" class="auther">{{book?.department?.name}}</a>
+      <a [routerLink]="['/authors', book?.auther?.slug]" class="auther">{{book?.auther?.name}}</a>
       <p class="price">{{book?.price | currency}}</p>
       <p>{{book?.info}}</p>
       <button nz-button nzType="primary" nzSize="large" style="margin-right: 10px;" *ngIf="!cart.id" (click)="addToCart()">Add To Cart</button>
@@ -69,19 +69,7 @@
 <div class="eval" style="display: block;">
   <h3 style="font-size: 1.2rem;">Related Books</h3>
   <div class="visit">
-    <div class="card" *ngFor="let book of relatedbooks">
-      <div class="card-img">
-        <img [src]="book.imgUrl" alt="" [routerLink]="['/books', book.slug]">
-      </div>
-      <h4 class="card-title" nz-tooltip nzTooltipPlacement="bottom" [nzTooltipTitle]="book.name" [routerLink]="['/books', book.slug]">{{book.name.slice(0, 20) | titlecase}}<span *ngIf="book.name.length > 20">...</span></h4>
-      <span class="card-text">{{book.info.slice(0, 40)}}<span *ngIf="book.info.length > 40">...</span></span>
-      <span class="price">{{book.price | currency}}</span>
-      <nz-rate class="rate-card" [ngModel]="book.rate" disabled="true"></nz-rate>
-      <div>
-        <button *ngIf="!cartConfirm(book.id)" nz-button nzType="primary" (click)="addRelatedToCart(book.id, book.slug)">Add To Cart<i nz-icon nzType="shopping-cart" nzTheme="outline"></i></button>
-        <button *ngIf="cartConfirm(book.id)" nz-button nzType="primary" nzDanger (click)="removeRelatedFromCart(book.id)">Remove From Cart<i nz-icon nzType="shopping-cart" nzTheme="outline"></i></button>
-      </div>
-    </div>
+    <app-bookcard *ngFor="let book of relatedbooks" [book]="book"></app-bookcard>
   </div>
 </div>
 
